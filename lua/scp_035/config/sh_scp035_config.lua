@@ -1,0 +1,1 @@
+scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."server/")
