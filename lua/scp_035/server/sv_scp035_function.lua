@@ -51,10 +51,16 @@ function scp_035.PrimaryAttack(attacker)
         maxs = maxs
     }
     local victim = tr.Entity
+    local ReturnValue = false
 
-    scp_035.ImmobilizeVictim(victim)
+    if (IsValid(victim)) then
+        if (victim:IsPlayer()) then
+            scp_035.ImmobilizeVictim(victim)
+            ReturnValue = true
+        end
+    end
 
-    return victim and true or false
+    return ReturnValue
 end 
 
 function scp_035.PlaySoundToClient(ply, path)

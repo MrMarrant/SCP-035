@@ -44,4 +44,5 @@ end
 
 print("SCP-035 Loading . . .")
 scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sh_scp035_config.lua", true)
+scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sV_scp035_config.lua", true)
 print("SCP-035 Loaded!")

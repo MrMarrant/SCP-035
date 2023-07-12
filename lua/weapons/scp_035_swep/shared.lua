@@ -47,22 +47,11 @@ local ActivityTranslate = {}
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self:SetHoldType( self.HoldType )
-end
 
--- 
-function SWEP:Deploy()
-	local ply = self:GetOwner()
-	if(!ply:Alive()) then return end -- For some fking reason, deploy is call when a player died, i don't know what to said.
-
-	ply.SCP035_IsWear = true
-
-	local speedAnimation = GetConVarNumber( "sv_defaultdeployspeed" )
-	self:SendWeaponAnim( ACT_DEPLOY )
-	self:SetPlaybackRate( speedAnimation )
-
-	self:SetCurentAnim()
-
-	return true
+	timer.Simple(engine.TickInterval(), function()
+		if (!IsValid(self)) then return end
+		self:PutTheMask() --? Deploy is shit, so i prefer using in Initialize method instead, but i need to w8 1 tick cause owner is nil.
+	end)
 end
 
 function SWEP:OnDrop()
@@ -87,8 +76,10 @@ function SWEP:PrimaryAttack()
 	if ( curtime < self.CurentAnim ) then return end
 
 	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
 	self:SetCurentAnim()
+	if CLIENT then return end
+
+	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
 	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or self.CurentAnim )
 end 
 
@@ -115,8 +106,29 @@ function SWEP:Reload()
 end
 
 function SWEP:SetCurentAnim()
+	local ply = self:GetOwner()
 	local VMAnim = ply:GetViewModel()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 
 	self.CurentAnim = CurTime() + NextIdle
+end
+
+function SWEP:PutTheMask()
+	local ply = self:GetOwner()
+
+	ply:Freeze(true)
+	ply.SCP035_IsWear = true
+
+	local speedAnimation = GetConVarNumber( "sv_defaultdeployspeed" )
+	self:SendWeaponAnim( ACT_DEPLOY )
+	self:SetPlaybackRate( speedAnimation )
+
+	self:SetCurentAnim()
+
+	timer.Simple(self.CurentAnim - CurTime(), function()
+        if(!IsValid(ply)) then return end
+        if(!ply.SCP035_IsWear) then return end
+
+        ply:Freeze(false)
+    end)
 end
