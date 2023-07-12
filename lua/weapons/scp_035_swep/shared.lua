@@ -24,6 +24,7 @@ SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 SWEP.DrawAmmo = false
+SWEP.AutoSwitch = true
 
 -- Variables Personnal to this weapon --
 -- [[ STATS WEAPON ]]
@@ -70,7 +71,7 @@ function SWEP:TranslateActivity( act )
 	return -1
 end
 
--- TODO : Immobilise un joueur et lui fais un effet psychodelique
+-- TODO : lui faire un effet psychodelique
 function SWEP:PrimaryAttack()
 	local curtime = CurTime()
 	if ( curtime < self.CurentAnim ) then return end
@@ -85,9 +86,9 @@ end
 
 -- TODO : Rigole ?
 function SWEP:SecondaryAttack()
-	local curtime = CurTime()
-	if ( curtime < self.CurentAnim ) then return end
-	self:SetNextSecondaryFire( curtime +  self.SecondaryCooldown)
+	if CLIENT then return end
+
+	self:SetNextSecondaryFire( CurTime() +  self.SecondaryCooldown)
 
 	scp_035.PlaySoundToClient(self:GetOwner(), "")
 end
