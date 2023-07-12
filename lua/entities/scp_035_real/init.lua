@@ -18,7 +18,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel( "" )
+	self:SetModel( "" ) -- TODO : Model
 	self:RebuildPhysics()
 end
 
@@ -30,6 +30,7 @@ function ENT:RebuildPhysics( )
 	self:PhysWake()
 end
 
+-- TODO : Sons de physique
 function ENT:PhysicsCollide( data, physobj )
 	if data.DeltaTime > 0.2 then
 		if data.Speed > 250 then
@@ -43,7 +44,7 @@ end
 function ENT:Use(ply)
 	if(!IsValid(ply)) then return end
 	ply:Give("scp_035_swep")
-	self:Remlove()
+	self:Remove()
 end
 
 function ENT:Think()

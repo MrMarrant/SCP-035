@@ -23,19 +23,54 @@ function scp_035.DisplayEffect(ply)
 end
 
 function scp_035.ImmobilizeVictim(ply)
+    ply:Freeze(true)
+    ply.SCP035_IsImmobilize = true
+    -- TODO : Shacking screen et cris sons coté client
+    scp_035.PlaySoundToClient(ply, "")
+
+    timer.Simple(SCP_035_CONFIG.DurationImmobilize, function()
+        if(!IsValid(ply)) then return end
+        if(!ply.SCP035_IsImmobilize) then return end
+        
+        ply.SCP035_IsImmobilize = nil
+        ply:Freeze(false)
+    end)
 end
 
-function scp_035.PlaySoundToClient(ply)
+function scp_035.PrimaryAttack(attacker)
+    local starPos = attacker:GetShootPos()
+    local endPos = attacker:GetShootPos() + attacker:GetAimVector() * SCP_035_CONFIG.RangeImmobilize
+    local mins = Vector(-10, -10, -10)
+    local maxs = Vector(10, 10, 10)
+
+    local tr = util.TraceHull {
+        start = starPos,
+        endpos = endPos,
+        filter = attacker,
+        mins = mins,
+        maxs = maxs
+    }
+    local victim = tr.Entity
+
+    scp_035.ImmobilizeVictim(victim)
+
+    return victim and true or false
+end 
+
+function scp_035.PlaySoundToClient(ply, path)
+    net.Start(SCP_035_CONFIG.SoundToPlayClientSide)
+        net.WriteString(path)
+    net.Send(ply)
 end
 
 /*
-* Function used for drop the entiot if it is equip by a player.
+* Function used for drop the entitie if it is equip by a player.
 * @Player ply The player who will drop the entity.
 */
 function scp_035.DropEntitie(ply)
     if (!IsValid(ply)) then return end
 
-    if (ply:HasWeapon("scp_035_swep")) then
+    if (ply:HasWeapon("scp_035_swep") or ply.SCP035_IsWear) then
 
         local ent = ents.Create( "scp_035_real" )
         ent:SetPos( ply:GetShootPos() + ply:GetAimVector() * 20 )
@@ -43,4 +78,6 @@ function scp_035.DropEntitie(ply)
         ent:Spawn()
         ent:Activate()
     end
+
+    ply.SCP035_IsWear = nil
 end

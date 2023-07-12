@@ -27,7 +27,6 @@ SWEP.DrawAmmo = false
 
 -- Variables Personnal to this weapon --
 -- [[ STATS WEAPON ]]
-SWEP.Range = 300
 SWEP.PrimaryCooldown = 10
 SWEP.SecondaryCooldown = 10
 
@@ -61,21 +60,11 @@ function SWEP:Deploy()
 	self:SendWeaponAnim( ACT_DEPLOY )
 	self:SetPlaybackRate( speedAnimation )
 
-	local VMAnim = ply:GetViewModel()
-	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
-
-	self.CurentAnim = CurTime() + NextIdle
+	self:SetCurentAnim()
 
 	return true
 end
 
--- Remove Effect On remove.
-function SWEP:OnRemove()
-	local ply = self:GetOwner()
-end
-
-
--- Remove Effect On drop.
 function SWEP:OnDrop()
 	local ply = self:GetOwner()
 	self:Remove()
@@ -94,17 +83,22 @@ end
 
 -- TODO : Immobilise un joueur et lui fais un effet psychodelique
 function SWEP:PrimaryAttack()
-	if ( CurTime() < self.CurentAnim ) then return end
-	self:SetNextPrimaryFire( curtime + self.PrimaryCooldown )
+	local curtime = CurTime()
+	if ( curtime < self.CurentAnim ) then return end
 
+	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
+	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
+	self:SetCurentAnim()
+	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or self.CurentAnim )
 end 
 
 -- TODO : Rigole ?
 function SWEP:SecondaryAttack()
 	local curtime = CurTime()
-	if ( CurTime() < self.CurentAnim ) then return end
+	if ( curtime < self.CurentAnim ) then return end
 	self:SetNextSecondaryFire( curtime +  self.SecondaryCooldown)
 
+	scp_035.PlaySoundToClient(self:GetOwner(), "")
 end
 
 -- Kill the player and drop the entitie (and play an animation before.)
@@ -117,6 +111,12 @@ function SWEP:Reload()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 	timer.Simple(NextIdle, function()
 		ply:Kill()
-		scp_035.DropEntitie(ply)
 	end)
+end
+
+function SWEP:SetCurentAnim()
+	local VMAnim = ply:GetViewModel()
+	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
+
+	self.CurentAnim = CurTime() + NextIdle
 end
