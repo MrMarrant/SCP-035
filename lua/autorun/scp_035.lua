@@ -18,8 +18,26 @@
 scp_035 = {}
 -- Global Variable
 SCP_035_CONFIG = {}
+-- Lang
+SCP_035_LANG = {}
 
 SCP_035_CONFIG.RootFolder = "scp_035/"
+
+/*
+* Allows to load all the language files that the addon can handle.
+* @string path Path containing the language files.
+* @string default Default language.
+* @table handledLanguage Array containing the supported languages.
+* @table langData Table containing all translations.
+*/
+function scp_035.LoadLanguage(path, handledLanguage, langData )
+    for key, value in ipairs(handledLanguage) do
+        local filename = path .. value .. ".lua"
+        include( filename )
+        if SERVER then AddCSLuaFile( filename ) end
+        assert(langData[value], "Language not found : ".. filename )
+    end
+end
 
 /*
 * Allows you to load all the files in a folder.
@@ -44,5 +62,6 @@ end
 
 print("SCP-035 Loading . . .")
 scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sh_scp035_config.lua", true)
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sV_scp035_config.lua", true)
+scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sv_scp035_config.lua", true)
+scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/cl_scp035_config.lua", true)
 print("SCP-035 Loaded!")

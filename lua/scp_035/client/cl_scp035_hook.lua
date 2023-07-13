@@ -8,3 +8,8 @@ hook.Add("PreDrawHalos", "PreDrawHalos.AegisHaloSWEP", function()
 
 
 end)
+
+hook.Add( "OnScreenSizeChanged", "OnScreenSizeChanged.SCP035_ScreenSize", function( oldWidth, oldHeight )
+    SCP_035_CONFIG.ScrW = ScrW()
+    SCP_035_CONFIG.ScrH = ScrH()
+end )

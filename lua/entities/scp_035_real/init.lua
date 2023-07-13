@@ -18,7 +18,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel( "" ) -- TODO : Model
+	self:SetModel( "models/props_borealis/bluebarrel001.mdl" ) -- TODO : Model
 	self:RebuildPhysics()
 end
 
@@ -50,4 +50,10 @@ end
 function ENT:Think()
 	if CLIENT then return end
 	-- TODO : Afficher la bulle de texte et les effets
+	--? Get tous les joueurs proches en sphere
+	--? S'il n'étais pas affecté, leur applique la méthode d'effet
+	--? La méthode check la distance entre le joueur et l'entité à chaque tick
+	--? Si elle n'est plus bonne, dissipe l'ffet lentement, et renvoie coté serveur qu'il n'est plus affecté.
+	local PlayersFound = scp_035.GetInSpherePlayers(self)
+	scp_035.SetEffectsMask(PlayersFound)
 end
