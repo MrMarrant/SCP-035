@@ -6,3 +6,6 @@ SCP_035_LANG.fr.TextDisplay_2 = "Je cherche un bienfaiteur"
 SCP_035_LANG.fr.TextDisplay_3 = "Aurais tu l'amabilité de m'aider"
 SCP_035_LANG.fr.TextDisplay_4 = "Je pense que nous avons tous les deux des intérêts communs"
 SCP_035_LANG.fr.TextDisplay_5 = "PREND MOI"
+
+SCP_035_LANG.fr.FinalText_1 = "PREND"
+SCP_035_LANG.fr.FinalText_2 = "MOI"

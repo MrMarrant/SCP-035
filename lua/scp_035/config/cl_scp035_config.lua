@@ -3,7 +3,7 @@ if SERVER then return end
 SCP_035_CONFIG.ScrW = ScrW()
 SCP_035_CONFIG.ScrH = ScrH()
 
-SCP_035_CONFIG.TimeTotalEffect = 40
+SCP_035_CONFIG.TimeTotalEffect = 5
 
 -- 
 surface.CreateFont( "SCP035_Font1", {
@@ -29,6 +29,10 @@ surface.CreateFont( "SCP035_Font5", {
 surface.CreateFont( "SCP035_Font6", {
     font = "Arial",
     size = 25,
+} )
+surface.CreateFont( "SCP035_FontFinal", {
+    font = "Arial",
+    size = 100,
 } )
 SCP_035_CONFIG.FontEffect = {}
 for var = 1, 6 do

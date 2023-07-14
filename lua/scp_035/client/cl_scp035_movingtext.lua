@@ -21,7 +21,7 @@ function PANEL:UpdatePosEvent(duration)
         local ChildrensPanel = self:GetChildren()
         for key, value in ipairs(ChildrensPanel) do
             value:SetPos(value.x, value.y + math.random(-0.6, 0.6))
-            value:SetTextColor( Color(48, 0, 0, saturation) )
+            value:SetTextColor( Color(180, 180, 180, saturation) )
         end
         saturation = saturation - incrementSaturation
         if(i == duration) then self:Remove() -- When the total duration is ended, we remove the panel.
@@ -42,10 +42,10 @@ function PANEL:SetInitValue(text, duration)
     surface.SetFont( "DermaLarge" )
     for _, code in StringSplit do
         local textToDisplay = utf8.char(code)
-        local sizeText = surface.GetTextSize( textToDisplay ) + 10 -- We add some spaces between each characters.
+        local sizeText = surface.GetTextSize( textToDisplay ) + 20 -- We add some spaces between each characters.
         local Children = self:Add("DLabel")
         Children:SetText( textToDisplay )
-        Children:SetTextColor( Color(48, 0, 0) )
+        Children:SetTextColor( Color(180, 180, 180) )
         Children:SetSize( WidthParent * 0.1, HeightParent * 0.1 )
         Children:SetPos(InitPosX, InitPosY)
         Children:SetFont(table.Random(SCP_035_CONFIG.FontEffect))
