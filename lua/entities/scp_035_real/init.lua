@@ -14,6 +14,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
@@ -45,15 +46,4 @@ function ENT:Use(ply)
 	if(!IsValid(ply)) then return end
 	ply:Give("scp_035_swep")
 	self:Remove()
-end
-
-function ENT:Think()
-	if CLIENT then return end
-	-- TODO : Afficher la bulle de texte et les effets
-	--? Get tous les joueurs proches en sphere
-	--? S'il n'étais pas affecté, leur applique la méthode d'effet
-	--? La méthode check la distance entre le joueur et l'entité à chaque tick
-	--? Si elle n'est plus bonne, dissipe l'ffet lentement, et renvoie coté serveur qu'il n'est plus affecté.
-	local PlayersFound = scp_035.GetInSpherePlayers(self)
-	scp_035.SetEffectsMask(PlayersFound)
 end

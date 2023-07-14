@@ -1,7 +1,6 @@
 SCP_035_CONFIG.RadiusEffect = 300
 SCP_035_CONFIG.RangeImmobilize = 300
 SCP_035_CONFIG.DurationImmobilize = 5
-SCP_035_CONFIG.RadiusEffectEntity = 300
 SCP_035_CONFIG.LangServer = GetConVar("gmod_language"):GetString()
 SCP_035_CONFIG.HandledLanguage = {
     "fr"

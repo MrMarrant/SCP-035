@@ -16,17 +16,6 @@
 
 if CLIENT then return end
 
-function scp_035.DisplayText(ply)
-    net.Start(SCP_035_CONFIG.DisplayText)
-    net.Send(ply)
-end
-
-function scp_035.CheckDistance(ply)
-end
-
-function scp_035.SetEffectsMask(ply)
-end
-
 function scp_035.ImmobilizeVictim(ply)
     ply:Freeze(true)
     ply.SCP035_IsImmobilize = true
@@ -91,34 +80,4 @@ function scp_035.DropEntitie(ply)
     end
 
     ply.SCP035_IsWear = nil
-end
-
-/*
-* Function used for get every players in sphere and filter.
-* @Entity ent The Mask SCP035
-*/
-function scp_035.GetInSpherePlayers(ent)
-    local tableFilter = {}
-    local playersFound = ents.FindInSphere( ent:GetPos(), SCP_035_CONFIG.RadiusEffectEntity )
-    for key, value in ipairs(playersFound) do
-        if (value:IsPlayer() and !value.SCP035_AffectByMask and value:Alive()) then
-            table.insert(tableFilter, value)
-        end
-    end
-    return tableFilter
-end
-
-/*
-* 
-* @table tablePlayers 
-*/
-function scp_035.SetEffectsMask(tablePlayers)
-    for key, value in ipairs(tablePlayers) do
-        value.SCP035_AffectByMask = true
-        -- TODO : Faire le son de la neige de TV qui augmente au fur et à mesure
-        -- TODO : Faire un effet léger si possible d'obliger le joueur de regarder l'entité comme le sandwich.
-        scp_035.DisplayText(value)
-        scp_035.DisplayEffect(value)
-        scp_035.CheckDistance(value)
-    end
 end
