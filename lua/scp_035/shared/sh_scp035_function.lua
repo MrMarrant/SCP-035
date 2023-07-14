@@ -52,7 +52,7 @@ function scp_035.CheckDistance(ent, ply)
         local distanceMask = ent:GetPos():Distance( ply:GetPos() )
         if ( distanceMask > SCP_035_CONFIG.RadiusEffect + 20 ) then
             if (!timer.Exists("DissipatesEffect_SCP035_"..ply:EntIndex())) then
-                timer.Create("DissipatesEffect_SCP035_"..ply:EntIndex(), 1, 1, function()
+                timer.Create("DissipatesEffect_SCP035_"..ply:EntIndex(), 0.1, 1, function()
                     if(!IsValid(ply)) then return end
                     ply.SCP035_AffectByMask = nil
                 end)

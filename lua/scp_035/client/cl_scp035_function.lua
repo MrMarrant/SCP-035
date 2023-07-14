@@ -5,22 +5,24 @@ function scp_035.DisplayText(ply)
     local timerPhase = timerToInfect/#SCP_035_CONFIG.FontEffect
     local index = 1
     local TextTodisplay = {}
+    local DialogVersion = math.random(1, SCP_035_CONFIG.MaxDialogVersion)
     for var = 1, 5 do
-        TextTodisplay[var] = scp_035.TranslateLanguage(SCP_035_LANG, "TextDisplay_"..var)
+        TextTodisplay[var] = scp_035.TranslateLanguage(SCP_035_LANG, "TextDisplay_v"..DialogVersion.."_"..var)
     end
 
-    timer.Create("DisplayTextTimer_SCP035", timerPhase, #TextTodisplay, function()
+    timer.Create("DisplayTextTimer_SCP035_"..ply:EntIndex(), 5, #TextTodisplay, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_AffectByMask) then return end
 
         local PannelDisplayText = vgui.Create("SCP035MovingText")
         PannelDisplayText:SetInitValue(TextTodisplay[index], timerPhase)
         ply.SCP035_PannelDisplayText = PannelDisplayText
+        if(index == 1) then timer.Adjust( "DisplayTextTimer_SCP035_"..ply:EntIndex(), timerPhase, nil, nil ) end
         index = index + 1
         -- TODO : On fais quoi quand on a finis tous les textes ?
     end)
 
-    timer.Create("DisplayFinalEffect_SCP035", timerToInfect + timerPhase, 1, function()
+    timer.Create("DisplayFinalEffect_SCP035_"..ply:EntIndex(), timerToInfect + timerPhase, 1, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_AffectByMask) then return end
 
@@ -29,7 +31,7 @@ function scp_035.DisplayText(ply)
         ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif")
         ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask.png")
 
-        timer.Simple(1, function()
+        timer.Simple(3, function()
             if (IsValid(ply)) then
                 ply.SCP035_StaticNoise:Remove()
                 ply.SCP035_MaskIMG:Remove()
