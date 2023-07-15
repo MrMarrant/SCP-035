@@ -23,11 +23,6 @@ ENT.Spawnable = true
 ENT.Category = "SCP"
 
 function ENT:Think()
-	-- TODO : Afficher la bulle de texte et les effets
-	--? Get tous les joueurs proches en sphere
-	--? S'il n'étais pas affecté, leur applique la méthode d'effet
-	--? La méthode check la distance entre le joueur et l'entité à chaque tick
-	--? Si elle n'est plus bonne, dissipe l'ffet lentement, et renvoie coté serveur qu'il n'est plus affecté.
 	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, true)
 	scp_035.SetEffectsMask(self, FilterTable)
     if CLIENT then self:LookAtMe(NonFilterTable) end

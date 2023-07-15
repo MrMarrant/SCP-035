@@ -34,7 +34,6 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
     for key, value in ipairs(tablePlayers) do
         value.SCP035_AffectByMask = true
         -- TODO : Faire le son de la neige de TV qui augmente au fur et à mesure
-        -- TODO : Faire un effet léger si possible d'obliger le joueur de regarder l'entité comme le sandwich.
         if (CLIENT) then
             scp_035.DisplayText(value)
             scp_035.DisPlayEffect(value)
