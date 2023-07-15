@@ -37,6 +37,7 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
         if (CLIENT) then
             scp_035.DisplayText(value)
             scp_035.DisPlayEffect(value)
+            --TODO : Jouer le son static noise de façon progressive (Voir le script de tag ?)
         end
         scp_035.CheckDistance(ent, value)
     end
