@@ -22,3 +22,11 @@ net.Receive(SCP_035_CONFIG.SoundToPlayClientSide, function ( )
 
     ply:EmitSound(path)
 end)
+
+net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
+    local ply = LocalPlayer()
+
+    ply.SCP035_IsImmobilize = nil
+    ply.SCP035_AffectByMask = nil
+    ply.SCP035_IsWear = nil
+end)

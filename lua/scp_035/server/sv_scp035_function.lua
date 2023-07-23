@@ -81,3 +81,13 @@ function scp_035.DropEntitie(ply)
 
     ply.SCP035_IsWear = nil
 end
+
+function scp_035.RemoveEffectClient(ply)
+    scp_035.DropEntitie(ply)
+    ply.SCP035_IsImmobilize = nil
+    ply.SCP035_AffectByMask = nil
+    ply.SCP035_IsWear = nil
+
+    net.Start(SCP_035_CONFIG.RemoveEffectClient)
+    net.Send(ply)
+end

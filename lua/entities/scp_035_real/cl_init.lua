@@ -23,7 +23,7 @@ end
 function ENT:LookAtMe(entsTable)
     for k,v in pairs(entsTable) do
         if(v:IsPlayer()) then
-            if (!scp_035.IsSCP035(v)) then
+            if (!scp_035.IsSCP035(v) and v:Alive()) then
                 v:SetEyeAngles((self:GetPos() - v:GetShootPos()):Angle())
             end
         end
