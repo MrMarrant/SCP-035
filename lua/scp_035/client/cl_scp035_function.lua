@@ -1,6 +1,6 @@
 if SERVER then return end
 
-function scp_035.DisplayText(ply)
+function scp_035.DisplayMovingText(ply)
     local timerToInfect = SCP_035_CONFIG.TimeTotalEffect
     local timerPhase = timerToInfect/#SCP_035_CONFIG.FontEffect
     local index = 1
@@ -70,27 +70,46 @@ function scp_035.DisPlayIMG(ply, material)
     return ImageObject
 end
 
-function scp_035.DisPlayGIF(ply, material, delay)
+function scp_035.DisPlayGIF(ply, material, alpha)
 
+    alpha = alpha or 1
     local width, height = SCP_035_CONFIG.ScrW + 100, SCP_035_CONFIG.ScrH + 100 --? Cant disabled overflow-y, dont know why again so i hide it in a more stupid way.
     StaticNoise = vgui.Create("DHTML")
-    StaticNoise:SetPos(-10, -10) --? No idea why, but the element dont pos exactly to 0,0, so iam doig stupid shit like this.
+    StaticNoise:SetPos(-10, -10) --? No idea why, but the element dont pos exactly to (0,0), so i've to do stupid shit like this.
     StaticNoise:SetSize(width, height)
     StaticNoise:SetZPos( 10 )
     StaticNoise:SetHTML(
         '<style>'..
             '#container {overflow: hidden;}'..
+            'img {opacity: '..alpha..';}'..
         '</style>'..
 
         '<div id="portrait">'..
             '<div id="container">'..
-                '<img src="asset://garrysmod/materials/'..material..'" width="'..width..'" height="'..height..'">'..
+                '<img id="gif-scp035" src="asset://garrysmod/materials/'..material..'" width="'..width..'" height="'..height..'">'..
             '</div>'..
         '</div>'
         )
     return StaticNoise
 end
 
+/*
+* Display a static noise gif that increment in alpha depend on the total time every 0.5s.
+*/
+function scp_035.ProximityEffect(ply)
+    local alpha = 0.01
+    local repetitions = SCP_035_CONFIG.TimeTotalEffect * 2
+    local incrementAlpha = 0.3/repetitions
+
+    ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", alpha)
+    timer.Create("ProximityEffect_SCP035_"..ply:EntIndex(), 0.5, repetitions, function()
+        if(!IsValid(ply)) then return end
+        if(!IsValid(ply.SCP035_ProximityEffect)) then return end
+
+        alpha = alpha + incrementAlpha
+        ply.SCP035_ProximityEffect:Call('document.getElementById("gif-scp035").style.opacity = "'..alpha..'";')
+    end)
+end
 
 function scp_035.DisPlayEffect(ply)
 end

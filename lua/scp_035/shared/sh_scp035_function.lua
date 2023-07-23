@@ -35,8 +35,9 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
         value.SCP035_AffectByMask = true
         -- TODO : Faire le son de la neige de TV qui augmente au fur et à mesure
         if (CLIENT) then
-            scp_035.DisplayText(value)
+            scp_035.DisplayMovingText(value)
             scp_035.DisPlayEffect(value)
+            scp_035.ProximityEffect(value)
             --TODO : Jouer le son static noise de façon progressive (Voir le script de tag ?)
         end
         scp_035.CheckDistance(ent, value)
@@ -54,6 +55,11 @@ function scp_035.CheckDistance(ent, ply)
             if (!timer.Exists("DissipatesEffect_SCP035_"..ply:EntIndex())) then
                 timer.Create("DissipatesEffect_SCP035_"..ply:EntIndex(), 0.1, 1, function()
                     if(!IsValid(ply)) then return end
+
+                    if (IsValid(ply.SCP035_ProximityEffect)) then 
+                        ply.SCP035_ProximityEffect:Remove()
+                        ply.SCP035_ProximityEffect = nil
+                    end
                     ply.SCP035_AffectByMask = nil
                 end)
             end
