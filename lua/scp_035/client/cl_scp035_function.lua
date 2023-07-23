@@ -126,6 +126,3 @@ function scp_035.ProximityEffect(ply)
         ply.SCP035_ProximityEffect:Call('document.getElementById("gif-scp035").style.opacity = "'..alpha..'";')
     end)
 end
-
-function scp_035.DisPlayEffect(ply)
-end
