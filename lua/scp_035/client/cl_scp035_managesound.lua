@@ -50,7 +50,6 @@ function scp_035.IncreaseVolume(ply)
 
         volume = volume + incrementVolume
         ply.SCP035_SoundProximity:ChangeVolume( volume )
-        print(ply.SCP035_SoundProximity:GetVolume())
         ply.SCP035_SoundProximityVolume = volume
     end)
 end

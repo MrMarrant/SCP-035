@@ -35,7 +35,7 @@ function scp_035.GetInSpherePlayers(ent)
     local tableFilter = {}
     local playersFound = ents.FindInSphere( ent:GetPos(), SCP_035_CONFIG.RadiusEffect )
     for key, value in ipairs(playersFound) do
-        if (value:IsPlayer() and value:Alive() and !value.SCP035_AffectByMask) then
+        if (value:IsPlayer() and value:Alive() and !value.SCP035_AffectByMask and !scp_035.IsSCP035(value)) then
             table.insert(tableFilter, value)
         end
     end
@@ -63,8 +63,9 @@ end
 function scp_035.CheckDistance(ent, ply)
 
     timer.Create("CheckDistance_SCP035_"..ply:EntIndex(), 0.1, 0, function()
-        if (!IsValid(ent) or !IsValid(ply)) then return end
+        if (!IsValid(ply)) then return end
         if ( !ply.SCP035_AffectByMask or !ply:Alive()) then return end
+        if (!IsValid(ent)) then scp_035.RemoveEffectProximity(ply) return end
 
         local distanceMask = ent:GetPos():Distance( ply:GetPos() )
         if ( distanceMask > SCP_035_CONFIG.RadiusEffect + 20 ) then
@@ -72,16 +73,25 @@ function scp_035.CheckDistance(ent, ply)
                 timer.Create("DissipatesEffect_SCP035_"..ply:EntIndex(), 0.1, 1, function()
                     if(!IsValid(ply)) then return end
 
-                    if (IsValid(ply.SCP035_ProximityEffect)) then 
-                        ply.SCP035_ProximityEffect:Remove()
-                        ply.SCP035_ProximityEffect = nil
-                    end
-                    ply.SCP035_AffectByMask = nil
-                    if CLIENT then scp_035.EndSound(ply) end
+                    scp_035.RemoveEffectProximity(ply)
                 end)
             end
         else
             timer.Remove("DissipatesEffect_SCP035_"..ply:EntIndex())
         end
     end)
+end
+
+function scp_035.RemoveEffectProximity(ply)
+    if (IsValid(ply.SCP035_ProximityEffect)) then 
+        ply.SCP035_ProximityEffect:Remove()
+        ply.SCP035_ProximityEffect = nil
+    end
+    ply.SCP035_AffectByMask = nil
+    if CLIENT then scp_035.EndSound(ply) end
+end
+
+function scp_035.IsSCP035(ply)
+    if (ply:HasWeapon( "scp_035_swep" ) or ply.SCP035_IsWear) then return true end
+    return false
 end

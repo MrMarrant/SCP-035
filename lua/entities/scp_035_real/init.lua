@@ -43,7 +43,9 @@ function ENT:PhysicsCollide( data, physobj )
 end
 
 function ENT:Use(ply)
-	if(!IsValid(ply)) then return end
+	if (!IsValid(ply)) then return end
+	if (scp_035.IsSCP035(ply)) then return end
+
 	ply:Give("scp_035_swep")
 	self:Remove()
 end
