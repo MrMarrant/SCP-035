@@ -49,12 +49,10 @@ end
 function scp_035.SetEffectsMask(ent, tablePlayers)
     for key, value in ipairs(tablePlayers) do
         value.SCP035_AffectByMask = true
-        -- TODO : Faire le son de la neige de TV qui augmente au fur et à mesure
         if (CLIENT) then
             scp_035.DisplayMovingText(value)
             scp_035.ProximityEffect(value)
             scp_035.CreateSound(value, "scp_035/static_noise.mp3", true, true)
-            --TODO : Jouer le son static noise de façon progressive (Voir le script de tag ?)
         end
         scp_035.CheckDistance(ent, value)
     end

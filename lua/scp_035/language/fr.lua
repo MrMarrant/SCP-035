@@ -36,5 +36,17 @@ SCP_035_LANG.fr.TextDisplay_v3_3 = "Et si nous faisions un tour ensemble"
 SCP_035_LANG.fr.TextDisplay_v3_4 = "Seulement toi et moi"
 SCP_035_LANG.fr.TextDisplay_v3_5 = "Qu'en pense tu ?"
 
+SCP_035_LANG.fr.TextDisplay_v4_1 = "J'ai côtoyé des empereurs"
+SCP_035_LANG.fr.TextDisplay_v4_2 = "Des savants, des artistes"
+SCP_035_LANG.fr.TextDisplay_v4_3 = "Et j'ai été témoin de moments qui ont façonné l'histoire"
+SCP_035_LANG.fr.TextDisplay_v4_4 = "Mais c'est maintenant, avec toi"
+SCP_035_LANG.fr.TextDisplay_v4_5 = "Que je sens que notre aventure sera la plus extraordinaire"
+
+SCP_035_LANG.fr.TextDisplay_v5_1 = "Ne crains rien, mon ami"
+SCP_035_LANG.fr.TextDisplay_v5_2 = "Vous êtes ici pour participer à une exploration passionnante du potentiel humain"
+SCP_035_LANG.fr.TextDisplay_v5_3 = "Aujourd'hui, tu vas vivre une expérience unique avec un artefact extraordinaire"
+SCP_035_LANG.fr.TextDisplay_v5_4 = "Une fois que vous m'aurez rejoint, vous ferez l'expérience d'un voyage sans précédent"
+SCP_035_LANG.fr.TextDisplay_v5_5 = "Et vous obtiendrez des informations qui dépassent votre imagination la plus folle"
+
 SCP_035_LANG.fr.FinalText_1 = "PREND"
 SCP_035_LANG.fr.FinalText_2 = "MOI"

@@ -19,7 +19,7 @@ if SERVER then return end
 SCP_035_CONFIG.ScrW = ScrW()
 SCP_035_CONFIG.ScrH = ScrH()
 SCP_035_CONFIG.TimeTotalEffect = 60
-SCP_035_CONFIG.MaxDialogVersion = 3 -- Don't increase the value if you didnt implement the number of version set.
+SCP_035_CONFIG.MaxDialogVersion = 5 -- Don't increase the value if you didnt implement the number of version set.
 
 -- 
 surface.CreateFont( "SCP035_Font1", {
