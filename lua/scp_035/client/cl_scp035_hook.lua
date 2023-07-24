@@ -29,3 +29,10 @@ hook.Add( "OnScreenSizeChanged", "OnScreenSizeChanged.SCP035_ScreenSize", functi
     SCP_035_CONFIG.ScrW = ScrW()
     SCP_035_CONFIG.ScrH = ScrH()
 end )
+
+hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask", function()
+
+    if (LocalPlayer().SCP035_IsWear) then
+        DrawMaterialOverlay( "effects/invuln_overlay_red", -0.06)
+    end
+end )

@@ -141,11 +141,13 @@ function SWEP:PutTheMask()
 	self:SetPlaybackRate( speedAnimation )
 
 	self:SetCurentAnim()
-
 	timer.Simple(self.CurentAnim - CurTime(), function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_IsWear) then return end
 
-        ply:Freeze(false)
+        if SERVER then ply:Freeze(false) end
+		if CLIENT then
+			ply:StartLoopingSound("scp_035/idle_sound.wav" )
+		end
     end)
 end

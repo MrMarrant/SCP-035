@@ -52,7 +52,8 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
         if (CLIENT) then
             scp_035.DisplayMovingText(value)
             scp_035.ProximityEffect(value)
-            scp_035.CreateSound(value, "scp_035/static_noise.mp3", true, true)
+            scp_035.LoopingSound(value, "scp_035/static_noise.mp3", 0.01)
+            scp_035.IncreaseVolume(value, 0.8, SCP_035_CONFIG.TimeTotalEffect)
         end
         scp_035.CheckDistance(ent, value)
     end

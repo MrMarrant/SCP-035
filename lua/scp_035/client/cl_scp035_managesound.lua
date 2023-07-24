@@ -16,34 +16,28 @@
 
 if SERVER then return end
 
-function scp_035.CreateSound(ply, path, isLoop, crescent)
+function scp_035.LoopingSound(ply, path, volume)
+    local duration = SoundDuration( path )
+
     ply.SCP035_SoundProximity = ply.SCP035_SoundProximity or CreateSound( ply, path )
-    ply.SCP035_SoundProximityVolume = ply.SCP035_SoundProximityVolume or 0.01
+    ply.SCP035_SoundProximityVolume = ply.SCP035_SoundProximityVolume or volume
     ply.SCP035_SoundProximity:Stop()
     ply.SCP035_SoundProximity:PlayEx(ply.SCP035_SoundProximityVolume, 100)
 
-    if (isLoop) then scp_035.LoopingSound(ply, path) end
-    if (crescent) then scp_035.IncreaseVolume(ply) end
-end
-
-function scp_035.LoopingSound(ply, path)
-    local duration = SoundDuration( path )
-
     timer.Create("LoopingSound_SCP035_"..ply:EntIndex(), duration, 1, function()
         if(!IsValid(ply)) then return end
-        if(!ply.SCP035_AffectByMask) then return end
         if(!ply.SCP035_SoundProximity) then return end
 
-        scp_035.CreateSound(ply, path, true, false)
+        scp_035.LoopingSound(ply, path)
     end)
 end
 
-function scp_035.IncreaseVolume(ply)
+function scp_035.IncreaseVolume(ply, maxVolume, timeDecay)
     if(!ply.SCP035_SoundProximity) then return end
 
-    local volume = 0.01
-    local repetitions = SCP_035_CONFIG.TimeTotalEffect * 2
-    local incrementVolume = 0.8/repetitions
+    local volume = ply.SCP035_SoundProximityVolume
+    local repetitions = timeDecay * 2
+    local incrementVolume = maxVolume/repetitions
     timer.Create("IncreaseVolume_SCP035_"..ply:EntIndex(), 0.5, repetitions, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_SoundProximity) then return end
@@ -60,4 +54,6 @@ function scp_035.EndSound(ply)
     ply.SCP035_SoundProximity:Stop()
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_SoundProximity = nil
+    timer.Remove("LoopingSound_SCP035_"..ply:EntIndex())
+    timer.Remove("IncreaseVolume_SCP035_"..ply:EntIndex())
 end
