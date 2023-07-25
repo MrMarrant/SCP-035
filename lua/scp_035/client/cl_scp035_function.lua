@@ -49,7 +49,7 @@ function scp_035.DisPlayFinalText(ply, delay)
         ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_1"), SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
         ply.SCP035_SimpleText_2 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_2"), SCP_035_CONFIG.ScrW * 0.8, SCP_035_CONFIG.ScrH * 0.3)
         ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif")
-        ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask.png")
+        ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask_deform_v"..math.random(1, 3)..".png")
 
         timer.Simple(1, function()
             if (IsValid(ply)) then
