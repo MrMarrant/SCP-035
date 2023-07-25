@@ -16,7 +16,8 @@
 
 if CLIENT then return end
 
--- TODO : Stoper tous les sons utilisés & les effets.
 hook.Add( "PlayerDeath", "PlayerDeath.Remove_SCP035", scp_035.RemoveEffectClient)
 
-hook.Add( "PlayerDisconnected", "PlayerDisconnected.Remove_SCP035", scp_035.RemoveEffectClient)
+hook.Add( "PlayerChangedTeam", "PlayerChangedTeam.Remove_SCP035", scp_035.RemoveEffectClient)
+
+hook.Add( "PlayerSpawn", "PlayerSpawn.Remove_SCP035", scp_035.RemoveEffectClient )

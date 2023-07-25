@@ -82,7 +82,7 @@ function scp_035.CheckDistance(ent, ply)
 end
 
 function scp_035.RemoveEffectProximity(ply)
-    if (IsValid(ply.SCP035_ProximityEffect)) then 
+    if (IsValid(ply.SCP035_ProximityEffect)) then
         ply.SCP035_ProximityEffect:Remove()
         ply.SCP035_ProximityEffect = nil
     end

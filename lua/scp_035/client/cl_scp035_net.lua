@@ -25,11 +25,14 @@ end)
 
 net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
     local ply = LocalPlayer()
+    if (!IsValid(ply)) then return end
 
     ply:StopSound("scp_035/idle_sound.wav" )
+    ply:StopSound("scp_035/static_noise.mp3" )
     ply.SCP035_SoundProximity = nil
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_IsImmobilize = nil
-    ply.SCP035_AffectByMask = nil
     ply.SCP035_IsWear = nil
+
+    scp_035.RemoveEffectProximity(ply)
 end)
