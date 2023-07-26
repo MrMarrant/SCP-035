@@ -19,7 +19,7 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
-	self:SetModel( "models/props_borealis/bluebarrel001.mdl" ) -- TODO : Model
+	self:SetModel( "models/scp_035_real/scp_035_real.mdl" )
 	self:RebuildPhysics()
 end
 
