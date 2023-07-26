@@ -24,6 +24,7 @@ ENT.Category = "SCP"
 
 function ENT:Think()
 	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, true)
+
 	scp_035.SetEffectsMask(self, FilterTable)
     if CLIENT then self:LookAtMe(NonFilterTable) end
 end

@@ -49,11 +49,9 @@ end
 function scp_035.SetEffectsMask(ent, tablePlayers)
     for key, value in ipairs(tablePlayers) do
         value.SCP035_AffectByMask = true
-        if (CLIENT) then
-            scp_035.DisplayMovingText(value)
-            scp_035.ProximityEffect(value)
-            scp_035.LoopingSound(value, "scp_035/static_noise.mp3", 0.01)
-            scp_035.IncreaseVolume(value, 0.8, SCP_035_CONFIG.TimeTotalEffect)
+        if (SERVER) then
+            net.Start(SCP_035_CONFIG.SetEffectsMask)
+            net.Send(value)
         end
         scp_035.CheckDistance(ent, value)
     end

@@ -122,6 +122,7 @@ function SWEP:Reload()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 	timer.Simple(NextIdle, function()
 		ply:Kill()
+		ply:EmitSound("scp_035/snap_neck.mp3", 75, math.random(100, 110))
 	end)
 end
 

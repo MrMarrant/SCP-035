@@ -34,6 +34,7 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_IsWear = nil
+    ply.SCP035_AffectByMask = nil
     if(timer.Exists("RemoveAffectByPrimary_SCP035_"..ply:EntIndex())) then timer.Adjust("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), 0, nil, nil) end
     scp_035.RemoveEffectProximity(ply)
 end)
@@ -54,4 +55,13 @@ net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
         end
         ply:StopSound("scp_035/static_noise.mp3")
     end)
+end)
+
+net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
+    local ply = LocalPlayer()
+
+    scp_035.DisplayMovingText(ply)
+    scp_035.ProximityEffect(ply)
+    scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
+    scp_035.IncreaseVolume(ply, 0.8, SCP_035_CONFIG.TimeTotalEffect)
 end)
