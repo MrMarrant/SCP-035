@@ -20,7 +20,7 @@ function scp_035.ImmobilizeVictim(ply)
     ply:Freeze(true)
     ply.SCP035_IsImmobilize = true
     -- TODO : Shacking screen et cris sons coté client
-    scp_035.PlaySoundToClient(ply, "")
+    scp_035.AffectByPrimary(ply)
 
     timer.Simple(SCP_035_CONFIG.DurationImmobilize, function()
         if(!IsValid(ply)) then return end
@@ -89,5 +89,10 @@ function scp_035.RemoveEffectClient(ply)
     ply.SCP035_IsWear = nil
 
     net.Start(SCP_035_CONFIG.RemoveEffectClient)
+    net.Send(ply)
+end
+
+function scp_035.AffectByPrimary(ply)
+    net.Start(SCP_035_CONFIG.AffectByPrimary)
     net.Send(ply)
 end

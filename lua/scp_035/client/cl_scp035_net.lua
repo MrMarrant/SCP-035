@@ -33,6 +33,24 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_IsWear = nil
-
+    if(timer.Exists("RemoveAffectByPrimary_SCP035_"..ply:EntIndex())) then timer.Adjust("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), 0, nil, nil) end
     scp_035.RemoveEffectProximity(ply)
+end)
+
+net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
+    local ply = LocalPlayer()
+
+    ply:EmitSound("scp_035/static_noise.mp3")
+    util.ScreenShake( Vector(0, 0, 0), 5, 5, SCP_035_CONFIG.DurationImmobilize, 0 )
+    ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", 0.6)
+
+    timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.DurationImmobilize, 1, function()
+        if (!IsValid(ply)) then return end
+
+        if (ply.SCP035_AffectByPrimary) then
+            ply.SCP035_AffectByPrimary:Remove()
+            ply.SCP035_AffectByPrimary = nil
+        end
+        ply:StopSound("scp_035/static_noise.mp3")
+    end)
 end)

@@ -97,6 +97,7 @@ function SWEP:PrimaryAttack()
 	if CLIENT then return end
 
 	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
+	if (FoundTarget) then scp_035.PlaySoundToClient(self:GetOwner(), "") end --TODo : Faire un son de hit réussis.
 	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or self.CurentAnim )
 end 
 
@@ -106,7 +107,7 @@ function SWEP:SecondaryAttack()
 
 	self:SetNextSecondaryFire( CurTime() +  self.SecondaryCooldown)
 
-	scp_035.PlaySoundToClient(self:GetOwner(), "")
+	self:GetOwner():EmitSound("")
 end
 
 -- Kill the player and drop the entitie (and play an animation before.)
