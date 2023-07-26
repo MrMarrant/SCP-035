@@ -45,7 +45,7 @@ SWEP.AutoSwitch = true
 -- Variables Personnal to this weapon --
 -- [[ STATS WEAPON ]]
 SWEP.PrimaryCooldown = 10
-SWEP.SecondaryCooldown = 10
+SWEP.SecondaryCooldown = 15
 
 -- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
 -- TODO : Pk pas ?
@@ -97,17 +97,16 @@ function SWEP:PrimaryAttack()
 	if CLIENT then return end
 
 	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
-	if (FoundTarget) then scp_035.PlaySoundToClient(self:GetOwner(), "") end --TODo : Faire un son de hit réussis.
+	if (FoundTarget) then scp_035.PlaySoundToClient(self:GetOwner(), "scp_035/hit_sound.mp3", math.random( 90, 110 )) end
 	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or self.CurentAnim )
 end 
 
--- TODO : Rigole ?
 function SWEP:SecondaryAttack()
 	if CLIENT then return end
 
 	self:SetNextSecondaryFire( CurTime() +  self.SecondaryCooldown)
 
-	self:GetOwner():EmitSound("")
+	self:GetOwner():EmitSound("scp_035/laugh_"..math.random(1, 3)..".mp3")
 end
 
 -- Kill the player and drop the entitie (and play an animation before.)
@@ -116,6 +115,9 @@ function SWEP:Reload()
 
 	local ply = self:GetOwner()
 	self:SendWeaponAnim( ACT_RELOAD )
+
+	if CLIENT then return end
+
 	local VMAnim = ply:GetViewModel()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 	timer.Simple(NextIdle, function()

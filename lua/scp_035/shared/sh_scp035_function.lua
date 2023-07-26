@@ -73,6 +73,7 @@ function scp_035.CheckDistance(ent, ply)
                     if(!IsValid(ply)) then return end
 
                     scp_035.RemoveEffectProximity(ply)
+                    if (CLIENT) then ply:EmitSound("scp_035/out_of_effect.mp3") end
                 end)
             end
         else

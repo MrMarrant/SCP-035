@@ -18,9 +18,10 @@ if SERVER then return end
 
 net.Receive(SCP_035_CONFIG.SoundToPlayClientSide, function ( )
     local path = net.ReadString()
+    local pitch = net.ReadUInt(8)
     local ply = LocalPlayer()
 
-    ply:EmitSound(path)
+    ply:EmitSound(path, 75, pitch)
 end)
 
 net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
@@ -41,7 +42,7 @@ net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
     local ply = LocalPlayer()
 
     ply:EmitSound("scp_035/static_noise.mp3")
-    util.ScreenShake( Vector(0, 0, 0), 5, 5, SCP_035_CONFIG.DurationImmobilize, 0 )
+    util.ScreenShake( Vector(0, 0, 0), 20, 300, SCP_035_CONFIG.DurationImmobilize, 0 )
     ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", 0.6)
 
     timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.DurationImmobilize, 1, function()

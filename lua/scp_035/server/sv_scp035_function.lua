@@ -57,9 +57,12 @@ function scp_035.PrimaryAttack(attacker)
     return ReturnValue
 end 
 
-function scp_035.PlaySoundToClient(ply, path)
+function scp_035.PlaySoundToClient(ply, path, pitch)
+    local pitch = pitch or 100
+
     net.Start(SCP_035_CONFIG.SoundToPlayClientSide)
         net.WriteString(path)
+        net.WriteUInt(pitch, 8)
     net.Send(ply)
 end
 
