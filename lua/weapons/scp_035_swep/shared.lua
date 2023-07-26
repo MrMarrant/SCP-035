@@ -41,11 +41,13 @@ SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 SWEP.DrawAmmo = false
 SWEP.AutoSwitch = true
+SWEP.Automatic = false
 
 -- Variables Personnal to this weapon --
 -- [[ STATS WEAPON ]]
 SWEP.PrimaryCooldown = 10
 SWEP.SecondaryCooldown = 15
+SWEP.ReloadCooldown = 1
 
 -- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
 -- TODO : Pk pas ?
@@ -64,6 +66,7 @@ local ActivityTranslate = {}
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self:SetHoldType( self.HoldType )
+	self.ReloadNextFire = CurTime()
 
 	timer.Simple(engine.TickInterval(), function()
 		if (!IsValid(self)) then return end
@@ -111,7 +114,9 @@ end
 
 -- Kill the player and drop the entitie (and play an animation before.)
 function SWEP:Reload()
-	if ( CurTime() < self.CurentAnim ) then return end
+	local currentTime = CurTime()
+	if ( currentTime < self.CurentAnim or currentTime < self.ReloadNextFire) then return end
+	self.ReloadNextFire = currentTime + self.ReloadCooldown
 
 	local ply = self:GetOwner()
 	self:SendWeaponAnim( ACT_RELOAD )
