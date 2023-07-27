@@ -23,7 +23,7 @@ SWEP.SlotPos = 1
 SWEP.Spawnable = true
 
 SWEP.Category = "SCP"
-SWEP.ViewModel = ""
+SWEP.ViewModel = Model( "models/weapons/scp_035_real/v_scp_035.mdl" )
 SWEP.WorldModel = ""
 
 SWEP.ViewModelFOV = 65
@@ -47,7 +47,7 @@ SWEP.Automatic = false
 -- [[ STATS WEAPON ]]
 SWEP.PrimaryCooldown = 10
 SWEP.SecondaryCooldown = 15
-SWEP.ReloadCooldown = 1
+SWEP.ReloadCooldown = 30
 
 -- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
 -- TODO : Pk pas ?
@@ -66,7 +66,8 @@ local ActivityTranslate = {}
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self:SetHoldType( self.HoldType )
-	self.ReloadNextFire = CurTime()
+	self:SetPlaybackRate( GetConVarNumber( "sv_defaultdeployspeed" ) )
+	self:SetNextAction()
 
 	timer.Simple(engine.TickInterval(), function()
 		if (!IsValid(self)) then return end
@@ -81,19 +82,18 @@ end
 
 -- Set animation Walking/Attack when equip with this swep.
 -- TODO : On garde ?
-function SWEP:TranslateActivity( act )
-	if ( self:GetOwner():IsPlayer() ) then
-		if (ActivityTranslate[act]) then
-			return ActivityTranslate[act]
-		end
-	end
-	return -1
-end
+-- function SWEP:TranslateActivity( act )
+-- 	if ( self:GetOwner():IsPlayer() ) then
+-- 		if (ActivityTranslate[act]) then
+-- 			return ActivityTranslate[act]
+-- 		end
+-- 	end
+-- 	return -1
+-- end
 
 -- TODO : lui faire un effet psychodelique
 function SWEP:PrimaryAttack()
 	local curtime = CurTime()
-	if ( curtime < self.CurentAnim ) then return end
 
 	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
 	self:SetCurentAnim()
@@ -115,7 +115,7 @@ end
 -- Kill the player and drop the entitie (and play an animation before.)
 function SWEP:Reload()
 	local currentTime = CurTime()
-	if ( currentTime < self.CurentAnim or currentTime < self.ReloadNextFire) then return end
+	if ( currentTime < self.ReloadNextFire) then return end
 	self.ReloadNextFire = currentTime + self.ReloadCooldown
 
 	local ply = self:GetOwner()
@@ -136,24 +136,32 @@ function SWEP:SetCurentAnim()
 	local VMAnim = ply:GetViewModel()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 
-	self.CurentAnim = CurTime() + NextIdle
+	self.CurentAnim = NextIdle
+end
+
+function SWEP:SetNextAction()
+	local curtime = CurTime()
+	self:SetNextPrimaryFire( self.PrimaryCooldown )
+	self.ReloadNextFire = curtime + self.ReloadCooldown
 end
 
 function SWEP:PutTheMask()
 	local ply = self:GetOwner()
-
+	print("equip")
 	ply:Freeze(true)
-	ply.SCP035_IsWear = true
-
-	local speedAnimation = GetConVarNumber( "sv_defaultdeployspeed" )
-	self:SendWeaponAnim( ACT_DEPLOY )
-	self:SetPlaybackRate( speedAnimation )
+	self:SendWeaponAnim( ACT_VM_DRAW )
 
 	self:SetCurentAnim()
-	timer.Simple(self.CurentAnim - CurTime(), function()
+	print(self.CurentAnim)
+	timer.Simple(self.CurentAnim, function() -- TODO : Peut causer un soucis si le joueur meurs avant 
         if(!IsValid(ply)) then return end
-        if(!ply.SCP035_IsWear) then return end
+		if(!ply:Alive()) then return end
 
+		self:SendWeaponAnim( ACT_VM_IDLE )
+	
+		self:SetCurentAnim()
+		ply.SCP035_IsWear = true
+		scp_035.RemoveEffectProximity(ply)
         if SERVER then ply:Freeze(false) end
 		if CLIENT then
 			ply:StartLoopingSound("scp_035/idle_sound.wav" )

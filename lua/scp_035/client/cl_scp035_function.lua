@@ -28,7 +28,7 @@ function scp_035.DisplayMovingText(ply)
 
     timer.Create("DisplayTextTimer_SCP035_"..ply:EntIndex(), 5, #TextTodisplay, function()
         if(!IsValid(ply)) then return end
-        if(!ply.SCP035_AffectByMask) then return end
+        if(!ply.SCP035_AffectByMask or ply.SCP035_IsWear or !ply:Alive()) then return end
 
         local PannelDisplayText = vgui.Create("SCP035MovingText")
         PannelDisplayText:SetInitValue(TextTodisplay[index], timerPhase)
@@ -43,7 +43,7 @@ end
 function scp_035.DisPlayFinalText(ply, delay)
     timer.Create("DisplayFinalEffect_SCP035_"..ply:EntIndex(), delay, 1, function()
         if(!IsValid(ply)) then return end
-        if(!ply.SCP035_AffectByMask) then return end
+        if(!ply.SCP035_AffectByMask or ply.SCP035_IsWear or !ply:Alive()) then return end
 
         ply:EmitSound( Sound( "scp_035/final_effect.mp3" ), 75, math.random( 100, 110 ) )
         ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_1"), SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
@@ -120,7 +120,7 @@ function scp_035.ProximityEffect(ply)
     ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", alpha)
     timer.Create("ProximityEffect_SCP035_"..ply:EntIndex(), 0.5, repetitions, function()
         if(!IsValid(ply)) then return end
-        if(!IsValid(ply.SCP035_ProximityEffect)) then return end
+        if(!ply.SCP035_ProximityEffect or ply.SCP035_IsWear or !ply:Alive()) then return end
 
         alpha = alpha + incrementAlpha
         ply.SCP035_ProximityEffect:Call('document.getElementById("gif-scp035").style.opacity = "'..alpha..'";')

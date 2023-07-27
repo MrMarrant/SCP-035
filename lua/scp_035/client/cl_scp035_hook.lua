@@ -27,7 +27,7 @@ local tab = {
 	["$pp_colour_mulg"] = 0,
 	["$pp_colour_mulb"] = 0
 }
-local maxRange = 200
+local maxRange = 200 -- TODO : ConVar ?
 
 hook.Add( "OnScreenSizeChanged", "OnScreenSizeChanged.SCP035_ScreenSize", function( oldWidth, oldHeight )
     SCP_035_CONFIG.ScrW = ScrW()
@@ -35,8 +35,10 @@ hook.Add( "OnScreenSizeChanged", "OnScreenSizeChanged.SCP035_ScreenSize", functi
 end )
 
 hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask", function()
-    if (LocalPlayer().SCP035_IsWear) then
-        local allPlayers = player.GetAll() -- TODO changer ça putain mdr
+    local ply = LocalPlayer()
+
+    if (ply.SCP035_IsWear) then
+        local allPlayers = ents.FindInCone( ply:EyePos(), ply:GetAimVector(), maxRange, math.cos( math.rad( 170 ) ) )
         local angle = EyeAngles()
     
         angle = Angle( 0, angle.y, 0 )
@@ -54,6 +56,8 @@ hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask"
         render.SetStencilZFailOperation( STENCIL_KEEP )
 
         for key, ent in ipairs(allPlayers) do
+            if(!ent:IsPlayer()) then continue end
+
             render.ClearStencil()
             local range = ent:GetPos():Distance( EyePos() )
             local transparency = 1 - math.Clamp( ( range - 300 ) / (maxRange/2), 0, 1 )
@@ -74,3 +78,32 @@ hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask"
     cam.End3D()
     end
 end )
+
+local modelMask = ClientsideModel( "models/scp_035_real/scp_035_real.mdl" )
+modelMask:SetNoDraw( true )
+
+hook.Add( "PostPlayerDraw" , "PostPlayerDraw.SCP035_DrawMask" , function( ply )
+    if (SCP_035_CONFIG.PlayersWearingMask[ply:EntIndex()]) then
+
+        local offsetvec = Vector( 0, -5.6, 0 )
+        local offsetang = Angle( 0, 90, 90 ) -- TODO : A changer surement
+        local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
+        
+        if not boneid then
+            return
+        end
+        
+        local matrix = ply:GetBoneMatrix( boneid )
+        
+        if not matrix then 
+            return 
+        end
+        
+        local newpos, newang = LocalToWorld( offsetvec, offsetang, matrix:GetTranslation(), matrix:GetAngles() )
+        
+        modelMask:SetPos( newpos )
+        modelMask:SetAngles( newang )
+        modelMask:SetupBones()
+        modelMask:DrawModel()
+    end
+end)

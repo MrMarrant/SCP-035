@@ -22,6 +22,8 @@ SCP_035_CONFIG.HandledLanguage = {
     "fr"
 }
 
+SCP_035_CONFIG.PlayersWearingMask = {}
+
 SCP_035_CONFIG.SoundToPlayClientSide = "SCP_035_CONFIG.SoundToPlayClientSide"
 SCP_035_CONFIG.DisplayText = "SCP_035_CONFIG.DisplayText"
 SCP_035_CONFIG.RemoveEffectClient = "SCP_035_CONFIG.RemoveEffectClient"
