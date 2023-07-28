@@ -152,19 +152,32 @@ function SWEP:PutTheMask()
 	self:SendWeaponAnim( ACT_VM_DRAW )
 
 	self:SetCurentAnim()
-	print(self.CurentAnim)
-	timer.Simple(self.CurentAnim, function() -- TODO : Peut causer un soucis si le joueur meurs avant 
+
+	timer.Simple(self.CurentAnim, function()
+        if(!IsValid(self)) then return end
         if(!IsValid(ply)) then return end
 		if(!ply:Alive()) then return end
 
-		self:SendWeaponAnim( ACT_VM_IDLE )
-	
-		self:SetCurentAnim()
-		ply.SCP035_IsWear = true
-		scp_035.RemoveEffectProximity(ply)
-        if SERVER then ply:Freeze(false) end
-		if CLIENT then
-			ply:StartLoopingSound("scp_035/idle_sound.wav" )
+		if CLIENT then 
+			ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "scp_035/transform_mask.gif", 1) 
+			ply:EmitSound("scp_035/transform_mask.mp3")
 		end
+		self:SendWeaponAnim( ACT_VM_IDLE )
+		self:SetCurentAnim()
+
+		timer.Simple(8, function()
+			if(!IsValid(self)) then return end
+			if(!IsValid(ply)) then return end
+			if(!ply:Alive()) then return end
+
+			ply.SCP035_IsWear = true
+			scp_035.RemoveEffectProximity(ply)
+			if SERVER then ply:Freeze(false) end
+			if CLIENT then
+				ply.SCP035_TransitionTransform:Remove()
+				ply.SCP035_TransitionTransform = nil
+				ply:StartLoopingSound("scp_035/idle_sound.wav" )
+			end
+		end)
     end)
 end

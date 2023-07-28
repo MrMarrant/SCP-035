@@ -30,11 +30,16 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
 
     ply:StopSound("scp_035/idle_sound.wav" )
     ply:StopSound("scp_035/static_noise.mp3" )
+    ply:StopSound("scp_035/transform_mask.mp3")
     ply.SCP035_SoundProximity = nil
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_IsWear = nil
     ply.SCP035_AffectByMask = nil
+    if (ply.SCP035_TransitionTransform) then 
+        ply.SCP035_TransitionTransform:Remove()
+        ply.SCP035_TransitionTransform = nil 
+    end
     if(timer.Exists("RemoveAffectByPrimary_SCP035_"..ply:EntIndex())) then timer.Adjust("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), 0, nil, nil) end
     scp_035.RemoveEffectProximity(ply)
 end)
