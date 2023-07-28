@@ -22,7 +22,7 @@
 function scp_035.TranslateLanguage(langData, name)
     local langUsed = SCP_035_CONFIG.LangServer
     if not langData[langUsed] then
-        langUsed = "fr" -- Default lang is EN.
+        langUsed = "en" -- Default lang is EN.
     end
     return string.format( langData[langUsed][ name ] or "Not Found" )
 end
