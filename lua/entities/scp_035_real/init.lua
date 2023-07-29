@@ -49,11 +49,3 @@ function ENT:Use(ply)
 	ply:Give("scp_035_swep")
 	self:Remove()
 end
-
-function ENT:Touch(ply)
-	if (!IsValid(ply)) then return end
-	if (scp_035.IsSCP035(ply)) then return end
-
-	ply:Give("scp_035_swep")
-	self:Remove()
-end

@@ -47,7 +47,7 @@ SWEP.Automatic = false
 -- [[ STATS WEAPON ]]
 SWEP.PrimaryCooldown = 10
 SWEP.SecondaryCooldown = 15
-SWEP.ReloadCooldown = 30
+SWEP.ReloadCooldown = 10
 
 -- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
 -- TODO : Pk pas ?
@@ -101,7 +101,7 @@ function SWEP:PrimaryAttack()
 
 	local FoundTarget = scp_035.PrimaryAttack(self:GetOwner())
 	if (FoundTarget) then scp_035.PlaySoundToClient(self:GetOwner(), "scp_035/hit_sound.mp3", math.random( 90, 110 )) end
-	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or self.CurentAnim )
+	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or curtime + self.CurentAnim )
 end 
 
 function SWEP:SecondaryAttack()
@@ -119,7 +119,7 @@ function SWEP:Reload()
 	self.ReloadNextFire = currentTime + self.ReloadCooldown
 
 	local ply = self:GetOwner()
-	self:SendWeaponAnim( ACT_RELOAD )
+	self:SendWeaponAnim( ACT_VM_RELOAD )
 
 	if CLIENT then return end
 
@@ -127,7 +127,7 @@ function SWEP:Reload()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 	timer.Simple(NextIdle, function()
 		ply:Kill()
-		ply:EmitSound("scp_035/snap_neck.mp3", 75, math.random(100, 110))
+		ply:EmitSound("scp_035/snap_neck.mp3", 75, math.random(100, 110)) -- TODO : changer le son
 	end)
 end
 
@@ -148,7 +148,6 @@ end
 
 function SWEP:PutTheMask()
 	local ply = self:GetOwner()
-	print("equip")
 	ply:Freeze(true)
 	self:SendWeaponAnim( ACT_VM_DRAW )
 
@@ -182,4 +181,13 @@ function SWEP:PutTheMask()
 			end
 		end)
     end)
+end
+
+-- Override ACT_VM_DRAW animation (cause it his play when deploy (for what ever reason))
+function SWEP:Deploy()
+	if (self:GetOwner().SCP035_IsWear) then
+		self:SendWeaponAnim( ACT_VM_IDLE )
+		self:SetCurentAnim()
+	end
+	return true
 end

@@ -113,7 +113,7 @@ function scp_035.GetTableClient(ply, var, tableToGet)
         net.Start(SCP_035_CONFIG.SetTableClient)
             net.WriteString(var)
             net.WriteBool( true )
-            net.WriteEntity( value )
+            net.WriteUInt( value, 11 )
         net.Send(ply)
     end
 end
@@ -126,15 +126,16 @@ end
 */
 function scp_035.SetTableClient(ply, var, state)
     if (!IsValid(ply) or type(var) != "string") then return end
-    if (SCP_035_CONFIG[var][ply:EntIndex()] and state) then return end
+    local entIndex = ply:EntIndex()
+    if (SCP_035_CONFIG[var][entIndex] and state) then return end
     if (state) then
-        SCP_035_CONFIG[var][ply:EntIndex()] = ply:EntIndex()
+        SCP_035_CONFIG[var][entIndex] = entIndex
     else
-        SCP_035_CONFIG[var][ply:EntIndex()] = nil
+        SCP_035_CONFIG[var][entIndex] = nil
     end
     net.Start(SCP_035_CONFIG.SetTableClient)
         net.WriteString( var )
         net.WriteBool( state )
-        net.WriteEntity( ply )
+        net.WriteUInt( entIndex, 11 )
     net.Broadcast()
 end
