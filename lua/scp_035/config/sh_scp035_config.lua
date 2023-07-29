@@ -14,7 +14,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-SCP_035_CONFIG.RadiusEffect = 300
+SCP_035_CONFIG.RadiusEffect = 200
 SCP_035_CONFIG.RangeImmobilize = 300
 SCP_035_CONFIG.DurationImmobilize = 5
 SCP_035_CONFIG.LangServer = GetConVar("gmod_language"):GetString()
@@ -31,6 +31,8 @@ SCP_035_CONFIG.RemoveEffectClient = "SCP_035_CONFIG.RemoveEffectClient"
 SCP_035_CONFIG.AffectByPrimary = "SCP_035_CONFIG.AffectByPrimary"
 SCP_035_CONFIG.SetEffectsMask = "SCP_035_CONFIG.SetEffectsMask"
 SCP_035_CONFIG.SetTableClient = "SCP_035_CONFIG.SetTableClient"
+SCP_035_CONFIG.TransitionTransform = "SCP_035_CONFIG.TransitionTransform"
+SCP_035_CONFIG.StartIdleSound = "SCP_035_CONFIG.StartIdleSound"
 
 scp_035.LoadLanguage(SCP_035_CONFIG.RootFolder.."language/", SCP_035_CONFIG.HandledLanguage, SCP_035_LANG)
 scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."shared/")

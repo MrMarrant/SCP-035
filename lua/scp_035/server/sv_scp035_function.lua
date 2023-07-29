@@ -139,3 +139,13 @@ function scp_035.SetTableClient(ply, var, state)
         net.WriteUInt( entIndex, 11 )
     net.Broadcast()
 end
+
+function scp_035.SetTranform(ply)
+    net.Start(SCP_035_CONFIG.TransitionTransform)
+    net.Send(ply)
+end
+
+function scp_035.StartIdleSound(ply)
+    net.Start(SCP_035_CONFIG.StartIdleSound)
+    net.Send(ply)
+end

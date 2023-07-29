@@ -82,3 +82,20 @@ net.Receive(SCP_035_CONFIG.SetTableClient, function ( )
         SCP_035_CONFIG[var][entIndex] = nil
     end
 end)
+
+net.Receive(SCP_035_CONFIG.TransitionTransform, function ( )
+    local ply = LocalPlayer()
+
+    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "scp_035/transform_mask.gif", 1) 
+    ply:EmitSound("scp_035/transform_mask.mp3")
+end)
+
+net.Receive(SCP_035_CONFIG.StartIdleSound, function ( )
+    local ply = LocalPlayer()
+
+    if(ply.SCP035_TransitionTransform) then
+        ply.SCP035_TransitionTransform:Remove()
+        ply.SCP035_TransitionTransform = nil
+    end
+    ply:StartLoopingSound("scp_035/idle_sound.wav" )
+end)

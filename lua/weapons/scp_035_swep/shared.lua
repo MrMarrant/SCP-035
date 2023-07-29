@@ -137,6 +137,8 @@ function SWEP:SetCurentAnim()
 	if (IsValid(VMAnim)) then
 		local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 		self.CurentAnim = NextIdle
+	else
+		self.CurentAnim = 3
 	end
 end
 
@@ -158,26 +160,23 @@ function SWEP:PutTheMask()
         if(!IsValid(ply)) then return end
 		if(!ply:Alive()) then return end
 
-		if SERVER then scp_035.SetTableClient(ply, "PlayersWearingMask", true) end
-		if CLIENT then 
-			ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "scp_035/transform_mask.gif", 1) 
-			ply:EmitSound("scp_035/transform_mask.mp3")
+		if SERVER then 
+			scp_035.SetTableClient(ply, "PlayersWearingMask", true) 
+			scp_035.SetTranform(ply)
 		end
 		self:SendWeaponAnim( ACT_VM_IDLE )
 		self:SetCurentAnim()
 
-		timer.Simple(8, function()
+		timer.Simple(8, function() --? 8s equal to duration of the sound played in scp_035.StartIdleSound(ply)
 			if(!IsValid(self)) then return end
 			if(!IsValid(ply)) then return end
 			if(!ply:Alive()) then return end
 
 			ply.SCP035_IsWear = true
 			scp_035.RemoveEffectProximity(ply)
-			if SERVER then ply:Freeze(false) end
-			if CLIENT then
-				ply.SCP035_TransitionTransform:Remove()
-				ply.SCP035_TransitionTransform = nil
-				ply:StartLoopingSound("scp_035/idle_sound.wav" )
+			if SERVER then 
+				ply:Freeze(false)
+				scp_035.StartIdleSound(ply)
 			end
 		end)
     end)
