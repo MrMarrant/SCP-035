@@ -84,9 +84,10 @@ modelMask:SetNoDraw( true )
 
 hook.Add( "PostPlayerDraw" , "PostPlayerDraw.SCP035_DrawMask" , function( ply )
     if (SCP_035_CONFIG.PlayersWearingMask[ply:EntIndex()]) then
-
-        local offsetvec = Vector( 0, -5.6, 0 )
-        local offsetang = Angle( 0, 90, 90 ) -- TODO : A changer surement
+        -- TODO : Pas précis du tous sur les modèles
+        local offsetvec = Vector(2.2, -5.6, 0 ) -- men 
+        --local offsetvec = Vector( 1.5, -5.6, 0 ) women
+        local offsetang = Angle( 0, -80, -90 ) -- TODO : A changer surement
         local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
         
         if not boneid then

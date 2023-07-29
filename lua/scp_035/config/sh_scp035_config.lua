@@ -30,6 +30,7 @@ SCP_035_CONFIG.DisplayText = "SCP_035_CONFIG.DisplayText"
 SCP_035_CONFIG.RemoveEffectClient = "SCP_035_CONFIG.RemoveEffectClient"
 SCP_035_CONFIG.AffectByPrimary = "SCP_035_CONFIG.AffectByPrimary"
 SCP_035_CONFIG.SetEffectsMask = "SCP_035_CONFIG.SetEffectsMask"
+SCP_035_CONFIG.SetTableClient = "SCP_035_CONFIG.SetTableClient"
 
 scp_035.LoadLanguage(SCP_035_CONFIG.RootFolder.."language/", SCP_035_CONFIG.HandledLanguage, SCP_035_LANG)
 scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."shared/")

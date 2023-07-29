@@ -134,9 +134,10 @@ end
 function SWEP:SetCurentAnim()
 	local ply = self:GetOwner()
 	local VMAnim = ply:GetViewModel()
-	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
-
-	self.CurentAnim = NextIdle
+	if (IsValid(VMAnim)) then
+		local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
+		self.CurentAnim = NextIdle
+	end
 end
 
 function SWEP:SetNextAction()
@@ -158,6 +159,7 @@ function SWEP:PutTheMask()
         if(!IsValid(ply)) then return end
 		if(!ply:Alive()) then return end
 
+		if SERVER then scp_035.SetTableClient(ply, "PlayersWearingMask", true) end
 		if CLIENT then 
 			ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "scp_035/transform_mask.gif", 1) 
 			ply:EmitSound("scp_035/transform_mask.mp3")

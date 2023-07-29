@@ -70,3 +70,15 @@ net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
     scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
     scp_035.IncreaseVolume(ply, 0.8, SCP_035_CONFIG.TimeTotalEffect)
 end)
+
+-- It Set the table on client side of the player who receive the net message.
+net.Receive(SCP_035_CONFIG.SetTableClient, function ( )
+    local var = net.ReadString()
+    local state = net.ReadBool()
+    local ent = net.ReadEntity()
+    if (state) then
+        SCP_035_CONFIG[var][ent:EntIndex()] = ent:EntIndex()
+    else
+        SCP_035_CONFIG[var][ent:EntIndex()] = nil
+    end
+end)

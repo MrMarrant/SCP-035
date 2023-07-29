@@ -90,6 +90,7 @@ function scp_035.RemoveEffectClient(ply)
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_AffectByMask = nil
     ply.SCP035_IsWear = nil
+    scp_035.SetTableClient(ply, "PlayersWearingMask", false)
 
     net.Start(SCP_035_CONFIG.RemoveEffectClient)
     net.Send(ply)
@@ -98,4 +99,42 @@ end
 function scp_035.AffectByPrimary(ply)
     net.Start(SCP_035_CONFIG.AffectByPrimary)
     net.Send(ply)
+end
+
+/*
+* Function to synchronize the state of a table client side for a specific player.
+* @Player ply The player to update the state.
+* @string var String of the variable to update.
+* @table tableToGet the table server side to update client side.
+*/
+function scp_035.GetTableClient(ply, var, tableToGet)
+    if (!IsValid(ply) or type(var) != "string" or type(tableToGet) != "table") then return end
+    for key, value in ipairs(tableToGet) do
+        net.Start(SCP_035_CONFIG.SetTableClient)
+            net.WriteString(var)
+            net.WriteBool( true )
+            net.WriteEntity( value )
+        net.Send(ply)
+    end
+end
+
+/*
+* Function to update the state of a table client side of all players of the server.
+* @Player ply The player to update the state.
+* @string var String of the variable to update.
+* @bool state Bool to set to the variable.
+*/
+function scp_035.SetTableClient(ply, var, state)
+    if (!IsValid(ply) or type(var) != "string") then return end
+    if (SCP_035_CONFIG[var][ply:EntIndex()] and state) then return end
+    if (state) then
+        SCP_035_CONFIG[var][ply:EntIndex()] = ply:EntIndex()
+    else
+        SCP_035_CONFIG[var][ply:EntIndex()] = nil
+    end
+    net.Start(SCP_035_CONFIG.SetTableClient)
+        net.WriteString( var )
+        net.WriteBool( state )
+        net.WriteEntity( ply )
+    net.Broadcast()
 end
