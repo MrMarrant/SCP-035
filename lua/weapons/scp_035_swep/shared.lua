@@ -136,7 +136,7 @@ function SWEP:SetCurentAnim()
 		local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 		self.CurentAnim = NextIdle
 	else
-		self.CurentAnim = 3
+		self.CurentAnim = 3 -- Default Time (VMAnim is invalid for bot generally)
 	end
 end
 

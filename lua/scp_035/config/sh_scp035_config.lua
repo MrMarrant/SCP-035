@@ -14,9 +14,10 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-SCP_035_CONFIG.RadiusEffect = 200
-SCP_035_CONFIG.RangeImmobilize = 300
-SCP_035_CONFIG.DurationImmobilize = 5
+SCP_035_CONFIG.RadiusEffect = CreateConVar( "SCP035_RadiusEffect", 200, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Percent Detect By SCP 096", 50, 9999 )
+SCP_035_CONFIG.RangeImmobilize = CreateConVar( "SCP035_RangeImmobilize", 300, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Percent Detect By SCP 096", 10, 9999 )
+SCP_035_CONFIG.DurationImmobilize = CreateConVar( "SCP035_RangeImmobilize", 5, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Percent Detect By SCP 096", 1, 9999 )
+SCP_035_CONFIG.TimeTotalEffect = CreateConVar( "SCP035_TimeTotalEffect", 60, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Percent Detect By SCP 096", 10, 180 )
 SCP_035_CONFIG.LangServer = GetConVar("gmod_language"):GetString()
 SCP_035_CONFIG.HandledLanguage = {
     "fr",

@@ -18,7 +18,6 @@ if SERVER then return end
 
 SCP_035_CONFIG.ScrW = ScrW()
 SCP_035_CONFIG.ScrH = ScrH()
-SCP_035_CONFIG.TimeTotalEffect = 10
 SCP_035_CONFIG.MaxDialogVersion = 5 -- Don't increase the value if you didnt implement the number of version set.
 
 -- 
