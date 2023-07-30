@@ -31,7 +31,6 @@ function ENT:RebuildPhysics( )
 	self:PhysWake()
 end
 
--- TODO : Sons de physique
 function ENT:PhysicsCollide( data, physobj )
 	if data.DeltaTime > 0.2 then
 		if data.Speed > 250 then
