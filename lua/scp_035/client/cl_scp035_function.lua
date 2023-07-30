@@ -17,7 +17,7 @@
 if SERVER then return end
 
 function scp_035.DisplayMovingText(ply)
-    local timerToInfect = SCP_035_CONFIG.TimeTotalEffect
+    local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
     local timerPhase = timerToInfect/#SCP_035_CONFIG.FontEffect
     local index = 1
     local TextTodisplay = {}
@@ -114,7 +114,7 @@ end
 */
 function scp_035.ProximityEffect(ply)
     local alpha = 0.01
-    local repetitions = SCP_035_CONFIG.TimeTotalEffect * 2
+    local repetitions = SCP_035_CONFIG.TimeTotalEffect:GetInt() * 2
     local incrementAlpha = 0.3/repetitions
 
     ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", alpha)

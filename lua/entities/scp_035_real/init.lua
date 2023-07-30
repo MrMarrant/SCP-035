@@ -35,9 +35,9 @@ end
 function ENT:PhysicsCollide( data, physobj )
 	if data.DeltaTime > 0.2 then
 		if data.Speed > 250 then
-			self:EmitSound( "physics/metal/metal_grate_impact_hard3.wav", 75, math.random( 50, 160 ) )	
+			self:EmitSound( "physics/concrete/concrete_impact_hard".. math.random(1, 3)..".wav", 75, math.random( 100, 110 ) )	
 		else
-			self:EmitSound( "physics/metal/metal_grate_impact_soft3.wav", 75, math.random( 50, 160 ) )	
+			self:EmitSound( "physics/concrete/concrete_impact_soft".. math.random(1, 3)..".wav", 75, math.random( 100, 110 ) )		
 		end
 	end
 end

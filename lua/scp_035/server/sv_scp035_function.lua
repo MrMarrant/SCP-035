@@ -21,7 +21,7 @@ function scp_035.ImmobilizeVictim(ply)
     ply.SCP035_IsImmobilize = true
     scp_035.AffectByPrimary(ply)
 
-    timer.Simple(SCP_035_CONFIG.DurationImmobilize, function()
+    timer.Simple(SCP_035_CONFIG.DurationImmobilize:GetInt(), function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_IsImmobilize) then return end
         
@@ -35,7 +35,7 @@ function scp_035.PrimaryAttack(attacker)
     local dir = attacker:GetAimVector()
     local angle = math.cos( math.rad( 22 ) )
 
-    local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize, angle )
+    local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize:GetInt(), angle )
     local victim = nil
     for key, value in ipairs(foundEnts) do
         if (value:IsPlayer() and value != attacker) then

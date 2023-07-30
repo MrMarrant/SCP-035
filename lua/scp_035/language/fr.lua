@@ -17,7 +17,6 @@
 SCP_035_LANG.fr = {}
 
 -- Text Display during effect close to the mask
--- TODO : Pk pas mettre plusieurs versions ?
 SCP_035_LANG.fr.TextDisplay_v1_1 = "Approche plus près"
 SCP_035_LANG.fr.TextDisplay_v1_2 = "Je cherche un bienfaiteur"
 SCP_035_LANG.fr.TextDisplay_v1_3 = "Aurais tu l'amabilité de m'aider"
