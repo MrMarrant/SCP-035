@@ -48,7 +48,7 @@ function scp_035.DisPlayFinalText(ply, delay)
         ply:EmitSound( Sound( "scp_035/final_effect.mp3" ), 75, math.random( 100, 110 ) )
         ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_1"), SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
         ply.SCP035_SimpleText_2 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_2"), SCP_035_CONFIG.ScrW * 0.8, SCP_035_CONFIG.ScrH * 0.3)
-        ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif")
+        ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif")
         ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask_deform_v"..math.random(1, 3)..".png")
 
         timer.Simple(1, function()
@@ -102,7 +102,7 @@ function scp_035.DisPlayGIF(ply, material, alpha)
 
         '<div id="portrait">'..
             '<div id="container">'..
-                '<img id="gif-scp035" src="asset://garrysmod/materials/'..material..'" width="'..width..'" height="'..height..'">'..
+                '<img id="gif-scp035" src="'..material..'" width="'..width..'" height="'..height..'">'..
             '</div>'..
         '</div>'
         )
@@ -117,7 +117,7 @@ function scp_035.ProximityEffect(ply)
     local repetitions = SCP_035_CONFIG.TimeTotalEffect:GetInt() * 2
     local incrementAlpha = 0.3/repetitions
 
-    ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", alpha)
+    ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", alpha)
     timer.Create("ProximityEffect_SCP035_"..ply:EntIndex(), 0.5, repetitions, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_ProximityEffect or ply.SCP035_IsWear or !ply:Alive()) then return end

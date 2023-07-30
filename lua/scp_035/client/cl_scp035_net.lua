@@ -49,7 +49,7 @@ net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
 
     ply:EmitSound("scp_035/static_noise.mp3")
     util.ScreenShake( Vector(0, 0, 0), 20, 300, SCP_035_CONFIG.DurationImmobilize:GetInt(), 0 )
-    ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "scp_035/static_noise.gif", 0.6)
+    ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", 0.6)
 
     timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.DurationImmobilize:GetInt(), 1, function()
         if (!IsValid(ply)) then return end
@@ -86,7 +86,7 @@ end)
 net.Receive(SCP_035_CONFIG.TransitionTransform, function ( )
     local ply = LocalPlayer()
 
-    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "scp_035/transform_mask.gif", 1) 
+    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "https://i.imgur.com/1aLhip5.gif", 1) 
     ply:EmitSound("scp_035/transform_mask.mp3")
 end)
 
