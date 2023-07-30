@@ -51,17 +51,17 @@ SWEP.ReloadCooldown = 10
 
 -- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
 -- TODO : Pk pas ?
-local ActivityTranslate = {}
-	ActivityTranslate[ ACT_MP_STAND_IDLE ]	= ACT_HL2MP_IDLE_ZOMBIE
-	ActivityTranslate[ ACT_MP_WALK ] = ACT_HL2MP_WALK_ZOMBIE_04
-	ActivityTranslate[ ACT_MP_RUN ]	= ACT_HL2MP_WALK_ZOMBIE_05
-	ActivityTranslate[ ACT_MP_CROUCH_IDLE ]	= ACT_HL2MP_IDLE_CROUCH_ZOMBIE
-	ActivityTranslate[ ACT_MP_CROUCHWALK ]	= ACT_HL2MP_WALK_CROUCH_ZOMBIE_04
-	ActivityTranslate[ ACT_MP_JUMP ] = ACT_ZOMBIE_LEAPING
-	ActivityTranslate[ ACT_MP_ATTACK_STAND_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
-	ActivityTranslate[ ACT_MP_ATTACK_CROUCH_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
-	ActivityTranslate[ ACT_MP_RELOAD_STAND ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
-	ActivityTranslate[ ACT_MP_RELOAD_CROUCH ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
+-- local ActivityTranslate = {}
+-- 	ActivityTranslate[ ACT_MP_STAND_IDLE ]	= ACT_HL2MP_IDLE_ZOMBIE
+-- 	ActivityTranslate[ ACT_MP_WALK ] = ACT_HL2MP_WALK_ZOMBIE_04
+-- 	ActivityTranslate[ ACT_MP_RUN ]	= ACT_HL2MP_WALK_ZOMBIE_05
+-- 	ActivityTranslate[ ACT_MP_CROUCH_IDLE ]	= ACT_HL2MP_IDLE_CROUCH_ZOMBIE
+-- 	ActivityTranslate[ ACT_MP_CROUCHWALK ]	= ACT_HL2MP_WALK_CROUCH_ZOMBIE_04
+-- 	ActivityTranslate[ ACT_MP_JUMP ] = ACT_ZOMBIE_LEAPING
+-- 	ActivityTranslate[ ACT_MP_ATTACK_STAND_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
+-- 	ActivityTranslate[ ACT_MP_ATTACK_CROUCH_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
+-- 	ActivityTranslate[ ACT_MP_RELOAD_STAND ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
+-- 	ActivityTranslate[ ACT_MP_RELOAD_CROUCH ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )

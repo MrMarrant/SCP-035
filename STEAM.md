@@ -7,7 +7,7 @@ SCP-035 appears to be a white porcelain comedy mask.
 
 Humanoid subjects of SCP-035, or in visual contact with it, experience a strong urge to put it on. When SCP-035 is placed on the face of an individual, an alternate brain wave pattern from SCP-035 overlaps that of the original host, effectively snuffing it out and causing brain death to the subject. Subject then claims to be the consciousness contained within SCP-035.
 
-[img]https://i.imgur.com/WSTEYg1.gif[/img]
+[img]https://i.imgur.com/uq1SB8T.jpg[/img]
 
 This addon consists of an entity and a weapon,
 The aim of this addon was to remake the SCP-035 entity in its entirety, but with more immersive effects, in a desire to bring the experience closer to the original.
@@ -45,15 +45,15 @@ I've based my work mainly on PM male_02 and male_07.
 
 With the SWEP, you'll have access to 3 functions:
 
-Primary (Left Click) :
+[b]Primary[/b] (Left Click) :
 You freeze the first player in front of you for a few seconds, with a visual and audio effect on the victim.
 
 [img]https://i.imgur.com/GsWKUq3.gif[/img]
 
-Secondary (Right Click) :
+[b]Secondary[/b] (Right Click) :
 You laugh, SCP-035 has a pshycopathic personality, so that makes sense to me 🤔
 
-Reload (R Touch) :
+[b]Reload[/b] (R Touch) :
 You're committing suicide, literally 💀
 
 [img]https://i.imgur.com/jc7T7ZG.gif[/img]
@@ -105,10 +105,10 @@ All these values can only be modified from your server console.
 
 [h2]Languages[/h2]
 Two languages are currently supported:
-
+[list]
 [*]  French
 [*]  English
-
+[/list]
 Send me a request if you want me to integrate other languages, and I'll send you the original file for translation.
 
 [h2]Common questions[/h2]
