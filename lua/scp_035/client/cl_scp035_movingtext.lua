@@ -66,7 +66,7 @@ function PANEL:SetInitValue(text, duration)
         Children:SetSize( WidthParent * 0.1, HeightParent * 0.1 )
         Children:SetPos(InitPosX, InitPosY)
         Children:SetFont(table.Random(SCP_035_CONFIG.FontEffect))
-        if (keyManager >= 25 and textToDisplay == " ") then --TODO : Every 25 characters we do a line break, Not the best solution, it can maybe cause some problemes for some screen.
+        if (keyManager >= 25 and textToDisplay == " ") then --? Every 25 characters we do a line break, Not the best solution, it can maybe cause some problemes for some screen.
             InitPosY = InitPosY + 30
             keyManager = 1
             InitPosX = originalPosX

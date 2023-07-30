@@ -19,7 +19,6 @@ if CLIENT then return end
 function scp_035.ImmobilizeVictim(ply)
     ply:Freeze(true)
     ply.SCP035_IsImmobilize = true
-    -- TODO : Shacking screen et cris sons coté client
     scp_035.AffectByPrimary(ply)
 
     timer.Simple(SCP_035_CONFIG.DurationImmobilize, function()
@@ -32,19 +31,19 @@ function scp_035.ImmobilizeVictim(ply)
 end
 
 function scp_035.PrimaryAttack(attacker)
-    local starPos = attacker:GetShootPos()
-    local endPos = attacker:GetShootPos() + attacker:GetAimVector() * SCP_035_CONFIG.RangeImmobilize
-    local mins = Vector(-10, -10, -10)
-    local maxs = Vector(10, 10, 10)
+    local startPos = attacker:GetShootPos()
+    local dir = attacker:GetAimVector()
+    local angle = math.cos( math.rad( 22 ) )
 
-    local tr = util.TraceHull {
-        start = starPos,
-        endpos = endPos,
-        filter = attacker,
-        mins = mins,
-        maxs = maxs
-    }
-    local victim = tr.Entity
+    local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize, angle )
+    local victim = nil
+    for key, value in ipairs(foundEnts) do
+        if (value:IsPlayer() and value != attacker) then
+            victim = value
+            break
+        end
+    end
+
     local ReturnValue = false
 
     if (IsValid(victim)) then
@@ -73,7 +72,7 @@ end
 function scp_035.DropEntitie(ply)
     if (!IsValid(ply)) then return end
 
-    if (ply:HasWeapon("scp_035_swep") or ply.SCP035_IsWear) then
+    if (ply:HasWeapon("scp_035_swep") or ply.SCP035_IsWear or ply.SCP035_IsTransforming) then
 
         local ent = ents.Create( "scp_035_real" )
         ent:SetPos( ply:GetShootPos() + ply:GetAimVector() * 20 )
@@ -81,15 +80,20 @@ function scp_035.DropEntitie(ply)
         ent:Spawn()
         ent:Activate()
     end
-
-    ply.SCP035_IsWear = nil
 end
 
 function scp_035.RemoveEffectClient(ply)
     scp_035.DropEntitie(ply)
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_AffectByMask = nil
+    if (ply.SCP035_IsWear) then
+        ply:EmitSound("scp_035/rale_of_agony.mp3", 75, math.random(100, 110))
+    end
+    if (ply.SCP035_IsTransforming) then
+        ply:Freeze(false)
+    end
     ply.SCP035_IsWear = nil
+    ply.SCP035_IsTransforming = nil
     scp_035.SetTableClient(ply, "PlayersWearingMask", false)
 
     net.Start(SCP_035_CONFIG.RemoveEffectClient)

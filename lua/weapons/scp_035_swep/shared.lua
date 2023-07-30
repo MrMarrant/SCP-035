@@ -91,7 +91,6 @@ end
 -- 	return -1
 -- end
 
--- TODO : lui faire un effet psychodelique
 function SWEP:PrimaryAttack()
 	local curtime = CurTime()
 
@@ -127,7 +126,6 @@ function SWEP:Reload()
 	local NextIdle = VMAnim:SequenceDuration() / VMAnim:GetPlaybackRate() 
 	timer.Simple(NextIdle, function()
 		ply:Kill()
-		ply:EmitSound("scp_035/snap_neck.mp3", 75, math.random(100, 110)) -- TODO : changer le son
 	end)
 end
 
@@ -154,7 +152,7 @@ function SWEP:PutTheMask()
 	self:SendWeaponAnim( ACT_VM_DRAW )
 
 	self:SetCurentAnim()
-
+	ply.SCP035_IsTransforming = true
 	timer.Simple(self.CurentAnim, function()
         if(!IsValid(self)) then return end
         if(!IsValid(ply)) then return end
@@ -173,6 +171,7 @@ function SWEP:PutTheMask()
 			if(!ply:Alive()) then return end
 
 			ply.SCP035_IsWear = true
+			ply.SCP035_IsTransforming = false
 			scp_035.RemoveEffectProximity(ply)
 			if SERVER then 
 				ply:Freeze(false)
