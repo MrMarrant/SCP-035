@@ -86,6 +86,7 @@ function scp_035.RemoveEffectClient(ply)
     scp_035.DropEntitie(ply)
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_AffectByMask = nil
+    ply.SCP035_OutOfEffect = nil
     if (ply.SCP035_IsWear) then
         ply:EmitSound("scp_035/rale_of_agony.mp3", 75, math.random(100, 110))
     end
