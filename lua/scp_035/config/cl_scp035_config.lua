@@ -46,7 +46,7 @@ surface.CreateFont( "SCP035_Font6", {
     size = 25,
 } )
 surface.CreateFont( "SCP035_FontFinal", {
-    font = "DermaDefaultBold",
+    font = "Akbar",
     size = 150,
 } )
 SCP_035_CONFIG.FontEffect = {}

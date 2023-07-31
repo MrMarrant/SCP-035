@@ -71,7 +71,7 @@ hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask"
 
             cam.Start2D()
                 surface.SetDrawColor( Color(0,0,0, 250 * transparency * 0.2) )
-                surface.DrawRect( 0, 0, AEGIS_CONFIG.ScrW, AEGIS_CONFIG.ScrH )
+                surface.DrawRect( 0, 0, SCP_035_CONFIG.ScrW, SCP_035_CONFIG.ScrH )
             cam.End2D()
         end
         render.SetStencilEnable( false )
