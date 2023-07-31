@@ -96,6 +96,7 @@ function scp_035.RemoveEffectClient(ply)
     ply.SCP035_IsWear = nil
     ply.SCP035_IsTransforming = nil
     scp_035.SetTableClient(ply, "PlayersWearingMask", false)
+    timer.Remove("SetForcePutMask_SCP035_"..ply:EntIndex())
 
     net.Start(SCP_035_CONFIG.RemoveEffectClient)
     net.Send(ply)
@@ -153,4 +154,18 @@ end
 function scp_035.StartIdleSound(ply)
     net.Start(SCP_035_CONFIG.StartIdleSound)
     net.Send(ply)
+end
+
+function scp_035.SetForcePutMask(ply, ent)
+    local maxDialog = SCP_035_CONFIG.MaxDialogVersion
+    local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
+    local timerForcePutMask = timerToInfect + (timerToInfect/(maxDialog - 1)) + 6
+
+    timer.Create("SetForcePutMask_SCP035_"..ply:EntIndex(), timerForcePutMask, 1, function()
+        if(!IsValid(ply) or !IsValid(ent)) then return end
+        if(!ply.SCP035_AffectByMask or scp_035.IsSCP035(ply)) then return end
+
+        ply:Give("scp_035_swep")
+        ent:Remove()
+    end)
 end

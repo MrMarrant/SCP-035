@@ -42,8 +42,8 @@ function scp_035.GetInSpherePlayers(ent)
     return tableFilter, playersFound
 end
 
-/*
-* 
+/* Set the effects proximity to players nearby.
+* @entity ent
 * @table tablePlayers 
 */
 function scp_035.SetEffectsMask(ent, tablePlayers)
@@ -52,6 +52,9 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
         if (SERVER) then
             net.Start(SCP_035_CONFIG.SetEffectsMask)
             net.Send(value)
+            if (SCP_035_CONFIG.ForcePutMask:GetBool()) then
+                scp_035.SetForcePutMask(value, ent)
+            end
         end
         scp_035.CheckDistance(ent, value)
     end
