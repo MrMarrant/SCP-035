@@ -17,16 +17,18 @@
 if SERVER then return end
 
 function scp_035.DisplayMovingText(ply)
+    local maxDialog = SCP_035_CONFIG.MaxDialogVersion
     local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
-    local timerPhase = timerToInfect/#SCP_035_CONFIG.FontEffect
+    local timerPhase = timerToInfect/maxDialog
+    local timerFinalText = timerToInfect + (timerToInfect/(maxDialog - 1)) + 5
     local index = 1
     local TextTodisplay = {}
-    local DialogVersion = math.random(1, SCP_035_CONFIG.MaxDialogVersion)
-    for var = 1, 5 do
+    local DialogVersion = math.random(1, maxDialog)
+    for var = 1, maxDialog do
         TextTodisplay[var] = scp_035.TranslateLanguage(SCP_035_LANG, "TextDisplay_v"..DialogVersion.."_"..var)
     end
 
-    timer.Create("DisplayTextTimer_SCP035_"..ply:EntIndex(), 5, #TextTodisplay, function()
+    timer.Create("DisplayTextTimer_SCP035_"..ply:EntIndex(), 5, maxDialog, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_AffectByMask or ply.SCP035_IsWear or !ply:Alive()) then return end
 
@@ -37,7 +39,7 @@ function scp_035.DisplayMovingText(ply)
         index = index + 1
     end)
 
-    scp_035.DisPlayFinalText(ply, timerToInfect + timerPhase)
+    scp_035.DisPlayFinalText(ply, timerFinalText)
 end
 
 function scp_035.DisPlayFinalText(ply, delay)
