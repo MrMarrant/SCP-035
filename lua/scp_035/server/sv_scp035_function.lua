@@ -159,6 +159,7 @@ end
 function scp_035.SetForcePutMask(ply, ent)
     local maxDialog = SCP_035_CONFIG.MaxDialogVersion
     local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
+    --? First iteration is 5s (whatever the set) and final text display during 1s
     local timerForcePutMask = timerToInfect + (timerToInfect/(maxDialog - 1)) + 6
 
     timer.Create("SetForcePutMask_SCP035_"..ply:EntIndex(), timerForcePutMask, 1, function()
