@@ -16,6 +16,12 @@
 
 if SERVER then return end
 
+/* 
+* Loop sounds, it is use for mp3 file.
+* @Player ply
+* @string path
+* @number volume
+*/
 function scp_035.LoopingSound(ply, path, volume)
     local duration = SoundDuration( path )
 
@@ -32,6 +38,12 @@ function scp_035.LoopingSound(ply, path, volume)
     end)
 end
 
+/* 
+* It increase the volume of SCP035_SoundProximity, depend on the timedecay and the maxVolume.
+* @Player ply
+* @number maxVolume
+* @number timeDecay
+*/
 function scp_035.IncreaseVolume(ply, maxVolume, timeDecay)
     if(!ply.SCP035_SoundProximity) then return end
 

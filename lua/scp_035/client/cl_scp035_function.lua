@@ -16,6 +16,10 @@
 
 if SERVER then return end
 
+/* 
+* Display the moving text on screen player.
+* @Player ply
+*/
 function scp_035.DisplayMovingText(ply)
     local maxDialog = SCP_035_CONFIG.MaxDialogVersion
     local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
@@ -42,14 +46,22 @@ function scp_035.DisplayMovingText(ply)
     scp_035.DisPlayFinalText(ply, timerFinalText)
 end
 
+/* 
+* Display the final text & img/GIF depend on the delay set
+* @Player ply
+* @number delay
+*/
 function scp_035.DisPlayFinalText(ply, delay)
     timer.Create("DisplayFinalEffect_SCP035_"..ply:EntIndex(), delay, 1, function()
         if(!IsValid(ply)) then return end
         if(!ply.SCP035_AffectByMask or ply.SCP035_IsWear or !ply:Alive()) then return end
 
         ply:EmitSound( Sound( "scp_035/final_effect.mp3" ), 75, math.random( 100, 110 ) )
-        ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_1"), SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
-        ply.SCP035_SimpleText_2 = scp_035.DisPlaySimpleText(ply, scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_2"), SCP_035_CONFIG.ScrW * 0.8, SCP_035_CONFIG.ScrH * 0.3)
+        local TextFinal_1 = scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_1")
+        local TextFinal_2 = scp_035.TranslateLanguage(SCP_035_LANG, "FinalText_2")
+        --? Ugly asf, but hey, iam lazy to manage this with a clean way, and i use this method only here, so ...
+        ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, TextFinal_1, #TextFinal_2 > 4 and SCP_035_CONFIG.ScrW * 0.02 or SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
+        ply.SCP035_SimpleText_2 = scp_035.DisPlaySimpleText(ply, TextFinal_2, SCP_035_CONFIG.ScrW * 0.8, SCP_035_CONFIG.ScrH * 0.3)
         ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif")
         ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask_deform_v"..math.random(1, 3)..".png")
 
@@ -66,6 +78,13 @@ function scp_035.DisPlayFinalText(ply, delay)
     end)
 end
 
+/* 
+* Display the final text on screen player (don't knwo why i set it like this)
+* @Player ply
+* @string text
+* @number x
+* @number y
+*/
 function scp_035.DisPlaySimpleText(ply, text, x, y)
     SimpleText = vgui.Create("DLabel")
     SimpleText:SetSize( 500, 500 )
@@ -78,6 +97,11 @@ function scp_035.DisPlaySimpleText(ply, text, x, y)
     return SimpleText
 end
 
+/* 
+* Display an img on srceen player
+* @Player ply
+* @string material
+*/
 function scp_035.DisPlayIMG(ply, material)
     ImageObject = vgui.Create("DImage")
     ImageObject:SetSize(SCP_035_CONFIG.ScrW * 0.5, SCP_035_CONFIG.ScrH * 1.3)
@@ -88,8 +112,13 @@ function scp_035.DisPlayIMG(ply, material)
     return ImageObject
 end
 
+/* 
+* Display a gif on the screen of the player, it find the screen with an url.
+* @Player ply
+* @string material
+* @number alpha
+*/
 function scp_035.DisPlayGIF(ply, material, alpha)
-
     alpha = alpha or 1
     local width, height = SCP_035_CONFIG.ScrW + 100, SCP_035_CONFIG.ScrH + 100 --? Cant disabled overflow-y, dont know why again so i hide it in a more stupid way.
     StaticNoise = vgui.Create("DHTML")
@@ -113,6 +142,7 @@ end
 
 /*
 * Display a static noise gif that increment in alpha depend on the total time every 0.5s.
+* @Player ply
 */
 function scp_035.ProximityEffect(ply)
     local alpha = 0.01

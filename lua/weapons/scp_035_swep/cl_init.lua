@@ -18,5 +18,5 @@ include('shared.lua')
 
 SWEP.PrintName = "SCP-035 MindControl"
 SWEP.Author = "MrMarrant"
-SWEP.Purpose = "On verra"
+SWEP.Purpose = "Influence, my dear! Influence"
 SWEP.DrawCrosshair = false

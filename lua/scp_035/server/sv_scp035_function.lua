@@ -16,6 +16,12 @@
 
 if CLIENT then return end
 
+/* 
+* Fonction use by primary attack of the swep, it immobilise the first player found.
+* @Player ply
+* @string path
+* @number pitch
+*/
 function scp_035.ImmobilizeVictim(ply)
     ply:Freeze(true)
     ply.SCP035_IsImmobilize = true
@@ -30,6 +36,12 @@ function scp_035.ImmobilizeVictim(ply)
     end)
 end
 
+/* 
+* Fonction use by primary attack of the swep, it immobilise the first player found.
+* @Player ply
+* @string path
+* @number pitch
+*/
 function scp_035.PrimaryAttack(attacker)
     local startPos = attacker:GetShootPos()
     local dir = attacker:GetAimVector()
@@ -56,6 +68,13 @@ function scp_035.PrimaryAttack(attacker)
     return ReturnValue
 end 
 
+
+/* 
+* Play a sound client side on a player.
+* @Player ply
+* @string path
+* @number pitch
+*/
 function scp_035.PlaySoundToClient(ply, path, pitch)
     local pitch = pitch or 100
 
@@ -82,6 +101,10 @@ function scp_035.DropEntitie(ply)
     end
 end
 
+/* 
+* Remove every effects, var, sounds generate by this addon.
+* @Player ply
+*/
 function scp_035.RemoveEffectClient(ply)
     scp_035.DropEntitie(ply)
     ply.SCP035_IsImmobilize = nil
@@ -146,16 +169,29 @@ function scp_035.SetTableClient(ply, var, state)
     net.Broadcast()
 end
 
+/* 
+* Display the screen to transform clientside (Gif & sound)
+* @Player ply
+*/
 function scp_035.SetTranform(ply)
     net.Start(SCP_035_CONFIG.TransitionTransform)
     net.Send(ply)
 end
 
+/* 
+* Lauch the idle sound client side.
+* @Player ply
+*/
 function scp_035.StartIdleSound(ply)
     net.Start(SCP_035_CONFIG.StartIdleSound)
     net.Send(ply)
 end
 
+/* 
+* Force the mask to be put on a player nearby when the player reach the final stage.
+* @Player ply
+* @Entity ent
+*/
 function scp_035.SetForcePutMask(ply, ent)
     local maxDialog = SCP_035_CONFIG.MaxDialogVersion
     local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()

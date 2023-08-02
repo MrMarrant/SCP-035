@@ -23,7 +23,8 @@ SCP_035_CONFIG.LangServer = GetConVar("gmod_language"):GetString()
 SCP_035_CONFIG.MaxDialogVersion = 5 -- Don't increase the value if you didnt implement the number of version set.
 SCP_035_CONFIG.HandledLanguage = {
     "fr",
-    "en"
+    "en",
+    "ru"
 }
 
 SCP_035_CONFIG.PlayersWearingMask = {}

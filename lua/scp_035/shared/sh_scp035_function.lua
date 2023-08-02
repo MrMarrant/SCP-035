@@ -60,8 +60,12 @@ function scp_035.SetEffectsMask(ent, tablePlayers)
     end
 end
 
+/* 
+* It check if a player is still nearby the mask entitie, if not, remove the proximity effects.
+* @string ent
+* @Player ply
+*/
 function scp_035.CheckDistance(ent, ply)
-
     timer.Create("CheckDistance_SCP035_"..ply:EntIndex(), 0.1, 0, function()
         if (!IsValid(ply)) then return end
         if ( !ply.SCP035_AffectByMask or !ply:Alive()) then return end
@@ -89,6 +93,10 @@ function scp_035.CheckDistance(ent, ply)
     end)
 end
 
+/* 
+* Remove only the proximity effects from mask entitie.
+* @Player ply
+*/
 function scp_035.RemoveEffectProximity(ply)
     if (IsValid(ply.SCP035_ProximityEffect)) then
         ply.SCP035_ProximityEffect:Remove()

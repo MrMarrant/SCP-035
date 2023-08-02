@@ -16,12 +16,14 @@
 
 if CLIENT then return end
 
+-- Remove effect and drop mask if they have it
 hook.Add( "PlayerDeath", "PlayerDeath.Remove_SCP035", scp_035.RemoveEffectClient)
 
 hook.Add( "PlayerChangedTeam", "PlayerChangedTeam.Remove_SCP035", scp_035.RemoveEffectClient)
 
 hook.Add( "PlayerSpawn", "PlayerSpawn.Remove_SCP035", scp_035.RemoveEffectClient )
 
+-- Send to player the list of actual players who wear the mask client side.
 hook.Add( "PlayerInitialSpawn", "PlayerInitialSpawn.SCP035_LoadPossessor", function(ply)
     scp_035.GetTableClient(ply, "PlayersWearingMask", SCP_035_CONFIG.PlayersWearingMask)
 end)
