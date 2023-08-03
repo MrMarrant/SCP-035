@@ -57,6 +57,8 @@ hook.Add( "RenderScreenspaceEffects", "RenderScreenspaceEffects.SCP035_WearMask"
 
         for key, ent in ipairs(allPlayers) do
             if(!ent:IsPlayer()) then continue end
+            local isCloak = ent:GetColor().a == 0 and true or false -- If it is equal to 0, then the player is cloaked.
+            if(isCloak) then continue end
 
             render.ClearStencil()
             local range = ent:GetPos():Distance( EyePos() )

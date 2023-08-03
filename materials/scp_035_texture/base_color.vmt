@@ -3,7 +3,5 @@
 	"$basetexture" "scp_035_texture/base_color"
 
 	$bumpmap "scp_035_texture/normal_map"
-	$envmap "env_cubemap"
-	$envmaptint [.3 .3 .3]
-	$nocull 1
+	$phong 1
 }
