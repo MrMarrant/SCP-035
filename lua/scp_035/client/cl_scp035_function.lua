@@ -158,3 +158,11 @@ function scp_035.ProximityEffect(ply)
         ply.SCP035_ProximityEffect:Call('document.getElementById("gif-scp035").style.opacity = "'..alpha..'";')
     end)
 end
+
+function scp_035.LookAtMe(ply, ent)
+    if(ply:IsPlayer()) then
+        if (!scp_035.IsSCP035(ply) and ply:Alive()) then
+            ply:SetEyeAngles((ent:GetPos() - ply:GetShootPos()):Angle())
+        end
+    end
+end

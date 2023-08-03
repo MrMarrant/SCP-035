@@ -31,15 +31,15 @@ end
 * Function used for get every players in sphere and filter.
 * @Entity ent The Mask SCP035
 */
-function scp_035.GetInSpherePlayers(ent)
+function scp_035.GetInSpherePlayers(ent, radius)
     local tableFilter = {}
-    local playersFound = ents.FindInSphere( ent:GetPos(), SCP_035_CONFIG.RadiusEffect:GetInt() )
-    for key, value in ipairs(playersFound) do
+    local entsFound = ents.FindInSphere( ent:GetPos(), radius )
+    for key, value in ipairs(entsFound) do
         if (value:IsPlayer() and value:Alive() and !value.SCP035_AffectByMask and !scp_035.IsSCP035(value)) then
             table.insert(tableFilter, value)
         end
     end
-    return tableFilter, playersFound
+    return tableFilter, entsFound
 end
 
 /* Set the effects proximity to players nearby.

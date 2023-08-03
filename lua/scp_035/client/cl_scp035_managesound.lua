@@ -60,6 +60,10 @@ function scp_035.IncreaseVolume(ply, maxVolume, timeDecay)
     end)
 end
 
+/* --! I should add a new params who ask with value to end.
+* End SCP035_SoundProximity.
+* @Player ply
+*/
 function scp_035.EndSound(ply)
     if(!ply.SCP035_SoundProximity) then return end
 

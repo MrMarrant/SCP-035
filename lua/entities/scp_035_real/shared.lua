@@ -23,8 +23,12 @@ ENT.Spawnable = true
 ENT.Category = "SCP"
 
 function ENT:Think()
-	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, true)
+	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.RadiusEffect:GetInt())
 
 	scp_035.SetEffectsMask(self, FilterTable)
-    if CLIENT then self:LookAtMe(NonFilterTable) end
+    if CLIENT then
+		for key, value in ipairs(NonFilterTable) do
+			scp_035.LookAtMe(value, self)
+		end
+	end
 end

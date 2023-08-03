@@ -126,3 +126,16 @@ hook.Add( "PostPlayerDraw" , "PostPlayerDraw.SCP035_DrawMask" , function( ply )
         modelMask:DrawModel()
     end
 end)
+
+hook.Add("RenderScreenspaceEffects","RenderScreenspaceEffects.SCP035_BlurryVision" , function()
+    local ply = LocalPlayer()
+    local curTime = FrameTime()
+
+    if ply.SCP035_AffectBySecondary then 
+        local AddAlpha = 0.4
+        local DrawAlpha = 0.5
+        local Delay = 0.05
+        local ColorDrain = 0
+        DrawMotionBlur( AddAlpha, DrawAlpha, Delay )
+    end
+end)

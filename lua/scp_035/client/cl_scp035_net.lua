@@ -31,6 +31,7 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
     ply:StopSound("scp_035/idle_sound.wav" )
     ply:StopSound("scp_035/static_noise.mp3" )
     ply:StopSound("scp_035/transform_mask.mp3")
+    ply.SCP035_AffectBySecondary = nil
     ply.SCP035_SoundProximity = nil
     ply.SCP035_SoundProximityVolume = nil
     ply.SCP035_IsImmobilize = nil
@@ -65,6 +66,8 @@ end)
 net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
     local ply = LocalPlayer()
 
+    if (!IsValid(ply)) then return end
+
     scp_035.DisplayMovingText(ply)
     scp_035.ProximityEffect(ply)
     scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
@@ -98,4 +101,21 @@ net.Receive(SCP_035_CONFIG.StartIdleSound, function ( )
         ply.SCP035_TransitionTransform = nil
     end
     ply:StartLoopingSound("scp_035/idle_sound.wav" )
+end)
+
+net.Receive(SCP_035_CONFIG.AffectBySecondary, function ( )
+    local ply = LocalPlayer()
+    local ent = net.ReadEntity()
+
+    if (ply == ent) then return end
+
+    scp_035.LookAtMe(ply, ent)
+    ply:EmitSound("scp_035/look_at_me.mp3", 75)
+    ply.SCP035_AffectBySecondary = true
+
+    timer.Simple(5, function()
+        if (!IsValid(ply)) then return end
+
+        ply.SCP035_AffectBySecondary = nil
+    end)
 end)
