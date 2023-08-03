@@ -37,6 +37,10 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
     ply.SCP035_IsImmobilize = nil
     ply.SCP035_IsWear = nil
     ply.SCP035_AffectByMask = nil
+    if (ply.SCP035_PannelDisplayText) then
+        ply.SCP035_PannelDisplayText:Remove()
+        ply.SCP035_PannelDisplayText = nil
+    end
     if (ply.SCP035_TransitionTransform) then 
         ply.SCP035_TransitionTransform:Remove()
         ply.SCP035_TransitionTransform = nil 
