@@ -141,3 +141,18 @@ hook.Add("RenderScreenspaceEffects","RenderScreenspaceEffects.SCP035_BlurryVisio
         DrawMotionBlur( AddAlpha, DrawAlpha, Delay )
     end
 end)
+
+hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
+    spawnmenu.AddToolMenuOption("Utilities", "SCP 035 Real", "SCP035_MenuConfig", "Settings", "", "", function(panel)
+        panel:Clear()
+
+        panel:CheckBox("Enabled", "SCP035_ForcePutMask")
+        panel:ControlHelp("If enable, force the mask to be put on the player around when a player reach the final stage")
+
+        panel:NumSlider("Define the radius effect of the Secondary Attack SWEP from SCP-035", "SCP035_RadiusLaugh", 50, 9999)
+        panel:NumSlider("The maximum distance at which the effect of the SCP-035 entity can affect players", "SCP035_RadiusEffect", 50, 9999)
+        panel:NumSlider("The maximum distance at which SCP-035's SWEP can freeze a player", "SCP035_RangeImmobilize", 10, 9999)
+        panel:NumSlider("The freeze time of a player affected by SCP-035's SWEP", "SCP035_DurationImmobilize", 1, 60)
+        panel:NumSlider("The total time taken for the SCP-035 effect to reach the final stage", "SCP035_TimeTotalEffect", 10, 180)
+    end)
+end)
