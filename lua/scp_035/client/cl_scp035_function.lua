@@ -166,3 +166,21 @@ function scp_035.LookAtMe(ply, ent)
         end
     end
 end
+
+function scp_035.SetConvarInt(name, value, ply)
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then --? Just for avoid to spam net message, we check server side to.
+        net.Start(SCP_035_CONFIG.SetConvarInt)
+            net.WriteString(name)
+            net.WriteUInt(value, 14)
+        net.SendToServer()
+    end
+end
+
+function scp_035.SetConvarBool(name, value, ply)
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then --? Just for avoid to spam net message, we check server side to.
+        net.Start(SCP_035_CONFIG.SetConvarBool)
+            net.WriteString(name)
+            net.WriteBool(value)
+        net.SendToServer()
+    end
+end

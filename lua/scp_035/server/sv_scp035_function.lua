@@ -206,3 +206,19 @@ function scp_035.SetForcePutMask(ply, ent)
         ent:Remove()
     end)
 end
+
+net.Receive(SCP_035_CONFIG.SetConvarInt, function ( len, ply )
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then
+        local name = net.ReadString()
+        local value = net.ReadUInt(14)
+        SCP_035_CONFIG[name]:SetInt(value)
+    end
+end)
+
+net.Receive(SCP_035_CONFIG.SetConvarBool, function ( len, ply )
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then
+        local name = net.ReadString()
+        local value = net.ReadBool()
+        SCP_035_CONFIG[name]:SetBool(value)
+    end
+end)

@@ -40,6 +40,8 @@ SCP_035_CONFIG.SetTableClient = "SCP_035_CONFIG.SetTableClient"
 SCP_035_CONFIG.TransitionTransform = "SCP_035_CONFIG.TransitionTransform"
 SCP_035_CONFIG.StartIdleSound = "SCP_035_CONFIG.StartIdleSound"
 SCP_035_CONFIG.AffectBySecondary = "SCP_035_CONFIG.AffectBySecondary"
+SCP_035_CONFIG.SetConvarInt = "SCP_035_CONFIG.SetConvarInt"
+SCP_035_CONFIG.SetConvarBool = "SCP_035_CONFIG.SetConvarBool"
 
 scp_035.LoadLanguage(SCP_035_CONFIG.RootFolder.."language/", SCP_035_CONFIG.HandledLanguage, SCP_035_LANG)
 scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."shared/")
