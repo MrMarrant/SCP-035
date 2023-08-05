@@ -224,22 +224,24 @@ function scp_035.SetConvarClientSide(name, value, ply)
     end
 end
 
+-- Set Convar Int for the client side
 net.Receive(SCP_035_CONFIG.SetConvarInt, function ( len, ply )
     if (ply:IsSuperAdmin() or game.SinglePlayer()) then
         local name = net.ReadString()
         local value = net.ReadUInt(14)
         SCP_035_CONFIG[name]:SetInt(value)
 
-        scp_035.SetConvarClientSide(name, value)
+        scp_035.SetConvarClientSide('Client'..name, value) --? The value clientside start with Client
     end
 end)
 
+-- Set Convar Bool for the client side
 net.Receive(SCP_035_CONFIG.SetConvarBool, function ( len, ply )
     if (ply:IsSuperAdmin() or game.SinglePlayer()) then
         local name = net.ReadString()
         local value = net.ReadBool()
         SCP_035_CONFIG[name]:SetBool(value)
 
-        scp_035.SetConvarClientSide(name, value)
+        scp_035.SetConvarClientSide('Client'..name, value) --? The value clientside start with Client
     end
 end)

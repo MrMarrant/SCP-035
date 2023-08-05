@@ -19,6 +19,14 @@ if SERVER then return end
 SCP_035_CONFIG.ScrW = ScrW()
 SCP_035_CONFIG.ScrH = ScrH()
 
+--? Default Value Convar
+SCP_035_CONFIG.ClientRadiusEffect = 100
+SCP_035_CONFIG.ClientRangeImmobilize = 300
+SCP_035_CONFIG.ClientDurationImmobilize = 5
+SCP_035_CONFIG.ClientTimeTotalEffect = 80
+SCP_035_CONFIG.ClientForcePutMask = 0
+SCP_035_CONFIG.ClientRadiusLaugh = 300
+
 -- 
 surface.CreateFont( "SCP035_Font1", {
     font = "Arial",
