@@ -23,7 +23,7 @@ ENT.Spawnable = true
 ENT.Category = "SCP"
 
 function ENT:Think()
-	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.RadiusEffect:GetInt())
+	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.ClientRadiusEffect or SCP_035_CONFIG.RadiusEffect:GetInt()) --? Yeah, its shit, it depend on if its client or server.
 
 	scp_035.SetEffectsMask(self, FilterTable)
     if CLIENT then

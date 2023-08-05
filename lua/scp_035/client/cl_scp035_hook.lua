@@ -141,3 +141,83 @@ hook.Add("RenderScreenspaceEffects","RenderScreenspaceEffects.SCP035_BlurryVisio
         DrawMotionBlur( AddAlpha, DrawAlpha, Delay )
     end
 end)
+
+hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
+    spawnmenu.AddToolMenuOption("Utilities", "SCP 035 Real", "SCP035_MenuConfig", "Settings", "", "", function(panel)
+        local ply = LocalPlayer()
+        local SCP035_ForcePutMask = vgui.Create("DCheckBoxLabel")
+        SCP035_ForcePutMask:SetPos( 5, 5 )
+        SCP035_ForcePutMask:SetText("")
+        SCP035_ForcePutMask:SizeToContents()
+        SCP035_ForcePutMask:SetValue( SCP_035_CONFIG.ClientForcePutMask )
+        SCP035_ForcePutMask.OnChange = function(CheckBox, val)
+            scp_035.SetConvarBool("ForcePutMask", val, ply)
+        end
+        SCP035_ForcePutMask.Paint = function(CheckBox, w, h)
+            draw.DrawText( "If enable, force the mask to be put on the player around when a player reach the final stage", "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 153, 255), TEXT_ALIGN_LEFT )
+        end
+
+        local SCP035_RangeImmobilize = vgui.Create("DNumSlider")
+        SCP035_RangeImmobilize:SetPos( 5, 5 )
+        SCP035_RangeImmobilize:SetSize( 100, 20 )
+        SCP035_RangeImmobilize:SetMinMax( 100, 9999 )
+        SCP035_RangeImmobilize:SetDecimals( 0 )
+        SCP035_RangeImmobilize:SetValue( SCP_035_CONFIG.ClientRangeImmobilize )
+        SCP035_RangeImmobilize.OnValueChanged = function(NumSlider, val)
+            scp_035.SetConvarInt("RangeImmobilize", val, ply)
+        end
+
+        local SCP035_DurationImmobilize = vgui.Create("DNumSlider")
+        SCP035_DurationImmobilize:SetPos( 5, 5 )
+        SCP035_DurationImmobilize:SetSize( 100, 20 )
+        SCP035_DurationImmobilize:SetMinMax( 1, 60 )
+        SCP035_DurationImmobilize:SetDecimals( 0 )
+        SCP035_DurationImmobilize:SetValue( SCP_035_CONFIG.ClientDurationImmobilize )
+        SCP035_DurationImmobilize.OnValueChanged = function(NumSlider, val)
+            scp_035.SetConvarInt("DurationImmobilize", val, ply)
+        end
+
+        local SCP035_RadiusLaugh = vgui.Create("DNumSlider")
+        SCP035_RadiusLaugh:SetPos( 5, 5 )
+        SCP035_RadiusLaugh:SetSize( 100, 20 )
+        SCP035_RadiusLaugh:SetMinMax( 50, 9999 )
+        SCP035_RadiusLaugh:SetDecimals( 0 )
+        SCP035_RadiusLaugh:SetValue( SCP_035_CONFIG.ClientRadiusLaugh )
+        SCP035_RadiusLaugh.OnValueChanged = function(NumSlider, val)
+            scp_035.SetConvarInt("RadiusLaugh", val, ply)
+        end
+
+        local SCP035_RadiusEffect = vgui.Create("DNumSlider")
+        SCP035_RadiusEffect:SetPos( 5, 5 )
+        SCP035_RadiusEffect:SetSize( 100, 20 )
+        SCP035_RadiusEffect:SetMinMax( 50, 9999 )
+        SCP035_RadiusEffect:SetDecimals( 0 )
+        SCP035_RadiusEffect:SetValue( SCP_035_CONFIG.ClientRadiusEffect )
+        SCP035_RadiusEffect.OnValueChanged = function(NumSlider, val)
+            scp_035.SetConvarInt("RadiusEffect", val, ply)
+        end
+
+        local SCP035_TimeTotalEffect = vgui.Create("DNumSlider")
+        SCP035_TimeTotalEffect:SetPos( 5, 5 )
+        SCP035_TimeTotalEffect:SetSize( 100, 20 )
+        SCP035_TimeTotalEffect:SetMinMax( 10, 180 )
+        SCP035_TimeTotalEffect:SetDecimals( 0 )
+        SCP035_TimeTotalEffect:SetValue( SCP_035_CONFIG.ClientTimeTotalEffect )
+        SCP035_TimeTotalEffect.OnValueChanged = function(NumSlider, val)
+            scp_035.SetConvarInt("TimeTotalEffect", val, ply)
+        end
+
+        panel:Clear()
+        panel:AddItem(SCP035_ForcePutMask)
+        panel:Help( "The maximum distance at which SCP-035's SWEP can freeze a player" )
+        panel:AddItem(SCP035_RangeImmobilize)
+        panel:Help( "The freeze time of a player affected by SCP-035's SWEP" )
+        panel:AddItem(SCP035_DurationImmobilize)
+        panel:Help( "Define the radius effect of the Secondary Attack SWEP from SCP-035" )
+        panel:AddItem(SCP035_RadiusLaugh)
+        panel:Help( "The maximum distance at which the effect of the SCP-035 entity can affect players" )
+        panel:AddItem(SCP035_RadiusEffect)
+        panel:Help( "The total time taken for the SCP-035 effect to reach the final stage" )
+        panel:AddItem(SCP035_TimeTotalEffect)
+    end)
+end)

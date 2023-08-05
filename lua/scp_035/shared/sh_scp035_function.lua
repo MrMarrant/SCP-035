@@ -72,7 +72,7 @@ function scp_035.CheckDistance(ent, ply)
         if (!IsValid(ent)) then scp_035.RemoveEffectProximity(ply) return end
 
         local distanceMask = ent:GetPos():Distance( ply:GetPos() )
-        if ( distanceMask > SCP_035_CONFIG.RadiusEffect:GetInt() + 20 ) then
+        if ( distanceMask > (SCP_035_CONFIG.ClientRadiusEffect or SCP_035_CONFIG.RadiusEffect:GetInt()) + 20 ) then
             if (!timer.Exists("DissipatesEffect_SCP035_"..ply:EntIndex())) then
                 timer.Create("DissipatesEffect_SCP035_"..ply:EntIndex(), 0.1, 1, function()
                     if(!IsValid(ply)) then return end

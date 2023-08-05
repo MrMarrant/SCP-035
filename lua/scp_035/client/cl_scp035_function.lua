@@ -22,7 +22,7 @@ if SERVER then return end
 */
 function scp_035.DisplayMovingText(ply)
     local maxDialog = SCP_035_CONFIG.MaxDialogVersion
-    local timerToInfect = SCP_035_CONFIG.TimeTotalEffect:GetInt()
+    local timerToInfect = SCP_035_CONFIG.ClientTimeTotalEffect
     local timerPhase = timerToInfect/maxDialog
     local timerFinalText = timerToInfect + (timerToInfect/(maxDialog - 1)) + 5
     local index = 1
@@ -146,7 +146,7 @@ end
 */
 function scp_035.ProximityEffect(ply)
     local alpha = 0.01
-    local repetitions = SCP_035_CONFIG.TimeTotalEffect:GetInt() * 2
+    local repetitions = SCP_035_CONFIG.ClientTimeTotalEffect * 2
     local incrementAlpha = 0.3/repetitions
 
     ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", alpha)
@@ -164,5 +164,23 @@ function scp_035.LookAtMe(ply, ent)
         if (!scp_035.IsSCP035(ply) and ply:Alive()) then
             ply:SetEyeAngles((ent:GetPos() - ply:GetShootPos()):Angle())
         end
+    end
+end
+
+function scp_035.SetConvarInt(name, value, ply)
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then --? Just for avoid to spam net message, we check server side to.
+        net.Start(SCP_035_CONFIG.SetConvarInt)
+            net.WriteString(name)
+            net.WriteUInt(value, 14)
+        net.SendToServer()
+    end
+end
+
+function scp_035.SetConvarBool(name, value, ply)
+    if (ply:IsSuperAdmin() or game.SinglePlayer()) then --? Just for avoid to spam net message, we check server side to.
+        net.Start(SCP_035_CONFIG.SetConvarBool)
+            net.WriteString(name)
+            net.WriteBool(value)
+        net.SendToServer()
     end
 end
