@@ -207,11 +207,30 @@ function scp_035.SetForcePutMask(ply, ent)
     end)
 end
 
+/* 
+* 
+* @string name
+* @number value
+*/
+function scp_035.SetConvarClientSide(name, value, ply)
+    if (type( value ) == "boolean") then value = value and 1 or 0 end
+    net.Start(SCP_035_CONFIG.SetConvarClientSide)
+        net.WriteString(name)
+        net.WriteUInt(value, 14)
+    if (ply) then
+        net.Send(ply)
+    else
+        net.Broadcast()
+    end
+end
+
 net.Receive(SCP_035_CONFIG.SetConvarInt, function ( len, ply )
     if (ply:IsSuperAdmin() or game.SinglePlayer()) then
         local name = net.ReadString()
         local value = net.ReadUInt(14)
         SCP_035_CONFIG[name]:SetInt(value)
+
+        scp_035.SetConvarClientSide(name, value)
     end
 end)
 
@@ -220,5 +239,7 @@ net.Receive(SCP_035_CONFIG.SetConvarBool, function ( len, ply )
         local name = net.ReadString()
         local value = net.ReadBool()
         SCP_035_CONFIG[name]:SetBool(value)
+
+        scp_035.SetConvarClientSide(name, value)
     end
 end)

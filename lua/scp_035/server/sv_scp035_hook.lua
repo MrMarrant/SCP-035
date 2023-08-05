@@ -26,4 +26,10 @@ hook.Add( "PlayerSpawn", "PlayerSpawn.Remove_SCP035", scp_035.RemoveEffectClient
 -- Send to player the list of actual players who wear the mask client side.
 hook.Add( "PlayerInitialSpawn", "PlayerInitialSpawn.SCP035_LoadPossessor", function(ply)
     scp_035.GetTableClient(ply, "PlayersWearingMask", SCP_035_CONFIG.PlayersWearingMask)
+    scp_035.SetConvarClientSide("ClientRadiusEffect", SCP_035_CONFIG.RadiusEffect:GetInt(), ply)
+    scp_035.SetConvarClientSide("ClientRangeImmobilize", SCP_035_CONFIG.RangeImmobilize:GetInt(), ply)
+    scp_035.SetConvarClientSide("ClientDurationImmobilize", SCP_035_CONFIG.DurationImmobilize:GetInt(), ply)
+    scp_035.SetConvarClientSide("ClientTimeTotalEffect", SCP_035_CONFIG.TimeTotalEffect:GetInt(), ply)
+    scp_035.SetConvarClientSide("ClientForcePutMask", SCP_035_CONFIG.ForcePutMask:GetBool(), ply)
+    scp_035.SetConvarClientSide("ClientRadiusLaugh", SCP_035_CONFIG.RadiusLaugh:GetInt(), ply)
 end)

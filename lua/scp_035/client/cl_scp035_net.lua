@@ -53,10 +53,10 @@ net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
     local ply = LocalPlayer()
 
     ply:EmitSound("scp_035/static_noise.mp3")
-    util.ScreenShake( Vector(0, 0, 0), 20, 300, SCP_035_CONFIG.DurationImmobilize:GetInt(), 0 )
+    util.ScreenShake( Vector(0, 0, 0), 20, 300, SCP_035_CONFIG.ClientDurationImmobilize, 0 )
     ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", 0.6)
 
-    timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.DurationImmobilize:GetInt(), 1, function()
+    timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.ClientDurationImmobilize, 1, function()
         if (!IsValid(ply)) then return end
 
         if (ply.SCP035_AffectByPrimary) then
@@ -75,7 +75,7 @@ net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
     scp_035.DisplayMovingText(ply)
     scp_035.ProximityEffect(ply)
     scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
-    scp_035.IncreaseVolume(ply, 0.7, SCP_035_CONFIG.TimeTotalEffect:GetInt())
+    scp_035.IncreaseVolume(ply, 0.7, SCP_035_CONFIG.ClientTimeTotalEffect)
 end)
 
 -- It Set the table on client side of the player who receive the net message.
@@ -122,4 +122,10 @@ net.Receive(SCP_035_CONFIG.AffectBySecondary, function ( )
 
         ply.SCP035_AffectBySecondary = nil
     end)
+end)
+
+net.Receive(SCP_035_CONFIG.SetConvarClientSide, function ()
+    local name = net.ReadString()
+    local value = net.ReadUInt(14)
+    SCP_035_CONFIG[name] = value
 end)
