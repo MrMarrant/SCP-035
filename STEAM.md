@@ -7,13 +7,13 @@
 [h2]Features[/h2]
 SCP-035 appears to be a white porcelain comedy mask.
 
-Humanoid subjects of SCP-035, or in visual contact with it, experience a strong urge to put it on. When SCP-035 is placed on the face of an individual, an alternate brain wave pattern from SCP-035 overlaps that of the original host, effectively snuffing it out and causing brain death to the subject. 
+Humanoid subjects of SCP-035, or in visual contact with it, experience a strong urge to put it on. 
+When SCP-035 is placed on the face of an individual, an alternate brain wave pattern from SCP-035 overlaps that of the original host, effectively snuffing it out and causing brain death to the subject. 
 Subject then claims to be the consciousness contained within SCP-035.
 
 [img]https://i.imgur.com/uq1SB8T.jpg[/img]
 
 The aim of this addon was to remake the SCP-035 entity in its entirety, but with more immersive effects, in a desire to bring the experience closer to the original.
-It features numerous sounds for effects, interactions and ambience and custom animations and model.
 
 [h3]ENTITY[/h3]
 
@@ -50,10 +50,12 @@ With the SWEP, you'll have access to 3 functions:
 [b]Primary[/b] (Left Click) :
 You freeze the first player in front of you for a few seconds, with a visual and audio effect on the victim.
 
-[img]https://i.imgur.com/GsWKUq3.gif[/img]
+[img]https://i.imgur.com/YTyuBwB.gif[/img]
 
 [b]Secondary[/b] (Right Click) :
-You laugh, SCP-035 has a psychopatic personality, so that makes sense to me 🤔
+You laugh and all the players around you, depending on the value indicated on the [i]SCP035_RadiusLaugh[/i] convar, will look at you and have a visual and audio effect.
+
+[img]https://i.imgur.com/IqQQe1T.gif[/img]
 
 [b]Reload[/b] (R Touch) :
 You're committing suicide, literally 💀
@@ -108,15 +110,24 @@ There are a number of Convars that allow you to configure the addon on several e
 [td]0[/td]
 [td]1[/td]
 [/tr]
+[tr]
+[td]SCP035_RadiusLaugh[/td]
+[td]Define the radius effect of the Secondary Attack SWEP from SCP-035[/td]
+[td]300[/td]
+[td]50[/td]
+[td]9999[/td]
+[/tr]
 [/table]
 
-All these values can only be modified from your server console.
+All these values can only be modified from your server console or you can edit them in the props menu if you are Super Admin (Utilities/SCP 035 Real/Settings)
 
 [h2]Languages[/h2]
-Two languages are currently supported:
+Four languages are currently supported:
 [list]
 [*]  French
 [*]  English
+[*]  Russian 
+[*]  Chinese
 [/list]
 Send me a request if you want me to integrate other languages.
 
@@ -146,18 +157,13 @@ All, normally, let me know if this is not the case, but I haven't used any speci
 
 [h2]Credits[/h2]
 [list]
+[*] All the contents can be found [url=https://pastebin.com/mH8ErrgQ]here[/url].
 [*] Huge thanks again to [url=https://steamcommunity.com/id/NORA_Blend/]Pecel[/url] for greatly improving the SWEP animations, go check his work [url=https://steamcommunity.com/id/NORA_Blend/myworkshopfiles/]here[/url].
 [*] Joonas Rikkonen for the model mask of SCP-035 from the SCP: CB game and ATGAZ for the export of the model on sketchfab, you can get it [url=https://sketchfab.com/3d-models/035-mask-a33a0a3b37ec4737b688f0dd27f13c88]here[/url].
 [*] Lord_Fr3ze, for the map used for somes gif and screenshoot, you can found it [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1989465042]here[/url].
-[*] deleted_user_3667256, for the sound of the static noise TV, you can get it [url=https://freesound.org/people/deleted_user_3667256/sounds/319846/]here[/url].
-[*] TheSoundFXGuy_YT, for the sound of the idle sound of SCP-035, you can get it [url=https://freesound.org/people/TheSoundFXGuy_YT/sounds/534222/]here[/url].
-[*] Vidiveni, for one of the laugh sound, you can get it [url=https://freesound.org/people/Vidiveni/sounds/543652/]here[/url].
-[*] ryanconway, for one of the laugh sound, you can get it [url=https://freesound.org/people/ryanconway/sounds/239579/]here[/url].
-[*] jvmyka@gmail.com, for one of the laugh sound, you can get it [url=https://freesound.org/people/jvmyka@gmail.com/sounds/539540/]here[/url].
-[*] MATRIXXX_, for the sound when you get out of the range of the effect from the entity SCP-035 , you can get it [url=https://freesound.org/people/MATRIXXX_/sounds/657538/]here[/url].
-[*] klankbeeld for the sound when you transform into SCP-035, you can get it [url=https://freesound.org/people/klankbeeld/sounds/171078/]here[/url].
-[*] ClownCore, i use a (very) short extract from their sound Hell, you can hear it [url=https://www.youtube.com/watch?v=hT7x1NvGf5k]here[/url], If you like the very bordeline music, I highly recommend them.
 [*] [url=https://steamcommunity.com/id/nogitsu]Nogitsu[/url] to help me find a better way to put the mask model on players.
+[*] [url=https://steamcommunity.com/profiles/76561198830175369/]Vergil[/url] for the Russian translation.
+[*] [url=https://steamcommunity.com/profiles/76561198814513297/]D14134[/url] for the Chinese translation.
 [/list]
 
 
