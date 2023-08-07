@@ -49,3 +49,12 @@ SCP_035_LANG.en.TextDisplay_v5_5 = "And you'll get information beyond your wilde
 
 SCP_035_LANG.en.FinalText_1 = "TAKE"
 SCP_035_LANG.en.FinalText_2 = "ME"
+
+-- Settings Text
+SCP_035_LANG.en.SCP035_WarningSettings = "Only Super Admins can change these values, all other roles will do nothing."
+SCP_035_LANG.en.SCP035_TimeTotalEffect = "The total time taken for the SCP-035 proximity effect to reach the final stage"
+SCP_035_LANG.en.SCP035_ForcePutMask = "If enable, force the mask to be put on the player around when a player reach the final stage"
+SCP_035_LANG.en.SCP035_RangeImmobilize = "The maximum distance at which SCP-035's SWEP can freeze a player"
+SCP_035_LANG.en.SCP035_DurationImmobilize = "The freeze time of a player affected by SCP-035's SWEP"
+SCP_035_LANG.en.SCP035_RadiusLaugh = "Define the radius effect of the Secondary Attack SWEP from SCP-035"
+SCP_035_LANG.en.SCP035_RadiusEffect = "The maximum distance at which the proximity effect of SCP-035 entity can affect players"

@@ -49,3 +49,12 @@ SCP_035_LANG["zh-CN"].TextDisplay_v5_5 = "你将获得超乎你想象的知识"
 
 SCP_035_LANG["zh-CN"].FinalText_1 = "拿"
 SCP_035_LANG["zh-CN"].FinalText_2 = "我"
+
+-- Settings Text
+SCP_035_LANG["zh-CN"].SCP035_WarningSettings = "只有超级管理员可以更改这些值,所有其他玩家都无法更改"
+SCP_035_LANG["zh-CN"].SCP035_TimeTotalEffect = "SCP-035 效果达到最终阶段所需的时间"
+SCP_035_LANG["zh-CN"].SCP035_ForcePutMask = "如果启用,当玩家到达最后阶段时,会强制玩家戴上面具"
+SCP_035_LANG["zh-CN"].SCP035_RangeImmobilize = "SCP035SWEP可以冻结玩家的最大距离"
+SCP_035_LANG["zh-CN"].SCP035_DurationImmobilize = "受 SCP-035 SWEP 影响的玩家的冻结时间"
+SCP_035_LANG["zh-CN"].SCP035_RadiusLaugh = "SCP035 SWEP次要攻击的半径效果"
+SCP_035_LANG["zh-CN"].SCP035_RadiusEffect = "SCP-035 实体影响玩家的最大距离"

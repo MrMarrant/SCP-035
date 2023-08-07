@@ -48,3 +48,12 @@ SCP_035_LANG.ru.TextDisplay_v5_4 = "тебя ждет беспрецедентн
 SCP_035_LANG.ru.TextDisplay_v5_5 = "И ты получишь информацию, превосходящую твои даже самые безумные фантазии"
 SCP_035_LANG.ru.FinalText_1 = "ВОЗЬМИ"
 SCP_035_LANG.ru.FinalText_2 = "МЕНЯ"
+
+-- Settings Text
+SCP_035_LANG.ru.SCP035_WarningSettings = "Only Super Admins can change these values, all other roles will do nothing."
+SCP_035_LANG.ru.SCP035_TimeTotalEffect = "The total time taken for the SCP-035 proximity effect to reach the final stage"
+SCP_035_LANG.ru.SCP035_ForcePutMask = "If enable, force the mask to be put on the player around when a player reach the final stage"
+SCP_035_LANG.ru.SCP035_RangeImmobilize = "The maximum distance at which SCP-035's SWEP can freeze a player"
+SCP_035_LANG.ru.SCP035_DurationImmobilize = "The freeze time of a player affected by SCP-035's SWEP"
+SCP_035_LANG.ru.SCP035_RadiusLaugh = "Define the radius effect of the Secondary Attack SWEP from SCP-035"
+SCP_035_LANG.ru.SCP035_RadiusEffect = "The maximum distance at which the proximity effect of SCP-035 entity can affect players"

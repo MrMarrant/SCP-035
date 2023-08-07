@@ -49,3 +49,12 @@ SCP_035_LANG.fr.TextDisplay_v5_5 = "Et vous obtiendrez des informations qui dép
 
 SCP_035_LANG.fr.FinalText_1 = "PREND"
 SCP_035_LANG.fr.FinalText_2 = "MOI"
+
+-- Settings Text
+SCP_035_LANG.fr.SCP035_WarningSettings = "Seuls les Super Admins peuvent modifier ces valeurs, les autres rôles n'auront aucun effet sur ces valeurs."
+SCP_035_LANG.fr.SCP035_TimeTotalEffect = "Le temps total nécessaire pour que l'effet de proximité de SCP-035 atteigne le stade final"
+SCP_035_LANG.fr.SCP035_ForcePutMask = "Si activé, force le masque à être mis sur le joueur lorsqu'un joueur atteint le stade finale"
+SCP_035_LANG.fr.SCP035_RangeImmobilize = "La distance maximale à laquelle le SWEP de SCP-035 peut freeze un joueur"
+SCP_035_LANG.fr.SCP035_DurationImmobilize = "Le temps d'immobilisation d'un joueur affecté par le SWEP de SCP-035"
+SCP_035_LANG.fr.SCP035_RadiusLaugh = "Définit le rayon d'action de l'attaque secondaire du SWEP de SCP-035"
+SCP_035_LANG.fr.SCP035_RadiusEffect = "La distance maximale à laquelle l'effet de proximité de SCP-035 peut affecter les joueurs"
