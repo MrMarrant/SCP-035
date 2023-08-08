@@ -50,7 +50,7 @@ function scp_035.PrimaryAttack(attacker)
     local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize:GetInt(), angle )
     local victim = nil
     for key, value in ipairs(foundEnts) do
-        if (value:IsPlayer() and value != attacker) then
+        if ((value:IsPlayer() or value:IsNPC() or value:IsNextBot()) and value != attacker) then
             victim = value
             break
         end
@@ -61,6 +61,10 @@ function scp_035.PrimaryAttack(attacker)
     if (IsValid(victim)) then
         if (victim:IsPlayer()) then
             scp_035.ImmobilizeVictim(victim)
+            ReturnValue = true
+        end
+        if (victim:IsNPC() or victim:IsNextBot()) then
+            scp_035.FreezeNPC(victim)
             ReturnValue = true
         end
     end
@@ -222,6 +226,122 @@ function scp_035.SetConvarClientSide(name, value, ply)
     else
         net.Broadcast()
     end
+end
+
+/* 
+* Method for freeze NPC
+* @NPC NPCTarget The NPC to freeze
+*/
+function scp_035.FreezeNPC(NPCTarget)
+    local RagNPC = ents.Create( "prop_ragdoll" )
+    if not RagNPC:IsValid() then return end
+
+    PrintTable(NPCTarget:GetAttachments())
+    local NPCWeapon = NPCTarget:GetActiveWeapon()
+    local NPCPos = NPCTarget:GetPos()
+    local NPCClass = NPCTarget:GetClass()
+    local NPCModel = NPCTarget:GetModel()
+    NPCTarget:SetLagCompensated( true ) --? To avoid small frame shifts during freeze.
+
+    --? Set weapon prop pos
+    if IsValid(NPCWeapon) then
+        RagNPC.SCP035_NPCWeapon = NPCWeapon:GetClass()
+    end
+
+    --? Set every params to the ragdoll.
+    RagNPC:SetModel( NPCModel or "" ) -- Somes NPC don't have models
+    RagNPC:SetAngles(NPCTarget:GetAngles()) --! Models without physics are not affect by angles appartly
+    RagNPC:SetPos(NPCPos)
+    -- Skin
+    RagNPC:SetSkin(NPCTarget:GetSkin())
+    RagNPC:Spawn()
+
+    --? Set Scale Model Ragdoll, in somes cases, it doesn't work properly, cause somes models are shit.
+    --! Don't work on models thats don't have physics.
+    local ScaleMode = NPCTarget:GetModelScale()
+    RagNPC:SetModelScale(ScaleMode)
+    for i = 0, NPCTarget:GetFlexNum() - 1 do
+        RagNPC:SetFlexWeight( i, NPCTarget:GetFlexWeight(i) )
+    end
+    -- BodyGroup
+    if NPCTarget:GetNumBodyGroups() then
+        RagNPC.SCP035_NPCBodyGroup = {}
+        for i = 0, NPCTarget:GetNumBodyGroups() - 1 do
+            local BodyGroup = NPCTarget:GetBodygroup(i)
+            RagNPC:SetBodygroup(i, BodyGroup)
+            RagNPC.SCP035_NPCBodyGroup[i] = BodyGroup
+        end
+    end
+    for i = 0, NPCTarget:GetBoneCount() do
+        RagNPC:ManipulateBoneScale(i, NPCTarget:GetManipulateBoneScale(i))
+        RagNPC:ManipulateBoneAngles(i, NPCTarget:GetManipulateBoneAngles(i))
+        RagNPC:ManipulateBonePosition(i, NPCTarget:GetManipulateBonePosition(i))
+    end
+
+    RagNPC.SCP035_NPCPos = NPCPos
+    RagNPC.SCP035_NPCAngle = NPCTarget:GetAngles()
+    RagNPC.SCP035_NPCClass = NPCClass
+    RagNPC.SCP035_NPCSkin = NPCTarget:GetSkin()
+    RagNPC.SCP035_NPCHealth = NPCTarget:Health()
+    RagNPC.SCP035_WasNPC = NPCTarget:IsNPC()
+    RagNPC.SCP035_WasNextBot = NPCTarget:IsNextBot()
+    RagNPC.SCP035_IsFreeze = true
+    if (NPCClass == "npc_citizen") then
+        RagNPC.SCP035_CityType = string.sub(NPCModel,21,21)
+        if string.sub(NPCModel,22,22) == "m" then RagNPC.SCP035_CitMed = 1 end
+    end
+    RagNPC:SetMaterial(NPCTarget:GetMaterial())
+
+    --? Set Every Bone of the ragdoll like The npc.
+    --! Some models build their bones like shit fuck with a root bone, iam will se later to manage this.
+    local Bones = RagNPC:GetPhysicsObjectCount()
+    for i = 0, Bones - 1 do
+        local phys = RagNPC:GetPhysicsObjectNum(i)
+        local b = RagNPC:TranslatePhysBoneToBone(i)
+        local pos,ang = NPCTarget:GetBonePosition(b)
+        phys:EnableMotion(false)
+        phys:SetPos(pos)
+        phys:SetAngles(ang)
+        phys:Wake()
+    end
+
+    NPCTarget:Remove()
+    RagNPC:SetMoveType(MOVETYPE_NONE) --? Ragdoll will not move with this, even in air.
+
+    timer.Simple(SCP_035_CONFIG.DurationImmobilize:GetInt(), function()
+        if(!IsValid(RagNPC)) then return end
+
+        scp_035.UnFreezeNPC(RagNPC)
+    end)
+end
+
+/* Method for unfreeze an NPC, recreate the NPC with the ragdoll created when he was froozen.
+* @Ragdoll RagNPC The ragdoll create while the NPC was freeze.
+*/
+function scp_035.UnFreezeNPC(RagNPC)
+    local NPCTarget = ents.Create(RagNPC.SCP035_NPCClass)
+    NPCTarget:SetModel(RagNPC:GetModel() or "") -- Somes NPC don't have models
+    NPCTarget:SetPos(RagNPC.SCP035_NPCPos)
+    NPCTarget:SetSkin(RagNPC.SCP035_NPCSkin)
+    NPCTarget:SetAngles(RagNPC.SCP035_NPCAngle)
+    if RagNPC.SCP035_NPCWeapon then NPCTarget:SetKeyValue("additionalequipment",RagNPC.SCP035_NPCWeapon) end
+    if (RagNPC.SCP035_CityType) then
+        NPCTarget:SetKeyValue("citizentype", RagNPC.SCP035_CityType)
+        if RagNPC.SCP035_CityType == "3" && RagNPC.SCP035_CitMed == 1 then
+            NPCTarget:SetKeyValue("spawnflags","131072")
+        end
+    end
+    NPCTarget:Spawn()
+    NPCTarget:Activate()
+
+    if (RagNPC.SCP035_NPCRagWeapon) then RagNPC.SCP035_NPCRagWeapon:Remove() end
+    if (RagNPC.SCP035_NPCBodyGroup) then
+        for key, value in pairs(RagNPC.SCP035_NPCBodyGroup) do
+            NPCTarget:SetBodygroup(key, value)
+        end
+    end
+    NPCTarget:SetHealth(RagNPC.SCP035_NPCHealth)
+    RagNPC:Remove()
 end
 
 -- Set Convar Int for the client side
