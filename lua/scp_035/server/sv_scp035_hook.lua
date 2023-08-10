@@ -14,8 +14,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if CLIENT then return end
-
 -- Remove effect and drop mask if they have it
 hook.Add( "PlayerDeath", "PlayerDeath.Remove_SCP035", scp_035.RemoveEffectClient)
 

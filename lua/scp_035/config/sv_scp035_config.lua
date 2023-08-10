@@ -14,8 +14,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if CLIENT then return end
-
 SCP_035_CONFIG.RadiusEffect = CreateConVar( "SCP035_RadiusEffect", 100, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "The maximum distance at which the effect of the SCP-035 entity can affect players", 50, 9999 )
 SCP_035_CONFIG.RangeImmobilize = CreateConVar( "SCP035_RangeImmobilize", 300, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "The maximum distance at which SCP-035's SWEP can freeze a player", 100, 9999 )
 SCP_035_CONFIG.DurationImmobilize = CreateConVar( "SCP035_DurationImmobilize", 5, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "The freeze time of a player affected by SCP-035's SWEP", 1, 60 )

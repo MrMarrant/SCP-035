@@ -49,20 +49,6 @@ SWEP.PrimaryCooldown = 10
 SWEP.SecondaryCooldown = 10
 SWEP.ReloadCooldown = 10
 
--- Allows you to set the animations of a player on several actions, example: ACT_MP_STAND_IDLE : allows you to define the animation when a player is static.
--- TODO : Pk pas ?
--- local ActivityTranslate = {}
--- 	ActivityTranslate[ ACT_MP_STAND_IDLE ]	= ACT_HL2MP_IDLE_ZOMBIE
--- 	ActivityTranslate[ ACT_MP_WALK ] = ACT_HL2MP_WALK_ZOMBIE_04
--- 	ActivityTranslate[ ACT_MP_RUN ]	= ACT_HL2MP_WALK_ZOMBIE_05
--- 	ActivityTranslate[ ACT_MP_CROUCH_IDLE ]	= ACT_HL2MP_IDLE_CROUCH_ZOMBIE
--- 	ActivityTranslate[ ACT_MP_CROUCHWALK ]	= ACT_HL2MP_WALK_CROUCH_ZOMBIE_04
--- 	ActivityTranslate[ ACT_MP_JUMP ] = ACT_ZOMBIE_LEAPING
--- 	ActivityTranslate[ ACT_MP_ATTACK_STAND_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
--- 	ActivityTranslate[ ACT_MP_ATTACK_CROUCH_PRIMARYFIRE ] = ACT_GMOD_GESTURE_RANGE_ZOMBIE
--- 	ActivityTranslate[ ACT_MP_RELOAD_STAND ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
--- 	ActivityTranslate[ ACT_MP_RELOAD_CROUCH ] = ACT_GMOD_GESTURE_TAUNT_ZOMBIE
-
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self:SetHoldType( self.HoldType )
@@ -80,17 +66,7 @@ function SWEP:OnDrop()
 	self:Remove()
 end
 
--- Set animation Walking/Attack when equip with this swep.
--- TODO : On garde ?
--- function SWEP:TranslateActivity( act )
--- 	if ( self:GetOwner():IsPlayer() ) then
--- 		if (ActivityTranslate[act]) then
--- 			return ActivityTranslate[act]
--- 		end
--- 	end
--- 	return -1
--- end
-
+-- Freeze the first player or NPC hit and make a visuel effect on his screen
 function SWEP:PrimaryAttack()
 	local curtime = CurTime()
 
@@ -103,6 +79,7 @@ function SWEP:PrimaryAttack()
 	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or curtime + self.CurentAnim )
 end 
 
+-- Laugh and make every players around to loot at you and make them a blurry vision
 function SWEP:SecondaryAttack()
 	if CLIENT then return end
 
@@ -138,6 +115,7 @@ function SWEP:Reload()
 	end)
 end
 
+-- Use for knows what's the current animation and time is ending
 function SWEP:SetCurentAnim()
 	local ply = self:GetOwner()
 	local VMAnim = ply:GetViewModel()
@@ -155,6 +133,7 @@ function SWEP:SetNextAction()
 	self.ReloadNextFire = curtime + self.ReloadCooldown
 end
 
+-- Intial function when player receive the weapon.
 function SWEP:PutTheMask()
 	local ply = self:GetOwner()
 	ply:Freeze(true)
@@ -174,7 +153,7 @@ function SWEP:PutTheMask()
 		self:SendWeaponAnim( ACT_VM_IDLE )
 		self:SetCurentAnim()
 
-		timer.Simple(8, function() --? 8s equal to duration of the sound played in scp_035.StartIdleSound(ply)
+		timer.Simple(7.6, function() --? 7.6s equal to duration of the sound played in scp_035.StartIdleSound(ply)
 			if(!IsValid(self)) then return end
 			if(!IsValid(ply)) then return end
 			if(!ply:Alive()) then return end
@@ -190,7 +169,7 @@ function SWEP:PutTheMask()
     end)
 end
 
--- Override ACT_VM_DRAW animation (cause it his play when deploy (for what ever reason))
+-- Override ACT_VM_DRAW animation (cause it play this animation when deploy (for what ever reason))
 function SWEP:Deploy()
 	if (self:GetOwner().SCP035_IsWear) then
 		self:SendWeaponAnim( ACT_VM_IDLE )

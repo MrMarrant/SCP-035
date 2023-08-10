@@ -37,8 +37,3 @@ SCP_035_CONFIG.AffectBySecondary = "SCP_035_CONFIG.AffectBySecondary"
 SCP_035_CONFIG.SetConvarInt = "SCP_035_CONFIG.SetConvarInt"
 SCP_035_CONFIG.SetConvarBool = "SCP_035_CONFIG.SetConvarBool"
 SCP_035_CONFIG.SetConvarClientSide = "SCP_035_CONFIG.SetConvarClientSide"
-
-scp_035.LoadLanguage(SCP_035_CONFIG.RootFolder.."language/", SCP_035_CONFIG.HandledLanguage, SCP_035_LANG)
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."shared/")
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."server/")
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."client/")

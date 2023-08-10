@@ -1,5 +1,3 @@
-if SERVER then return end
-
 -- SCP-035, A representation of a paranormal object on a fictional series on the game Garry's Mod.
 -- Copyright (C) 2023  MrMarrant aka BIBI.
 
@@ -15,6 +13,8 @@ if SERVER then return end
 
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+if SERVER then return end
 
 net.Receive(SCP_035_CONFIG.SoundToPlayClientSide, function ( )
     local path = net.ReadString()

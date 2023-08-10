@@ -14,8 +14,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if CLIENT then return end
-
 /* 
 * Fonction use by primary attack of the swep, it immobilise the first player found.
 * @Player ply
@@ -236,7 +234,6 @@ function scp_035.FreezeNPC(NPCTarget)
     local RagNPC = ents.Create( "prop_ragdoll" )
     if not RagNPC:IsValid() then return end
 
-    PrintTable(NPCTarget:GetAttachments())
     local NPCWeapon = NPCTarget:GetActiveWeapon()
     local NPCPos = NPCTarget:GetPos()
     local NPCClass = NPCTarget:GetClass()

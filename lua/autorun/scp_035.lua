@@ -30,7 +30,7 @@ SCP_035_CONFIG.RootFolder = "scp_035/"
 * @table handledLanguage Array containing the supported languages.
 * @table langData Table containing all translations.
 */
-function scp_035.LoadLanguage(path, handledLanguage, langData )
+local function LoadLanguage(path, handledLanguage, langData )
     for key, value in ipairs(handledLanguage) do
         local filename = path .. value .. ".lua"
         include( filename )
@@ -44,14 +44,19 @@ end
 * @string path of the folder to load.
 * @bool isFile if the path is a file and not a folder.
 */
-function scp_035.LoadDirectory(pathFolder, isFile)
+local function LoadDirectory(pathFolder, isFile)
     if isFile then
-        AddCSLuaFile(pathFolder)
+        if (pathFolder != SCP_035_CONFIG.RootFolder.."config/sv_scp035_config.lua") then
+            AddCSLuaFile(pathFolder)
+        end
         include(pathFolder)
     else
         local files, directories = file.Find(pathFolder.."*", "LUA")
         for key, value in pairs(files) do
-            AddCSLuaFile(pathFolder..value)
+            local typeFile = string.sub(value, 1, 2)
+            if (typeFile == "sh" or typeFile == "cl") then
+                AddCSLuaFile(pathFolder..value)
+            end
             include(pathFolder..value)
         end
         for key, value in pairs(directories) do
@@ -61,7 +66,12 @@ function scp_035.LoadDirectory(pathFolder, isFile)
 end
 
 print("SCP-035 Loading . . .")
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sh_scp035_config.lua", true)
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sv_scp035_config.lua", true)
-scp_035.LoadDirectory(SCP_035_CONFIG.RootFolder.."config/cl_scp035_config.lua", true)
+LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sh_scp035_config.lua", true)
+if SERVER then LoadDirectory(SCP_035_CONFIG.RootFolder.."config/sv_scp035_config.lua", true) end
+LoadDirectory(SCP_035_CONFIG.RootFolder.."config/cl_scp035_config.lua", true)
+
+LoadLanguage(SCP_035_CONFIG.RootFolder.."language/", SCP_035_CONFIG.HandledLanguage, SCP_035_LANG)
+LoadDirectory(SCP_035_CONFIG.RootFolder.."shared/")
+if SERVER then LoadDirectory(SCP_035_CONFIG.RootFolder.."server/") end
+LoadDirectory(SCP_035_CONFIG.RootFolder.."client/")
 print("SCP-035 Loaded!")
