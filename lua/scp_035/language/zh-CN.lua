@@ -58,3 +58,4 @@ SCP_035_LANG["zh-CN"].SCP035_RangeImmobilize = "SCP035SWEP可以冻结玩家的�
 SCP_035_LANG["zh-CN"].SCP035_DurationImmobilize = "受 SCP-035 SWEP 影响的玩家的冻结时间"
 SCP_035_LANG["zh-CN"].SCP035_RadiusLaugh = "SCP035 SWEP次要攻击的半径效果"
 SCP_035_LANG["zh-CN"].SCP035_RadiusEffect = "SCP-035 实体影响玩家的最大距离"
+SCP_035_LANG["zh-CN"].SCP035_EnabledStareAtMask = "定义当玩家在面具附近时是否会盯着面具"

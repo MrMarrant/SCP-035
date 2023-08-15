@@ -30,4 +30,5 @@ hook.Add( "PlayerInitialSpawn", "PlayerInitialSpawn.SCP035_LoadPossessor", funct
     scp_035.SetConvarClientSide("ClientTimeTotalEffect", SCP_035_CONFIG.TimeTotalEffect:GetInt(), ply)
     scp_035.SetConvarClientSide("ClientForcePutMask", SCP_035_CONFIG.ForcePutMask:GetBool(), ply)
     scp_035.SetConvarClientSide("ClientRadiusLaugh", SCP_035_CONFIG.RadiusLaugh:GetInt(), ply)
+    scp_035.SetConvarClientSide("ClientEnabledStareAtMask", SCP_035_CONFIG.EnabledStareAtMask:GetBool(), ply)
 end)

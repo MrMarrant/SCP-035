@@ -58,3 +58,4 @@ SCP_035_LANG.en.SCP035_RangeImmobilize = "The maximum distance at which SCP-035'
 SCP_035_LANG.en.SCP035_DurationImmobilize = "The freeze time of a player affected by SCP-035's SWEP"
 SCP_035_LANG.en.SCP035_RadiusLaugh = "Define the radius effect of the Secondary Attack SWEP from SCP-035"
 SCP_035_LANG.en.SCP035_RadiusEffect = "The maximum distance at which the proximity effect of SCP-035 entity can affect players"
+SCP_035_LANG.en.SCP035_EnabledStareAtMask = "Define if players will stare the mask when they are nearby from it"

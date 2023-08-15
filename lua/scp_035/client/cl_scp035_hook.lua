@@ -157,6 +157,18 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
             draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_ForcePutMask"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 153, 255), TEXT_ALIGN_LEFT )
         end
 
+        local SCP035_EnabledStareAtMask = vgui.Create("DCheckBoxLabel")
+        SCP035_EnabledStareAtMask:SetPos( 5, 5 )
+        SCP035_EnabledStareAtMask:SetText("")
+        SCP035_EnabledStareAtMask:SizeToContents()
+        SCP035_EnabledStareAtMask:SetValue( SCP_035_CONFIG.ClientEnabledStareAtMask )
+        SCP035_EnabledStareAtMask.OnChange = function(CheckBox, val)
+            scp_035.SetConvarBool("EnabledStareAtMask", val, ply)
+        end
+        SCP035_EnabledStareAtMask.Paint = function(CheckBox, w, h)
+            draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_EnabledStareAtMask"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
+        end
+
         local SCP035_RangeImmobilize = vgui.Create("DNumSlider")
         SCP035_RangeImmobilize:SetPos( 5, 5 )
         SCP035_RangeImmobilize:SetSize( 100, 20 )
@@ -210,6 +222,7 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
         panel:Clear()
         panel:ControlHelp(scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_WarningSettings"))
         panel:AddItem(SCP035_ForcePutMask)
+        panel:AddItem(SCP035_EnabledStareAtMask)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_RangeImmobilize") )
         panel:AddItem(SCP035_RangeImmobilize)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_DurationImmobilize") )

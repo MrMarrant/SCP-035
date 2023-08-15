@@ -27,6 +27,8 @@ function ENT:Think()
 
 	scp_035.SetEffectsMask(self, FilterTable)
     if CLIENT then
+		if (SCP_035_CONFIG.ClientEnabledStareAtMask == 0) then return end
+
 		for key, value in ipairs(NonFilterTable) do
 			scp_035.LookAtMe(value, self)
 		end
