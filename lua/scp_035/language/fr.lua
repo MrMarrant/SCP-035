@@ -59,3 +59,4 @@ SCP_035_LANG.fr.SCP035_DurationImmobilize = "Le temps d'immobilisation d'un joue
 SCP_035_LANG.fr.SCP035_RadiusLaugh = "Définit le rayon d'action de l'attaque secondaire du SWEP de SCP-035"
 SCP_035_LANG.fr.SCP035_RadiusEffect = "La distance maximale à laquelle l'effet de proximité de SCP-035 peut affecter les joueurs"
 SCP_035_LANG.fr.SCP035_EnabledStareAtMask = "Défini si les joueurs fixeront le masque lorsqu'ils sont à proximité de celui-ci"
+SCP_035_LANG.fr.SCP035_Enabled035Vision = "Définis si le joueur aura la vision personnalisé de 035"

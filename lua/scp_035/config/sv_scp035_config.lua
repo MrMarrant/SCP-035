@@ -21,6 +21,7 @@ SCP_035_CONFIG.TimeTotalEffect = CreateConVar( "SCP035_TimeTotalEffect", 80, {FC
 SCP_035_CONFIG.ForcePutMask = CreateConVar( "SCP035_ForcePutMask", 0, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "If enable, force the mask to be put on the player around when a player reach the final stage", 0, 1 )
 SCP_035_CONFIG.RadiusLaugh = CreateConVar( "SCP035_RadiusLaugh", 300, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define the radius effect of the Secondary Attack SWEP from SCP-035", 50, 9999 )
 SCP_035_CONFIG.EnabledStareAtMask = CreateConVar( "SCP035_EnabledStareAtMask", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will stare the mask when they are nearby from it", 0, 1 )
+SCP_035_CONFIG.Enabled035Vision = CreateConVar( "SCP035_Enabled035Vision", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will have the custom 035 vision", 0, 1 )
 
 util.AddNetworkString( SCP_035_CONFIG.SoundToPlayClientSide )
 util.AddNetworkString( SCP_035_CONFIG.DisplayText )

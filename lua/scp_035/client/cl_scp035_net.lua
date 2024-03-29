@@ -126,6 +126,8 @@ end)
 
 net.Receive(SCP_035_CONFIG.SetConvarClientSide, function ()
     local name = net.ReadString()
+    local typeValue = net.ReadString()
     local value = net.ReadUInt(14)
+    if (typeValue == "boolean") then value = value == 1 and true or false end
     SCP_035_CONFIG[name] = value
 end)

@@ -58,3 +58,4 @@ SCP_035_LANG.ru.SCP035_DurationImmobilize = "Время на которое бу
 SCP_035_LANG.ru.SCP035_RadiusLaugh = "Определяет радиус эффекта Второй Атаки SWEP от SCP-035"
 SCP_035_LANG.ru.SCP035_RadiusEffect = "Максимальная дистанция на которой эффект близости энтити SCP-035 может воздействовать на игрока"
 SCP_035_LANG.ru.SCP035_EnabledStareAtMask = "Определить, будут ли игроки смотреть на маску, когда они находятся поблизости от нее"
+SCP_035_LANG.ru.SCP035_Enabled035Vision = "Define if players will have the custom 035 vision"

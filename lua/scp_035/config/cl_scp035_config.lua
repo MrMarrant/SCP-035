@@ -24,8 +24,9 @@ SCP_035_CONFIG.ClientRadiusEffect = 100
 SCP_035_CONFIG.ClientRangeImmobilize = 300
 SCP_035_CONFIG.ClientDurationImmobilize = 5
 SCP_035_CONFIG.ClientTimeTotalEffect = 80
-SCP_035_CONFIG.ClientForcePutMask = 0
-SCP_035_CONFIG.ClientRadiusLaugh = 300
+SCP_035_CONFIG.ClientForcePutMask = false
+SCP_035_CONFIG.ClientEnabledStareAtMask = true
+SCP_035_CONFIG.ClientEnabled035Vision = true
 
 -- 
 surface.CreateFont( "SCP035_Font1", {
