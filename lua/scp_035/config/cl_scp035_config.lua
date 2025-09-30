@@ -27,6 +27,7 @@ SCP_035_CONFIG.ClientTimeTotalEffect = 80
 SCP_035_CONFIG.ClientForcePutMask = false
 SCP_035_CONFIG.ClientEnabledStareAtMask = true
 SCP_035_CONFIG.ClientEnabled035Vision = true
+SCP_035_CONFIG.ClientEnabled035Music = true
 
 -- 
 surface.CreateFont( "SCP035_Font1", {

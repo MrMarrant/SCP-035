@@ -60,3 +60,4 @@ SCP_035_LANG.en.SCP035_RadiusLaugh = "Define the radius effect of the Secondary 
 SCP_035_LANG.en.SCP035_RadiusEffect = "The maximum distance at which the proximity effect of SCP-035 entity can affect players"
 SCP_035_LANG.en.SCP035_EnabledStareAtMask = "Define if players will stare the mask when they are nearby from it"
 SCP_035_LANG.en.SCP035_Enabled035Vision = "Define if players will have the custom 035 vision"
+SCP_035_LANG.en.SCP035_Enabled035Music = "Define if players will have the custom 035 music"

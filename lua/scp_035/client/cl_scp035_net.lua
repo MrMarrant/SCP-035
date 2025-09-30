@@ -41,9 +41,9 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
         ply.SCP035_PannelDisplayText:Remove()
         ply.SCP035_PannelDisplayText = nil
     end
-    if (ply.SCP035_TransitionTransform) then 
+    if (ply.SCP035_TransitionTransform) then
         ply.SCP035_TransitionTransform:Remove()
-        ply.SCP035_TransitionTransform = nil 
+        ply.SCP035_TransitionTransform = nil
     end
     if(timer.Exists("RemoveAffectByPrimary_SCP035_"..ply:EntIndex())) then timer.Adjust("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), 0, nil, nil) end
     scp_035.RemoveEffectProximity(ply)
@@ -93,7 +93,7 @@ end)
 net.Receive(SCP_035_CONFIG.TransitionTransform, function ( )
     local ply = LocalPlayer()
 
-    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "https://i.imgur.com/1aLhip5.gif", 1) 
+    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "https://i.imgur.com/1aLhip5.gif", 1)
     ply:EmitSound("scp_035/transform_mask.mp3")
 end)
 
@@ -104,7 +104,9 @@ net.Receive(SCP_035_CONFIG.StartIdleSound, function ( )
         ply.SCP035_TransitionTransform:Remove()
         ply.SCP035_TransitionTransform = nil
     end
-    ply:StartLoopingSound("scp_035/idle_sound.wav" )
+    if (SCP_035_CONFIG.ClientEnabled035Music) then
+        ply:StartLoopingSound("scp_035/idle_sound.wav" )
+    end
 end)
 
 net.Receive(SCP_035_CONFIG.AffectBySecondary, function ( )

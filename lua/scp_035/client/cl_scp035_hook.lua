@@ -232,11 +232,24 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
             scp_035.SetConvarInt("TimeTotalEffect", val, ply)
         end
 
+        local SCP035_Enabled035Music = vgui.Create("DCheckBoxLabel")
+        SCP035_Enabled035Music:SetPos( 5, 5 )
+        SCP035_Enabled035Music:SetText("")
+        SCP035_Enabled035Music:SizeToContents()
+        SCP035_Enabled035Music:SetValue( SCP_035_CONFIG.ClientEnabled035Music )
+        SCP035_Enabled035Music.OnChange = function(CheckBox, val)
+            scp_035.SetConvarBool("Enabled035Music", val, ply)
+        end
+        SCP035_Enabled035Music.Paint = function(CheckBox, w, h)
+            draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_Enabled035Music"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
+        end
+
         panel:Clear()
         panel:ControlHelp(scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_WarningSettings"))
         panel:AddItem(SCP035_ForcePutMask)
         panel:AddItem(SCP035_EnabledStareAtMask)
         panel:AddItem(SCP035_Enabled035Vision)
+        panel:AddItem(SCP035_Enabled035Music)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_RangeImmobilize") )
         panel:AddItem(SCP035_RangeImmobilize)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_DurationImmobilize") )
