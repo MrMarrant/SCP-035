@@ -98,18 +98,16 @@ end
 * @Player ply
 */
 function scp_035.RemoveEffectProximity(ply)
-    if (IsValid(ply.SCP035_ProximityEffect)) then
-        ply.SCP035_ProximityEffect:Remove()
-        ply.SCP035_ProximityEffect = nil
-    end
-    ply.SCP035_AffectByMask = nil
     if CLIENT then
         if (ply.SCP035_PannelDisplayText) then
             ply.SCP035_PannelDisplayText:Remove()
             ply.SCP035_PannelDisplayText = nil
         end
+        scp_035.StopFakeGIF(ply.SCP035_PEID)
         scp_035.EndSound(ply) 
     end
+    ply.SCP035_PEID = nil
+    ply.SCP035_AffectByMask = nil
 end
 
 function scp_035.IsSCP035(ply)

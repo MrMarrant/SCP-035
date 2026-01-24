@@ -62,12 +62,12 @@ function scp_035.DisPlayFinalText(ply, delay)
         --? Ugly asf, but hey, iam lazy to manage this with a clean way, and i use this method only here, so ...
         ply.SCP035_SimpleText_1 = scp_035.DisPlaySimpleText(ply, TextFinal_1, #TextFinal_2 > 4 and SCP_035_CONFIG.ScrW * 0.02 or SCP_035_CONFIG.ScrW * 0.05, SCP_035_CONFIG.ScrH * 0.3)
         ply.SCP035_SimpleText_2 = scp_035.DisPlaySimpleText(ply, TextFinal_2, SCP_035_CONFIG.ScrW * 0.8, SCP_035_CONFIG.ScrH * 0.3)
-        ply.SCP035_StaticNoise = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif")
+        local idGif = scp_035.PlayFakeGIF(SCP_035_CONFIG.Gif.StaticNoise, ".png", 12, 255)
         ply.SCP035_MaskIMG = scp_035.DisPlayIMG(ply, "scp_035/mask_deform_v"..math.random(1, 3)..".png")
 
         timer.Simple(1, function()
             if (IsValid(ply)) then
-                ply.SCP035_StaticNoise:Remove()
+                scp_035.StopFakeGIF(idGif)
                 ply.SCP035_MaskIMG:Remove()
                 ply.SCP035_SimpleText_1:Remove()
                 ply.SCP035_SimpleText_2:Remove()
@@ -113,31 +113,47 @@ function scp_035.DisPlayIMG(ply, material)
 end
 
 /* 
-* Display a gif on the screen of the player, it find the screen with an url.
-* @Player ply
-* @string material
+* Display a multitude of images depend on the fps and path
+* @table frames
+* @string format
+* @number fps
 * @number alpha
 */
-function scp_035.DisPlayGIF(ply, material, alpha)
-    alpha = alpha or 1
-    local width, height = SCP_035_CONFIG.ScrW + 100, SCP_035_CONFIG.ScrH + 100 --? Cant disabled overflow-y, dont know why again so i hide it in a more stupid way.
-    StaticNoise = vgui.Create("DHTML")
-    StaticNoise:SetPos(-10, -10) --? No idea why, but the element dont pos exactly to (0,0), so i've to do stupid shit like this.
-    StaticNoise:SetSize(width, height)
-    StaticNoise:SetZPos( 10 )
-    StaticNoise:SetHTML(
-        '<style>'..
-            '#container {overflow: hidden;}'..
-            'img {opacity: '..alpha..';}'..
-        '</style>'..
+function scp_035.PlayFakeGIF(frames, format, fps, alpha)
+    alpha = alpha or 255
+    fps = fps or 12
+    local ply = LocalPlayer()
+    local id = os.time() .. "_" .. math.random(1, 9999)
+    ply.SCP035_Alpha = ply.SCP035_Alpha or {}
+    ply.SCP035_Alpha[id] = alpha
 
-        '<div id="portrait">'..
-            '<div id="container">'..
-                '<img id="gif-scp035" src="'..material..'" width="'..width..'" height="'..height..'">'..
-            '</div>'..
-        '</div>'
-        )
-    return StaticNoise
+    format = format or ".png"
+    local path = frames.path
+    local frameCount = frames.count
+    local frames = {}
+    for i = 1, frameCount do
+        frames[i] = Material(path .. i .. format, "smooth")
+    end
+
+    local startTime = CurTime()
+
+
+    hook.Add("HUDPaint", "HUDPaint:SCP035_FakeGIF_" .. id, function()
+        if (not IsValid(ply)) then return end
+        local elapsed = CurTime() - startTime
+        local frame = math.floor(elapsed * fps) % frameCount + 1
+
+        surface.SetDrawColor(255, 255, 255, ply.SCP035_Alpha[id])
+        surface.SetMaterial(frames[frame])
+        surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
+    end)
+
+    return id
+end
+
+function scp_035.StopFakeGIF(id)
+    if (not id) then return end
+    hook.Remove("HUDPaint", "HUDPaint:SCP035_FakeGIF_" .. id)
 end
 
 /*
@@ -145,17 +161,17 @@ end
 * @Player ply
 */
 function scp_035.ProximityEffect(ply)
-    local alpha = 0.01
+    local alpha = 0.01 * 255
     local repetitions = SCP_035_CONFIG.ClientTimeTotalEffect * 2
-    local incrementAlpha = 0.3/repetitions
+    local incrementAlpha = 0.3 * 255/repetitions
 
-    ply.SCP035_ProximityEffect = ply.SCP035_ProximityEffect or scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", alpha)
+    ply.SCP035_PEID = scp_035.PlayFakeGIF(SCP_035_CONFIG.Gif.StaticNoise, ".png", 12, alpha)
     timer.Create("ProximityEffect_SCP035_"..ply:EntIndex(), 0.5, repetitions, function()
         if(!IsValid(ply)) then return end
-        if(!ply.SCP035_ProximityEffect or ply.SCP035_IsWear or !ply:Alive()) then return end
+        if(not ply.SCP035_PEID or ply.SCP035_IsWear or !ply:Alive()) then return end
 
         alpha = alpha + incrementAlpha
-        ply.SCP035_ProximityEffect:Call('document.getElementById("gif-scp035").style.opacity = "'..alpha..'";')
+        ply.SCP035_Alpha[ply.SCP035_PEID] = alpha
     end)
 end
 

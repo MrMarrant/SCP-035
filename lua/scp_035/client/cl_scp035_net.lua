@@ -41,28 +41,22 @@ net.Receive(SCP_035_CONFIG.RemoveEffectClient, function ( )
         ply.SCP035_PannelDisplayText:Remove()
         ply.SCP035_PannelDisplayText = nil
     end
-    if (ply.SCP035_TransitionTransform) then
-        ply.SCP035_TransitionTransform:Remove()
-        ply.SCP035_TransitionTransform = nil
-    end
+    scp_035.StopFakeGIF(ply.SCP035_TTID)
     if(timer.Exists("RemoveAffectByPrimary_SCP035_"..ply:EntIndex())) then timer.Adjust("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), 0, nil, nil) end
     scp_035.RemoveEffectProximity(ply)
 end)
 
-net.Receive(SCP_035_CONFIG.AffectByPrimary, function ( )
+net.Receive(SCP_035_CONFIG.AffectByPrimary, function ()
     local ply = LocalPlayer()
 
     ply:EmitSound("scp_035/static_noise.mp3")
     util.ScreenShake( Vector(0, 0, 0), 20, 300, SCP_035_CONFIG.ClientDurationImmobilize, 0 )
-    ply.SCP035_AffectByPrimary = scp_035.DisPlayGIF(ply, "https://i.imgur.com/Uc1nY1n.gif", 0.6)
+    local id = scp_035.PlayFakeGIF(SCP_035_CONFIG.Gif.StaticNoise, ".png", 12, 0.6 * 255)
 
     timer.Create("RemoveAffectByPrimary_SCP035_"..ply:EntIndex(), SCP_035_CONFIG.ClientDurationImmobilize, 1, function()
-        if (!IsValid(ply)) then return end
+        if (not IsValid(ply)) then return end
 
-        if (ply.SCP035_AffectByPrimary) then
-            ply.SCP035_AffectByPrimary:Remove()
-            ply.SCP035_AffectByPrimary = nil
-        end
+        scp_035.StopFakeGIF(id)
         ply:StopSound("scp_035/static_noise.mp3")
     end)
 end)
@@ -92,18 +86,14 @@ end)
 
 net.Receive(SCP_035_CONFIG.TransitionTransform, function ( )
     local ply = LocalPlayer()
-
-    ply.SCP035_TransitionTransform = scp_035.DisPlayGIF(ply, "https://i.imgur.com/1aLhip5.gif", 1)
+    ply.SCP035_TTID = scp_035.PlayFakeGIF(SCP_035_CONFIG.Gif.Transform, ".png", 12, 255)
     ply:EmitSound("scp_035/transform_mask.mp3")
 end)
 
 net.Receive(SCP_035_CONFIG.StartIdleSound, function ( )
     local ply = LocalPlayer()
 
-    if(ply.SCP035_TransitionTransform) then
-        ply.SCP035_TransitionTransform:Remove()
-        ply.SCP035_TransitionTransform = nil
-    end
+    scp_035.StopFakeGIF(ply.SCP035_TTID)
     if (SCP_035_CONFIG.ClientEnabled035Music) then
         ply:StartLoopingSound("scp_035/idle_sound.wav" )
     end

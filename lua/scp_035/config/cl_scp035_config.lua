@@ -29,6 +29,17 @@ SCP_035_CONFIG.ClientEnabledStareAtMask = true
 SCP_035_CONFIG.ClientEnabled035Vision = true
 SCP_035_CONFIG.ClientEnabled035Music = true
 
+SCP_035_CONFIG.Gif = {}
+SCP_035_CONFIG.Gif.StaticNoise = {
+    path = "scp_035/gif/static_noise/frame_",
+    count = 6
+}
+
+SCP_035_CONFIG.Gif.Transform = {
+    path = "scp_035/gif/transform/frame_",
+    count = 52
+}
+
 -- 
 surface.CreateFont( "SCP035_Font1", {
     font = "Arial",
