@@ -1,5 +1,5 @@
 -- SCP-035, A representation of a paranormal object on a fictional series on the game Garry's Mod.
--- Copyright (C) 2023  MrMarrant aka BIBI.
+-- Copyright (C) 2026  MrMarrant aka BIBI.
 
 -- This program is enee software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
