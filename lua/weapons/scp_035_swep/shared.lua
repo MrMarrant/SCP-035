@@ -79,18 +79,21 @@ function SWEP:PrimaryAttack()
 	self:SetNextPrimaryFire( FoundTarget and curtime + self.PrimaryCooldown or curtime + self.CurentAnim )
 end 
 
--- Laugh and make every players around to loot at you and make them a blurry vision
+-- Laugh and make every players and NPCs around to look at you, players also get a blurry vision
 function SWEP:SecondaryAttack()
 	if CLIENT then return end
 
 	self:SetNextSecondaryFire( CurTime() +  self.SecondaryCooldown)
 
+	local owner = self:GetOwner()
 	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.RadiusLaugh:GetInt())
 	for key, value in ipairs(NonFilterTable) do
 		if (value:IsPlayer()) then
 			net.Start(SCP_035_CONFIG.AffectBySecondary)
-				net.WriteEntity(self:GetOwner())
+				net.WriteEntity(owner)
 			net.Send(value)
+		elseif (value:IsNPC() or value:IsNextBot()) then
+			scp_035.AffectNPCBySecondary(value, owner)
 		end
 	end
 	self:GetOwner():EmitSound("scp_035/laugh_"..math.random(1, 3)..".mp3")

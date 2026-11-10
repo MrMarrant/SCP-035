@@ -68,7 +68,23 @@ function scp_035.PrimaryAttack(attacker)
     end
 
     return ReturnValue
-end 
+end
+
+/*
+* Secondary attack effect on NPC & NextBot: they turn toward the wearer, staring at him.
+* @Entity victim The NPC or NextBot affected.
+* @Player attacker The wearer of SCP-035.
+*/
+function scp_035.AffectNPCBySecondary(victim, attacker)
+    if (victim:IsNPC()) then
+        local yaw = (attacker:GetPos() - victim:GetPos()):Angle().y
+        victim:StopMoving()
+        if (!victim:IsCurrentSchedule(SCHED_IDLE_STAND)) then victim:SetSchedule(SCHED_IDLE_STAND) end
+        victim:SetIdealYawAndUpdate(yaw)
+    elseif (victim:IsNextBot() and victim.loco) then
+        victim.loco:FaceTowards(attacker:GetPos())
+    end
+end
 
 
 /* 
