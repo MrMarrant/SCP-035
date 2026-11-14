@@ -12,7 +12,10 @@ The aim of this addon was to remake the SCP-035 entity in its entirety, but with
 
 * Displays messages & effects & sounds to nearby players, simulating a conversation between the entity and the player
 * Animation on pick up the entities
-* SWEP (Weapon) that can immobilize players or create visual effects on them
+* SWEP (Weapon) that can immobilize players or create visual effects on them, NPCs are affected too
+* Humanoid NPCs are attracted by the mask, wear it and become hostile, using the abilities of SCP-035
+* Black liquid flowing from the mask, leaving black stains on the ground
+* Tentacles that can come out of the black stains and attack anyone nearby
 * Traduction in various language
 * Multiple configuration with Convar & menu
 
@@ -38,3 +41,4 @@ Every Modes.
 * [Nogitsu](https://steamcommunity.com/id/nogitsu) to help me find a better way to put the mask model on players.
 * [Vergil](https://steamcommunity.com/profiles/76561198830175369/) for the Russian translation.
 * [D14134](https://steamcommunity.com/profiles/76561198814513297/)  for the Chinese translation.
+* [KaanDimir](https://steamcommunity.com/profiles/76561199177803952/) for the Turkish translation.

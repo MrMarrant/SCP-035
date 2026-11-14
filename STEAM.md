@@ -4,13 +4,6 @@
 
 [url=https://scp-wiki.wikidot.com/scp-035]Page referring to the object[/url]
 
-[h2]Features[/h2]
-SCP-035 appears to be a white porcelain comedy mask.
-
-Humanoid subjects of SCP-035, or in visual contact with it, experience a strong urge to put it on. 
-When SCP-035 is placed on the face of an individual, an alternate brain wave pattern from SCP-035 overlaps that of the original host, effectively snuffing it out and causing brain death to the subject. 
-Subject then claims to be the consciousness contained within SCP-035.
-
 [img]https://i.imgur.com/uq1SB8T.jpg[/img]
 
 The aim of this addon was to remake the SCP-035 entity in its entirety, but with more immersive effects, in a desire to bring the experience closer to the original.
@@ -66,8 +59,8 @@ You're committing suicide, literally 💀
 
 [img]https://i.imgur.com/qS7ogif.gif[/img]
 
-A black liquid constantly flows from the eyes and the mouth of the mask, whether it is on the ground or worn by a player or a NPC.
-Every 30 seconds, a black stain appears on the ground under the mask. A stain lasts 20 minutes, there can be only 10 stains at the same time on the map (the oldest one disappears first), and two stains can't be too close to each other.
+A black liquid constantly flows from the mask, whether it is on the ground or worn by a player or a NPC.
+Every 30 seconds, a black stain appears on the ground under the mask. A stain lasts 20 minutes, there can be only 10 stains at the same time on the map (the oldest one disappears first).
 
 When a living being (player, NPC or NextBot) comes close to a stain, there is a chance that a tentacle comes out of it:
 [list]
@@ -79,7 +72,7 @@ When a living being (player, NPC or NextBot) comes close to a stain, there is a 
 [img]https://i.imgur.com/ch4DE72.gif[/img]
 
 The flow of black liquid can be disabled for yourself with the client convar [b]SCP035_EnabledBlackLiquid[/b], but the stains and the tentacles will still be there.
-The tentacles can be disabled with the convar [b]SCP035_EnabledTentacle[/b], the other values (delays, damages, health, chance, ...) can be edited in [i]lua/scp_035/config/sh_scp035_config.lua[/i].
+The tentacles can be disabled with the convar [b]SCP035_EnabledTentacle[/b].
 
 [h3]NPC[/h3]
 
@@ -91,106 +84,9 @@ Once the transformation is over, the NPC is controlled by SCP-035:
 [*] If he has no weapon, he looks for the closest weapon on the ground and picks it up.
 [/list]
 
-[h2]Convars[/h2]
+[h2]Configuration[/h2]
 
-There are a number of Convars that allow you to configure the addon on several elements, here is the list:
-
-
-[table]
-[tr]
-[th]Name[/th]
-[th]Description[/th]
-[th]Default Value[/th]
-[th]Min[/th]
-[th]Max[/th]
-[/tr]
-[tr]
-[td]SCP035_TimeTotalEffect[/td]
-[td]The total time taken for the entity SCP-035 effect to reach the final stage[/td]
-[td]80[/td]
-[td]10[/td]
-[td]180[/td]
-[/tr]
-[tr]
-[td]SCP035_RadiusEffect[/td]
-[td]The maximum distance at which the effect of the SCP-035 entity can affect players[/td]
-[td]100[/td]
-[td]10[/td]
-[td]9999[/td]
-[/tr]
-[tr]
-[td]SCP035_RangeImmobilize[/td]
-[td]The maximum distance at which SCP-035's SWEP can freeze a player[/td]
-[td]300[/td]
-[td]10[/td]
-[td]9999[/td]
-[/tr]
-[tr]
-[td]SCP035_DurationImmobilize[/td]
-[td]The freeze time of a player affected by SCP-035's SWEP[/td]
-[td]5[/td]
-[td]1[/td]
-[td]60[/td]
-[/tr]
-[tr]
-[td]SCP035_ForcePutMask[/td]
-[td]If enable, force the mask to be put on the player around when a player reach the final stage[/td]
-[td]0[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_RadiusLaugh[/td]
-[td]Define the radius effect of the Secondary Attack SWEP from SCP-035[/td]
-[td]300[/td]
-[td]50[/td]
-[td]9999[/td]
-[/tr]
-[tr]
-[td]SCP035_EnabledStareAtMask[/td]
-[td]Define if players will stare the mask when they are nearby from it[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_Enabled035Vision[/td]
-[td]Define if players will have the custom 035 vision[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_Enabled035Music[/td]
-[td]Define if players will have the custom 035 music[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_NPCCanWearMask[/td]
-[td]Define if humanoid NPCs nearby will be attracted by the mask and wear it[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_EnabledTentacle[/td]
-[td]Define if tentacles can come out of the black stains[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[tr]
-[td]SCP035_EnabledBlackLiquid (client)[/td]
-[td]Define if black liquid will flow from the mask[/td]
-[td]1[/td]
-[td]0[/td]
-[td]1[/td]
-[/tr]
-[/table]
-
-All these values can only be modified from your server console or you can edit them in the props menu if you are Super Admin (Utilities/SCP 035 Real/Settings)
+You can edit values and somes convars in the props menu if you are Super Admin (-> Utilities/SCP 035 Real/Settings)
 
 [h2]Languages[/h2]
 Four languages are currently supported:
