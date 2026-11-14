@@ -40,9 +40,9 @@ SCP_035_CONFIG.LiquidParticle = "effects/blood_core"
 SCP_035_CONFIG.LiquidColor = Color(8, 8, 8)
 SCP_035_CONFIG.LiquidMaxDistance = 1500
 SCP_035_CONFIG.LiquidStainMaterial = Material( "effects/blood_core" )
-SCP_035_CONFIG.LiquidStainDelay = 30 -- A stain every 30s under each mask.
-SCP_035_CONFIG.LiquidStainLifeTime = 600 -- Each stain is removed 10 minutes after its creation.
 SCP_035_CONFIG.LiquidStainFadeTime = 5 -- Fade out duration at the end of the lifetime.
+SCP_035_CONFIG.TentacleMaterial = Material( "cable/cable2" )
+SCP_035_CONFIG.TentacleColor = Color(43, 0, 0)
 
 SCP_035_CONFIG.Gif = {}
 SCP_035_CONFIG.Gif.StaticNoise = {

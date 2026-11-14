@@ -26,6 +26,7 @@ SCP_035_CONFIG.Enabled035Music = CreateConVar( "SCP035_Enabled035Music", 1, {FCV
 SCP_035_CONFIG.NPCCanWearMask = CreateConVar( "SCP035_NPCCanWearMask", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if humanoid NPCs nearby will be attracted by the mask and wear it", 0, 1 )
 
 SCP_035_CONFIG.NPCsWearingMask = {}
+SCP_035_CONFIG.LiquidStains = {}
 
 util.AddNetworkString( SCP_035_CONFIG.SoundToPlayClientSide )
 util.AddNetworkString( SCP_035_CONFIG.DisplayText )
@@ -39,3 +40,4 @@ util.AddNetworkString( SCP_035_CONFIG.AffectBySecondary )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarInt )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarBool )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarClientSide )
+util.AddNetworkString( SCP_035_CONFIG.AddLiquidStains )

@@ -228,11 +228,6 @@ function scp_035.EmitBlackLiquid(ent, pos, ang)
     if (!SCP_035_CONFIG.ClientEnabledBlackLiquid) then return end
 
     local curTime = CurTime()
-    if ((ent.SCP035_NextStain or 0) <= curTime) then
-        ent.SCP035_NextStain = curTime + SCP_035_CONFIG.LiquidStainDelay
-        scp_035.AddLiquidStain(ent, pos)
-    end
-
     if ((ent.SCP035_NextDrop or 0) > curTime) then return end
     ent.SCP035_NextDrop = curTime + math.Rand(0.15, 0.4)
 
@@ -263,27 +258,16 @@ function scp_035.EmitBlackLiquid(ent, pos, ang)
 end
 
 /*
-* Add a black stain on the ground under the mask.
+* Add a black stain received from the server (see scp_035.CreateLiquidStain).
 * Engine decals can't be removed one by one, so the stains are drawn by the addon (see scp_035.DrawLiquidStains).
-* @Entity ent The Mask or the wearer.
-* @Vector pos Position of the mask model.
+* @table stain {pos, normal, size, rotation, time}
 */
-function scp_035.AddLiquidStain(ent, pos)
-    local tr = util.TraceLine({
-        start = pos,
-        endpos = pos - Vector(0, 0, 200),
-        filter = ent,
-        mask = MASK_SOLID_BRUSHONLY --? Only on the map, a stain on a moving prop would float in the air.
-    })
-    if (!tr.Hit) then return end
-
-    table.insert(liquidStains, {
-        pos = tr.HitPos + tr.HitNormal * 0.5, --? Slightly above the ground to avoid z-fighting.
-        normal = tr.HitNormal,
-        size = math.Rand(68, 84),
-        rotation = math.Rand(0, 360),
-        time = CurTime()
-    })
+function scp_035.AddLiquidStain(stain)
+    table.insert(liquidStains, stain)
+    --? Same limit as the server, the oldest stain (the first) is removed.
+    while (#liquidStains > SCP_035_CONFIG.LiquidStainMaxCount) do
+        table.remove(liquidStains, 1)
+    end
 end
 
 /*
@@ -305,7 +289,7 @@ function scp_035.DrawLiquidStains()
 
         if (timeLeft <= 0) then
             table.remove(liquidStains, i)
-        elseif (SCP_035_CONFIG.ClientEnabledBlackLiquid) then
+        else --? Always drawn (even if the black liquid is disabled), tentacles come out of them.
             liquidStainColor.a = 255 * math.Clamp(timeLeft / fadeTime, 0, 1)
             render.DrawQuadEasy(stain.pos, stain.normal, stain.size, stain.size, liquidStainColor, stain.rotation)
         end

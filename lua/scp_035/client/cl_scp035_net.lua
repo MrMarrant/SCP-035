@@ -116,6 +116,17 @@ net.Receive(SCP_035_CONFIG.AffectBySecondary, function ( )
     end)
 end)
 
+net.Receive(SCP_035_CONFIG.AddLiquidStains, function ()
+    for i = 1, net.ReadUInt(16) do
+        local pos = net.ReadVector()
+        local normal = net.ReadNormal()
+        local size = net.ReadFloat()
+        local rotation = net.ReadFloat()
+        local time = net.ReadFloat()
+        scp_035.AddLiquidStain({ pos = pos, normal = normal, size = size, rotation = rotation, time = time })
+    end
+end)
+
 net.Receive(SCP_035_CONFIG.SetConvarClientSide, function ()
     local name = net.ReadString()
     local typeValue = net.ReadString()
