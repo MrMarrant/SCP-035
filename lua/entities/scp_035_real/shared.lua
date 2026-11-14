@@ -26,6 +26,7 @@ function ENT:Think()
 	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.ClientRadiusEffect or SCP_035_CONFIG.RadiusEffect:GetInt()) --? Yeah, its shit, it depend on if its client or server.
 
 	scp_035.SetEffectsMask(self, FilterTable)
+	if SERVER then scp_035.AttractNPC(self) end
     if CLIENT then
 		if (not SCP_035_CONFIG.ClientEnabledStareAtMask) then return end
 

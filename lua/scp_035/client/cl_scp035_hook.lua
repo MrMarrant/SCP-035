@@ -85,48 +85,70 @@ end )
 local modelMask = ClientsideModel( "models/scp_035_real/scp_035_real.mdl" )
 modelMask:SetNoDraw( true )
 
+/*
+* Draw the mask on the face of a wearer.
+* @Entity ply The wearer of SCP-035 (Player or NPC).
+*/
+function scp_035.DrawMask( ply )
+    local attachments = ply:GetAttachments()
+    local keyEye = nil
+
+    for key, value in ipairs(attachments) do
+        if (value.name == "eyes") then keyEye = value.id end --? We find the attachment eye
+    end
+
+    local offsetvec = keyEye and ply:GetAttachment( keyEye ).Pos or Vector(2.5, -5.6, 0 )
+    local offsetang = keyEye and ply:GetAttachment( keyEye ).Ang or Angle( 180, 0, -180 )
+
+    if (keyEye) then --? If player have eye attachment (very precise)
+        local UpAng, RightAng, ForwardAng = offsetang:Up(), offsetang:Right(), offsetang:Forward()
+
+        offsetvec = offsetvec + RightAng * 0 + ForwardAng * 1.6 + UpAng * -1.3
+        offsetang:RotateAroundAxis(RightAng, 6)
+        offsetang:RotateAroundAxis(UpAng, 0)
+        offsetang:RotateAroundAxis(ForwardAng, 0)
+        modelMask:SetRenderOrigin(offsetvec)
+        modelMask:SetRenderAngles(offsetang)
+    else --? And if he has not
+        local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
+    
+        if not boneid then
+            return
+        end
+        
+        local matrix = ply:GetBoneMatrix( boneid )
+        
+        if not matrix then 
+            return 
+        end
+        
+        local newpos, newang = LocalToWorld( offsetvec, offsetang, matrix:GetTranslation(), matrix:GetAngles() )
+
+        modelMask:SetPos( newpos )
+        modelMask:SetAngles( newang )
+        modelMask:SetRenderOrigin( newpos ) --? Override the render origin that may have been set by another wearer.
+        modelMask:SetRenderAngles( newang )
+        modelMask:SetupBones()
+    end
+    
+    modelMask:DrawModel()
+end
+
 hook.Add( "PostPlayerDraw" , "PostPlayerDraw.SCP035_DrawMask" , function( ply )
     if (SCP_035_CONFIG.PlayersWearingMask[ply:EntIndex()]) then
-        local attachments = ply:GetAttachments()
-        local keyEye = nil
+        scp_035.DrawMask( ply )
+    end
+end)
 
-        for key, value in ipairs(attachments) do
-            if (value.name == "eyes") then keyEye = value.id end --? We find the attachment eye
+--? There is no PostNPCDraw hook, so the NPCs wearers are drawn here.
+hook.Add( "PostDrawOpaqueRenderables" , "PostDrawOpaqueRenderables.SCP035_DrawMaskNPC" , function( bDrawingDepth, bDrawingSkybox )
+    if (bDrawingDepth or bDrawingSkybox) then return end
+
+    for key, value in pairs(SCP_035_CONFIG.PlayersWearingMask) do
+        local ent = Entity(value)
+        if (IsValid(ent) and ent:IsNPC() and !ent:IsDormant()) then
+            scp_035.DrawMask( ent )
         end
-
-        local offsetvec = keyEye and ply:GetAttachment( keyEye ).Pos or Vector(2.5, -5.6, 0 )
-        local offsetang = keyEye and ply:GetAttachment( keyEye ).Ang or Angle( 180, 0, -180 )
-
-        if (keyEye) then --? If player have eye attachment (very precise)
-            local UpAng, RightAng, ForwardAng = offsetang:Up(), offsetang:Right(), offsetang:Forward()
-
-            offsetvec = offsetvec + RightAng * 0 + ForwardAng * 1.6 + UpAng * -1.3
-            offsetang:RotateAroundAxis(RightAng, 6)
-            offsetang:RotateAroundAxis(UpAng, 0)
-            offsetang:RotateAroundAxis(ForwardAng, 0)
-            modelMask:SetRenderOrigin(offsetvec)
-            modelMask:SetRenderAngles(offsetang)
-        else --? And if he has not
-            local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
-        
-            if not boneid then
-                return
-            end
-            
-            local matrix = ply:GetBoneMatrix( boneid )
-            
-            if not matrix then 
-                return 
-            end
-            
-            local newpos, newang = LocalToWorld( offsetvec, offsetang, matrix:GetTranslation(), matrix:GetAngles() )
-
-            modelMask:SetPos( newpos )
-            modelMask:SetAngles( newang )
-            modelMask:SetupBones()
-        end
-        
-        modelMask:DrawModel()
     end
 end)
 
@@ -180,6 +202,18 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
         end
         SCP035_Enabled035Vision.Paint = function(CheckBox, w, h)
             draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_Enabled035Vision"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
+        end
+
+        local SCP035_NPCCanWearMask = vgui.Create("DCheckBoxLabel")
+        SCP035_NPCCanWearMask:SetPos( 5, 5 )
+        SCP035_NPCCanWearMask:SetText("")
+        SCP035_NPCCanWearMask:SizeToContents()
+        SCP035_NPCCanWearMask:SetValue( SCP_035_CONFIG.ClientNPCCanWearMask )
+        SCP035_NPCCanWearMask.OnChange = function(CheckBox, val)
+            scp_035.SetConvarBool("NPCCanWearMask", val, ply)
+        end
+        SCP035_NPCCanWearMask.Paint = function(CheckBox, w, h)
+            draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_NPCCanWearMask"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
         end
 
         local SCP035_RangeImmobilize = vgui.Create("DNumSlider")
@@ -250,6 +284,7 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
         panel:AddItem(SCP035_EnabledStareAtMask)
         panel:AddItem(SCP035_Enabled035Vision)
         panel:AddItem(SCP035_Enabled035Music)
+        panel:AddItem(SCP035_NPCCanWearMask)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_RangeImmobilize") )
         panel:AddItem(SCP035_RangeImmobilize)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_DurationImmobilize") )

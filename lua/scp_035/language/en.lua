@@ -61,3 +61,4 @@ SCP_035_LANG.en.SCP035_RadiusEffect = "The maximum distance at which the proximi
 SCP_035_LANG.en.SCP035_EnabledStareAtMask = "Define if players will stare the mask when they are nearby from it"
 SCP_035_LANG.en.SCP035_Enabled035Vision = "Define if players will have the custom 035 vision"
 SCP_035_LANG.en.SCP035_Enabled035Music = "Define if players will have the custom 035 music"
+SCP_035_LANG.en.SCP035_NPCCanWearMask = "Define if humanoid NPCs nearby will be attracted by the mask and wear it"

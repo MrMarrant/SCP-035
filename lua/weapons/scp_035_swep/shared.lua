@@ -85,18 +85,7 @@ function SWEP:SecondaryAttack()
 
 	self:SetNextSecondaryFire( CurTime() +  self.SecondaryCooldown)
 
-	local owner = self:GetOwner()
-	local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(self, SCP_035_CONFIG.RadiusLaugh:GetInt())
-	for key, value in ipairs(NonFilterTable) do
-		if (value:IsPlayer()) then
-			net.Start(SCP_035_CONFIG.AffectBySecondary)
-				net.WriteEntity(owner)
-			net.Send(value)
-		elseif (value:IsNPC() or value:IsNextBot()) then
-			scp_035.AffectNPCBySecondary(value, owner)
-		end
-	end
-	self:GetOwner():EmitSound("scp_035/laugh_"..math.random(1, 3)..".mp3")
+	scp_035.Laugh(self:GetOwner())
 end
 
 -- Kill the player and drop the entitie (and play an animation before.)

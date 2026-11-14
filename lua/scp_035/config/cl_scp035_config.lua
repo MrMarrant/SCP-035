@@ -28,6 +28,7 @@ SCP_035_CONFIG.ClientForcePutMask = false
 SCP_035_CONFIG.ClientEnabledStareAtMask = true
 SCP_035_CONFIG.ClientEnabled035Vision = true
 SCP_035_CONFIG.ClientEnabled035Music = true
+SCP_035_CONFIG.ClientNPCCanWearMask = true
 
 SCP_035_CONFIG.Gif = {}
 SCP_035_CONFIG.Gif.StaticNoise = {

@@ -112,6 +112,7 @@ end
 
 function scp_035.IsSCP035(ply)
     if (!IsValid(ply)) then return false end
-    if (ply:HasWeapon( "scp_035_swep" ) or ply.SCP035_IsWear) then return true end
+    if (ply.SCP035_IsWear or ply.SCP035_IsTransforming) then return true end
+    if (ply:IsPlayer() and ply:HasWeapon( "scp_035_swep" )) then return true end
     return false
 end

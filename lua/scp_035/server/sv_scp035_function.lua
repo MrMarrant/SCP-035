@@ -36,13 +36,13 @@ end
 
 /* 
 * Fonction use by primary attack of the swep, it immobilise the first player found.
-* @Player ply
-* @string path
-* @number pitch
+* @Entity attacker The wearer of SCP-035 (Player or NPC).
+* @Vector startPos Optional, start of the cone (default: the player shoot pos).
+* @Vector dir Optional, direction of the cone (default: the player aim vector).
 */
-function scp_035.PrimaryAttack(attacker)
-    local startPos = attacker:GetShootPos()
-    local dir = attacker:GetAimVector()
+function scp_035.PrimaryAttack(attacker, startPos, dir)
+    local startPos = startPos or attacker:GetShootPos()
+    local dir = dir or attacker:GetAimVector()
     local angle = math.cos( math.rad( 22 ) )
 
     local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize:GetInt(), angle )
@@ -86,6 +86,26 @@ function scp_035.AffectNPCBySecondary(victim, attacker)
     end
 end
 
+/*
+* Secondary attack of the swep: laugh and make every players and NPCs around to look at the wearer.
+* @Entity owner The wearer of SCP-035 (Player or NPC).
+*/
+function scp_035.Laugh(owner)
+    local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(owner, SCP_035_CONFIG.RadiusLaugh:GetInt())
+    for key, value in ipairs(NonFilterTable) do
+        if (value == owner) then continue end
+
+        if (value:IsPlayer()) then
+            net.Start(SCP_035_CONFIG.AffectBySecondary)
+                net.WriteEntity(owner)
+            net.Send(value)
+        elseif (value:IsNPC() or value:IsNextBot()) then
+            scp_035.AffectNPCBySecondary(value, owner)
+        end
+    end
+    owner:EmitSound("scp_035/laugh_"..math.random(1, 3)..".mp3")
+end
+
 
 /* 
 * Play a sound client side on a player.
@@ -109,10 +129,11 @@ end
 function scp_035.DropEntitie(ply)
     if (!IsValid(ply)) then return end
 
-    if (ply:HasWeapon("scp_035_swep") or ply.SCP035_IsWear or ply.SCP035_IsTransforming) then
+    if (scp_035.IsSCP035(ply)) then
+        local isPlayer = ply:IsPlayer()
 
         local ent = ents.Create( "scp_035_real" )
-        ent:SetPos( ply:GetShootPos() + ply:GetAimVector() * 20 )
+        ent:SetPos( isPlayer and ply:GetShootPos() + ply:GetAimVector() * 20 or ply:EyePos() + ply:GetForward() * 20 )
         ent:SetAngles( ply:EyeAngles() + Angle(0, 48, 0))
         ent:Spawn()
         ent:Activate()
@@ -160,7 +181,7 @@ function scp_035.GetTableClient(ply, var, tableToGet)
         net.Start(SCP_035_CONFIG.SetTableClient)
             net.WriteString(var)
             net.WriteBool( true )
-            net.WriteUInt( value, 11 )
+            net.WriteUInt( value, 13 )
         net.Send(ply)
     end
 end
@@ -183,7 +204,7 @@ function scp_035.SetTableClient(ply, var, state)
     net.Start(SCP_035_CONFIG.SetTableClient)
         net.WriteString( var )
         net.WriteBool( state )
-        net.WriteUInt( entIndex, 11 )
+        net.WriteUInt( entIndex, 13 )
     net.Broadcast()
 end
 
@@ -301,6 +322,7 @@ function scp_035.FreezeNPC(NPCTarget)
     RagNPC.SCP035_WasNPC = NPCTarget:IsNPC()
     RagNPC.SCP035_WasNextBot = NPCTarget:IsNextBot()
     RagNPC.SCP035_IsFreeze = true
+    if (scp_035.IsSCP035(NPCTarget)) then RagNPC.SCP035_WasWearingMask = true end --? The mask is given back to the NPC when unfreeze.
     if (NPCClass == "npc_citizen") then
         RagNPC.SCP035_CityType = string.sub(NPCModel,21,21)
         if string.sub(NPCModel,22,22) == "m" then RagNPC.SCP035_CitMed = 1 end
@@ -356,6 +378,7 @@ function scp_035.UnFreezeNPC(RagNPC)
         end
     end
     NPCTarget:SetHealth(RagNPC.SCP035_NPCHealth)
+    if (RagNPC.SCP035_WasWearingMask) then scp_035.NPCSetWear(NPCTarget) end
     RagNPC:Remove()
 end
 

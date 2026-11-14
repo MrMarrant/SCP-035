@@ -76,7 +76,7 @@ end)
 net.Receive(SCP_035_CONFIG.SetTableClient, function ( )
     local var = net.ReadString()
     local state = net.ReadBool()
-    local entIndex = net.ReadUInt(11)
+    local entIndex = net.ReadUInt(13)
     if (state) then
         SCP_035_CONFIG[var][entIndex] = entIndex
     else
