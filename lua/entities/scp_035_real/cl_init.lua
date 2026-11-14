@@ -18,4 +18,5 @@ include("shared.lua")
 
 function ENT:Draw()
     self:DrawModel() 
+    scp_035.EmitBlackLiquid(self, self:GetPos(), self:GetAngles())
 end

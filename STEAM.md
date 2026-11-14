@@ -62,6 +62,35 @@ You're committing suicide, literally 💀
 
 [img]https://i.imgur.com/vgXYtYE.gif[/img]
 
+[h3]BLACK LIQUID & TENTACLES[/h3]
+
+[img]https://i.imgur.com/qS7ogif.gif[/img]
+
+A black liquid constantly flows from the eyes and the mouth of the mask, whether it is on the ground or worn by a player or a NPC.
+Every 30 seconds, a black stain appears on the ground under the mask. A stain lasts 20 minutes, there can be only 10 stains at the same time on the map (the oldest one disappears first), and two stains can't be too close to each other.
+
+When a living being (player, NPC or NextBot) comes close to a stain, there is a chance that a tentacle comes out of it:
+[list]
+[*] The tentacle attacks the closest target it can see, as long as there is one within its reach.
+[*] It goes back into the stain after a few seconds without any target.
+[*] It can be shot. Once killed, it goes back into the stain, and no tentacle will ever come out of this stain again.
+[/list]
+
+[img]https://i.imgur.com/ch4DE72.gif[/img]
+
+The flow of black liquid can be disabled for yourself with the client convar [b]SCP035_EnabledBlackLiquid[/b], but the stains and the tentacles will still be there.
+The tentacles can be disabled with the convar [b]SCP035_EnabledTentacle[/b], the other values (delays, damages, health, chance, ...) can be edited in [i]lua/scp_035/config/sh_scp035_config.lua[/i].
+
+[h3]NPC[/h3]
+
+Humanoid NPCs (those that can use weapons, like citizens or combines) are also attracted by the mask: when one of them is close to it, he runs to it and puts it on.
+Once the transformation is over, the NPC is controlled by SCP-035:
+[list]
+[*] He leaves his squad and becomes hostile to every players, NPCs and NextBots, including the ones that appear later.
+[*] He uses the abilities of the mask : he freezes his enemy when it is close enough.
+[*] If he has no weapon, he looks for the closest weapon on the ground and picks it up.
+[/list]
+
 [h2]Convars[/h2]
 
 There are a number of Convars that allow you to configure the addon on several elements, here is the list:
@@ -131,6 +160,34 @@ There are a number of Convars that allow you to configure the addon on several e
 [td]0[/td]
 [td]1[/td]
 [/tr]
+[tr]
+[td]SCP035_Enabled035Music[/td]
+[td]Define if players will have the custom 035 music[/td]
+[td]1[/td]
+[td]0[/td]
+[td]1[/td]
+[/tr]
+[tr]
+[td]SCP035_NPCCanWearMask[/td]
+[td]Define if humanoid NPCs nearby will be attracted by the mask and wear it[/td]
+[td]1[/td]
+[td]0[/td]
+[td]1[/td]
+[/tr]
+[tr]
+[td]SCP035_EnabledTentacle[/td]
+[td]Define if tentacles can come out of the black stains[/td]
+[td]1[/td]
+[td]0[/td]
+[td]1[/td]
+[/tr]
+[tr]
+[td]SCP035_EnabledBlackLiquid (client)[/td]
+[td]Define if black liquid will flow from the mask[/td]
+[td]1[/td]
+[td]0[/td]
+[td]1[/td]
+[/tr]
 [/table]
 
 All these values can only be modified from your server console or you can edit them in the props menu if you are Super Admin (Utilities/SCP 035 Real/Settings)
@@ -142,6 +199,7 @@ Four languages are currently supported:
 [*]  English
 [*]  Russian 
 [*]  Chinese
+[*]  Turkish
 [/list]
 Send me a request if you want me to integrate other languages.
 
@@ -178,13 +236,14 @@ All, normally, let me know if this is not the case, but I haven't used any speci
 [*] [url=https://steamcommunity.com/id/nogitsu]Nogitsu[/url] to help me find a better way to put the mask model on players.
 [*] [url=https://steamcommunity.com/profiles/76561198830175369/]Vergil[/url] for the Russian translation.
 [*] [url=https://steamcommunity.com/profiles/76561198814513297/]D14134[/url] for the Chinese translation.
+[*] [url=https://steamcommunity.com/profiles/76561199177803952/]KaanDimir[/url] for the Turkish translation.
 [/list]
 
 
 [b]Don't hesitate to tell me if there are bugs or if you would like i add or modify on it.[/b]
 
 If you have any question, don't hesitate to ask on the [url=https://discord.gg/tuMNx3PkkP]discord [/url].
-If you want to support my work, click [url= https://wlo.link/@MrMarrant]here[/url].
+If you want to support my work, click [url=https://buymeacoffee.com/mrmarrant]here[/url].
 
 
 [i]I hope you laughed. Thank you for laughing with us.[/i]

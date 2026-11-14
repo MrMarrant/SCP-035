@@ -66,17 +66,27 @@ net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
 
     if (!IsValid(ply)) then return end
 
+    scp_035.RemoveEffectProximity(ply) --? Avoid to stack a new effect over a previous one that can't be removed anymore.
+    ply.SCP035_AffectByMask = true
     scp_035.DisplayMovingText(ply)
     scp_035.ProximityEffect(ply)
     scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
     scp_035.IncreaseVolume(ply, 0.7, SCP_035_CONFIG.ClientTimeTotalEffect)
 end)
 
+net.Receive(SCP_035_CONFIG.RemoveEffectProximity, function ( )
+    local ply = LocalPlayer()
+
+    if (!IsValid(ply)) then return end
+
+    scp_035.RemoveEffectProximity(ply)
+end)
+
 -- It Set the table on client side of the player who receive the net message.
 net.Receive(SCP_035_CONFIG.SetTableClient, function ( )
     local var = net.ReadString()
     local state = net.ReadBool()
-    local entIndex = net.ReadUInt(11)
+    local entIndex = net.ReadUInt(13)
     if (state) then
         SCP_035_CONFIG[var][entIndex] = entIndex
     else
@@ -114,6 +124,17 @@ net.Receive(SCP_035_CONFIG.AffectBySecondary, function ( )
 
         ply.SCP035_AffectBySecondary = nil
     end)
+end)
+
+net.Receive(SCP_035_CONFIG.AddLiquidStains, function ()
+    for i = 1, net.ReadUInt(16) do
+        local pos = net.ReadVector()
+        local normal = net.ReadNormal()
+        local size = net.ReadFloat()
+        local rotation = net.ReadFloat()
+        local time = net.ReadFloat()
+        scp_035.AddLiquidStain({ pos = pos, normal = normal, size = size, rotation = rotation, time = time })
+    end
 end)
 
 net.Receive(SCP_035_CONFIG.SetConvarClientSide, function ()

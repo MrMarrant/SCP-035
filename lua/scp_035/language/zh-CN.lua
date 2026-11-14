@@ -61,3 +61,6 @@ SCP_035_LANG["zh-CN"].SCP035_RadiusEffect = "SCP-035 实体影响玩家的最大
 SCP_035_LANG["zh-CN"].SCP035_EnabledStareAtMask = "定义当玩家在面具附近时是否会盯着面具"
 SCP_035_LANG["zh-CN"].SCP035_Enabled035Vision = "定义玩家是否会拥有自定义035视角"
 SCP_035_LANG["zh-CN"].SCP035_Enabled035Music = "定义玩家是否会拥有自定义035音乐"
+SCP_035_LANG["zh-CN"].SCP035_NPCCanWearMask = "定义附近的人形NPC是否会被面具吸引并戴上它"
+SCP_035_LANG["zh-CN"].SCP035_EnabledTentacle = "定义触手是否会从黑色污渍中出现"
+SCP_035_LANG["zh-CN"].SCP035_EnabledBlackLiquid = "定义面具是否会流出黑色液体"

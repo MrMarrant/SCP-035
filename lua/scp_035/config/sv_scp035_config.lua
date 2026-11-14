@@ -23,12 +23,18 @@ SCP_035_CONFIG.RadiusLaugh = CreateConVar( "SCP035_RadiusLaugh", 300, {FCVAR_PRO
 SCP_035_CONFIG.EnabledStareAtMask = CreateConVar( "SCP035_EnabledStareAtMask", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will stare the mask when they are nearby from it", 0, 1 )
 SCP_035_CONFIG.Enabled035Vision = CreateConVar( "SCP035_Enabled035Vision", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will have the custom 035 vision", 0, 1 )
 SCP_035_CONFIG.Enabled035Music = CreateConVar( "SCP035_Enabled035Music", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will have the custom 035 music", 0, 1 )
+SCP_035_CONFIG.NPCCanWearMask = CreateConVar( "SCP035_NPCCanWearMask", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if humanoid NPCs nearby will be attracted by the mask and wear it", 0, 1 )
+SCP_035_CONFIG.EnabledTentacle = CreateConVar( "SCP035_EnabledTentacle", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if tentacles can come out of the black stains", 0, 1 )
+
+SCP_035_CONFIG.NPCsWearingMask = {}
+SCP_035_CONFIG.LiquidStains = {}
 
 util.AddNetworkString( SCP_035_CONFIG.SoundToPlayClientSide )
 util.AddNetworkString( SCP_035_CONFIG.DisplayText )
 util.AddNetworkString( SCP_035_CONFIG.RemoveEffectClient )
 util.AddNetworkString( SCP_035_CONFIG.AffectByPrimary )
 util.AddNetworkString( SCP_035_CONFIG.SetEffectsMask )
+util.AddNetworkString( SCP_035_CONFIG.RemoveEffectProximity )
 util.AddNetworkString( SCP_035_CONFIG.SetTableClient )
 util.AddNetworkString( SCP_035_CONFIG.TransitionTransform )
 util.AddNetworkString( SCP_035_CONFIG.StartIdleSound )
@@ -36,3 +42,4 @@ util.AddNetworkString( SCP_035_CONFIG.AffectBySecondary )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarInt )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarBool )
 util.AddNetworkString( SCP_035_CONFIG.SetConvarClientSide )
+util.AddNetworkString( SCP_035_CONFIG.AddLiquidStains )

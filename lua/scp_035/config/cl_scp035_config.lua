@@ -28,6 +28,22 @@ SCP_035_CONFIG.ClientForcePutMask = false
 SCP_035_CONFIG.ClientEnabledStareAtMask = true
 SCP_035_CONFIG.ClientEnabled035Vision = true
 SCP_035_CONFIG.ClientEnabled035Music = true
+SCP_035_CONFIG.ClientNPCCanWearMask = true
+SCP_035_CONFIG.ClientEnabledTentacle = true
+
+--? Black liquid flowing from the mask (only visual), can be disabled with the convar 'SCP035_EnabledBlackLiquid'.
+SCP_035_CONFIG.EnabledBlackLiquid = CreateClientConVar( "SCP035_EnabledBlackLiquid", 1, true, false, "Define if black liquid will flow from the mask", 0, 1 )
+SCP_035_CONFIG.ClientEnabledBlackLiquid = SCP_035_CONFIG.EnabledBlackLiquid:GetBool()
+cvars.AddChangeCallback( "SCP035_EnabledBlackLiquid", function( name, oldValue, newValue )
+    SCP_035_CONFIG.ClientEnabledBlackLiquid = tobool(newValue)
+end, "SCP035_EnabledBlackLiquid" )
+SCP_035_CONFIG.LiquidParticle = "effects/blood_core"
+SCP_035_CONFIG.LiquidColor = Color(8, 8, 8)
+SCP_035_CONFIG.LiquidMaxDistance = 1500
+SCP_035_CONFIG.LiquidStainMaterial = Material( "effects/blood_core" )
+SCP_035_CONFIG.LiquidStainFadeTime = 5 -- Fade out duration at the end of the lifetime.
+SCP_035_CONFIG.TentacleMaterial = Material( "cable/cable2" )
+SCP_035_CONFIG.TentacleColor = Color(43, 0, 0)
 
 SCP_035_CONFIG.Gif = {}
 SCP_035_CONFIG.Gif.StaticNoise = {

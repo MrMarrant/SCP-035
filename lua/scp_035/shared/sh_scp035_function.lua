@@ -104,14 +104,24 @@ function scp_035.RemoveEffectProximity(ply)
             ply.SCP035_PannelDisplayText = nil
         end
         scp_035.StopFakeGIF(ply.SCP035_PEID)
-        scp_035.EndSound(ply) 
+        scp_035.EndSound(ply)
+        timer.Remove("ProximityEffect_SCP035_"..ply:EntIndex())
+        timer.Remove("DisplayTextTimer_SCP035_"..ply:EntIndex())
+        timer.Remove("DisplayFinalEffect_SCP035_"..ply:EntIndex())
     end
+    if SERVER then
+        net.Start(SCP_035_CONFIG.RemoveEffectProximity)
+        net.Send(ply)
+    end
+    timer.Remove("CheckDistance_SCP035_"..ply:EntIndex())
+    timer.Remove("DissipatesEffect_SCP035_"..ply:EntIndex())
     ply.SCP035_PEID = nil
     ply.SCP035_AffectByMask = nil
 end
 
 function scp_035.IsSCP035(ply)
     if (!IsValid(ply)) then return false end
-    if (ply:HasWeapon( "scp_035_swep" ) or ply.SCP035_IsWear) then return true end
+    if (ply.SCP035_IsWear or ply.SCP035_IsTransforming) then return true end
+    if (ply:IsPlayer() and ply:HasWeapon( "scp_035_swep" )) then return true end
     return false
 end

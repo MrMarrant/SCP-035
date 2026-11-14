@@ -200,3 +200,105 @@ function scp_035.SetConvarBool(name, value, ply)
         net.SendToServer()
     end
 end
+
+local liquidEmitter = nil
+local liquidStains = {}
+local liquidStainColor = Color(0, 0, 0, 255) --? Reused every frame to avoid creating a Color per stain.
+local liquidOffsets = { --? Eyes and mouth of the mask model (local space), it has no attachments.
+    Vector(0, 1.3, 1.5),
+    Vector(0, -1.3, 1.5),
+    Vector(0, 0, -2.5)
+}
+
+/*
+* Remove the drop when it hit a surface.
+* @Particle particle
+*/
+local function LiquidCollide(particle)
+    particle:SetDieTime(0)
+end
+
+/*
+* Make black liquid flow from the eyes and the mouth of the mask (only visual).
+* @Entity ent The entity used to limit the flow (Mask or wearer).
+* @Vector pos Position of the mask model.
+* @Angle ang Angles of the mask model.
+*/
+function scp_035.EmitBlackLiquid(ent, pos, ang)
+    if (!SCP_035_CONFIG.ClientEnabledBlackLiquid) then return end
+
+    local curTime = CurTime()
+    if ((ent.SCP035_NextDrop or 0) > curTime) then return end
+    ent.SCP035_NextDrop = curTime + math.Rand(0.15, 0.4)
+
+    if (pos:DistToSqr(EyePos()) > SCP_035_CONFIG.LiquidMaxDistance ^ 2) then return end
+
+    if (!liquidEmitter or !liquidEmitter:IsValid()) then liquidEmitter = ParticleEmitter(pos) end
+    liquidEmitter:SetPos(pos)
+
+    local dropPos = LocalToWorld(liquidOffsets[math.random(#liquidOffsets)], angle_zero, pos, ang)
+    local particle = liquidEmitter:Add(SCP_035_CONFIG.LiquidParticle, dropPos)
+    if (!particle) then return end
+
+    local color = SCP_035_CONFIG.LiquidColor
+    particle:SetColor(color.r, color.g, color.b)
+    particle:SetVelocity(VectorRand() * 2)
+    particle:SetGravity(Vector(0, 0, -400))
+    particle:SetDieTime(3)
+    particle:SetStartAlpha(255)
+    particle:SetEndAlpha(255)
+    particle:SetStartSize(math.Rand(0.8, 1.4))
+    particle:SetEndSize(0.6)
+    particle:SetStartLength(1)
+    particle:SetEndLength(6) --? Stretched drop, looks viscous.
+    particle:SetAirResistance(20)
+    particle:SetCollide(true)
+    particle:SetBounce(0)
+    particle:SetCollideCallback(LiquidCollide)
+end
+
+/*
+* Add a black stain received from the server (see scp_035.CreateLiquidStain).
+* Engine decals can't be removed one by one, so the stains are drawn by the addon (see scp_035.DrawLiquidStains).
+* @table stain {pos, normal, size, rotation, time}
+*/
+function scp_035.AddLiquidStain(stain)
+    table.insert(liquidStains, stain)
+    --? Same limit as the server, the oldest stain (the first) is removed.
+    while (#liquidStains > SCP_035_CONFIG.LiquidStainMaxCount) do
+        table.remove(liquidStains, 1)
+    end
+end
+
+/*
+* Draw the black stains, and remove them when their lifetime is over (with a fade out at the end).
+*/
+function scp_035.DrawLiquidStains()
+    if (#liquidStains == 0) then return end
+
+    local curTime = CurTime()
+    local lifeTime = SCP_035_CONFIG.LiquidStainLifeTime
+    local fadeTime = SCP_035_CONFIG.LiquidStainFadeTime
+    local color = SCP_035_CONFIG.LiquidColor
+    liquidStainColor.r, liquidStainColor.g, liquidStainColor.b = color.r, color.g, color.b
+
+    render.SetMaterial(SCP_035_CONFIG.LiquidStainMaterial)
+    for i = #liquidStains, 1, -1 do
+        local stain = liquidStains[i]
+        local timeLeft = lifeTime - (curTime - stain.time)
+
+        if (timeLeft <= 0) then
+            table.remove(liquidStains, i)
+        else --? Always drawn (even if the black liquid is disabled), tentacles come out of them.
+            liquidStainColor.a = 255 * math.Clamp(timeLeft / fadeTime, 0, 1)
+            render.DrawQuadEasy(stain.pos, stain.normal, stain.size, stain.size, liquidStainColor, stain.rotation)
+        end
+    end
+end
+
+/*
+* Remove every black stains.
+*/
+function scp_035.ClearLiquidStains()
+    liquidStains = {}
+end
