@@ -62,3 +62,4 @@ SCP_035_LANG.tr.SCP035_EnabledStareAtMask = "Oyuncuların maskeye yaklaştıklar
 SCP_035_LANG.tr.SCP035_Enabled035Vision = "Oyuncuların özel 035 görüşüne sahip olup olmayacağını tanımlar"
 SCP_035_LANG.tr.SCP035_Enabled035Music = "Oyuncuların özel 035 müziğine sahip olup olmayacağını tanımlar"
 SCP_035_LANG.tr.SCP035_NPCCanWearMask = "Yakındaki insansı NPC'lerin maskeye çekilip onu takıp takmayacağını tanımlar"
+SCP_035_LANG.tr.SCP035_EnabledBlackLiquid = "Maskeden siyah sıvı akıp akmayacağını tanımlar"

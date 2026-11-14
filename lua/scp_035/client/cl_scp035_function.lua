@@ -200,3 +200,121 @@ function scp_035.SetConvarBool(name, value, ply)
         net.SendToServer()
     end
 end
+
+local liquidEmitter = nil
+local liquidStains = {}
+local liquidStainColor = Color(0, 0, 0, 255) --? Reused every frame to avoid creating a Color per stain.
+local liquidOffsets = { --? Eyes and mouth of the mask model (local space), it has no attachments.
+    Vector(0, 1.3, 1.5),
+    Vector(0, -1.3, 1.5),
+    Vector(0, 0, -2.5)
+}
+
+/*
+* Remove the drop when it hit a surface.
+* @Particle particle
+*/
+local function LiquidCollide(particle)
+    particle:SetDieTime(0)
+end
+
+/*
+* Make black liquid flow from the eyes and the mouth of the mask (only visual).
+* @Entity ent The entity used to limit the flow (Mask or wearer).
+* @Vector pos Position of the mask model.
+* @Angle ang Angles of the mask model.
+*/
+function scp_035.EmitBlackLiquid(ent, pos, ang)
+    if (!SCP_035_CONFIG.ClientEnabledBlackLiquid) then return end
+
+    local curTime = CurTime()
+    if ((ent.SCP035_NextStain or 0) <= curTime) then
+        ent.SCP035_NextStain = curTime + SCP_035_CONFIG.LiquidStainDelay
+        scp_035.AddLiquidStain(ent, pos)
+    end
+
+    if ((ent.SCP035_NextDrop or 0) > curTime) then return end
+    ent.SCP035_NextDrop = curTime + math.Rand(0.15, 0.4)
+
+    if (pos:DistToSqr(EyePos()) > SCP_035_CONFIG.LiquidMaxDistance ^ 2) then return end
+
+    if (!liquidEmitter or !liquidEmitter:IsValid()) then liquidEmitter = ParticleEmitter(pos) end
+    liquidEmitter:SetPos(pos)
+
+    local dropPos = LocalToWorld(liquidOffsets[math.random(#liquidOffsets)], angle_zero, pos, ang)
+    local particle = liquidEmitter:Add(SCP_035_CONFIG.LiquidParticle, dropPos)
+    if (!particle) then return end
+
+    local color = SCP_035_CONFIG.LiquidColor
+    particle:SetColor(color.r, color.g, color.b)
+    particle:SetVelocity(VectorRand() * 2)
+    particle:SetGravity(Vector(0, 0, -400))
+    particle:SetDieTime(3)
+    particle:SetStartAlpha(255)
+    particle:SetEndAlpha(255)
+    particle:SetStartSize(math.Rand(0.8, 1.4))
+    particle:SetEndSize(0.6)
+    particle:SetStartLength(1)
+    particle:SetEndLength(6) --? Stretched drop, looks viscous.
+    particle:SetAirResistance(20)
+    particle:SetCollide(true)
+    particle:SetBounce(0)
+    particle:SetCollideCallback(LiquidCollide)
+end
+
+/*
+* Add a black stain on the ground under the mask.
+* Engine decals can't be removed one by one, so the stains are drawn by the addon (see scp_035.DrawLiquidStains).
+* @Entity ent The Mask or the wearer.
+* @Vector pos Position of the mask model.
+*/
+function scp_035.AddLiquidStain(ent, pos)
+    local tr = util.TraceLine({
+        start = pos,
+        endpos = pos - Vector(0, 0, 200),
+        filter = ent,
+        mask = MASK_SOLID_BRUSHONLY --? Only on the map, a stain on a moving prop would float in the air.
+    })
+    if (!tr.Hit) then return end
+
+    table.insert(liquidStains, {
+        pos = tr.HitPos + tr.HitNormal * 0.5, --? Slightly above the ground to avoid z-fighting.
+        normal = tr.HitNormal,
+        size = math.Rand(68, 84),
+        rotation = math.Rand(0, 360),
+        time = CurTime()
+    })
+end
+
+/*
+* Draw the black stains, and remove them when their lifetime is over (with a fade out at the end).
+*/
+function scp_035.DrawLiquidStains()
+    if (#liquidStains == 0) then return end
+
+    local curTime = CurTime()
+    local lifeTime = SCP_035_CONFIG.LiquidStainLifeTime
+    local fadeTime = SCP_035_CONFIG.LiquidStainFadeTime
+    local color = SCP_035_CONFIG.LiquidColor
+    liquidStainColor.r, liquidStainColor.g, liquidStainColor.b = color.r, color.g, color.b
+
+    render.SetMaterial(SCP_035_CONFIG.LiquidStainMaterial)
+    for i = #liquidStains, 1, -1 do
+        local stain = liquidStains[i]
+        local timeLeft = lifeTime - (curTime - stain.time)
+
+        if (timeLeft <= 0) then
+            table.remove(liquidStains, i)
+        elseif (SCP_035_CONFIG.ClientEnabledBlackLiquid) then
+            liquidStainColor.a = 255 * math.Clamp(timeLeft / fadeTime, 0, 1)
+            render.DrawQuadEasy(stain.pos, stain.normal, stain.size, stain.size, liquidStainColor, stain.rotation)
+        end
+    end
+end
+
+/*
+* Remove every black stains.
+*/
+function scp_035.ClearLiquidStains()
+    liquidStains = {}
+end

@@ -109,6 +109,7 @@ function scp_035.DrawMask( ply )
         offsetang:RotateAroundAxis(ForwardAng, 0)
         modelMask:SetRenderOrigin(offsetvec)
         modelMask:SetRenderAngles(offsetang)
+        scp_035.EmitBlackLiquid(ply, offsetvec, offsetang)
     else --? And if he has not
         local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
     
@@ -129,6 +130,7 @@ function scp_035.DrawMask( ply )
         modelMask:SetRenderOrigin( newpos ) --? Override the render origin that may have been set by another wearer.
         modelMask:SetRenderAngles( newang )
         modelMask:SetupBones()
+        scp_035.EmitBlackLiquid(ply, newpos, newang)
     end
     
     modelMask:DrawModel()
@@ -151,6 +153,15 @@ hook.Add( "PostDrawOpaqueRenderables" , "PostDrawOpaqueRenderables.SCP035_DrawMa
         end
     end
 end)
+
+hook.Add( "PostDrawTranslucentRenderables" , "PostDrawTranslucentRenderables.SCP035_DrawLiquidStains" , function( bDrawingDepth, bDrawingSkybox )
+    if (bDrawingDepth or bDrawingSkybox) then return end
+
+    scp_035.DrawLiquidStains()
+end)
+
+-- The map cleanup remove the decals, so it remove the stains too.
+hook.Add( "PostCleanupMap" , "PostCleanupMap.SCP035_ClearLiquidStains" , scp_035.ClearLiquidStains )
 
 hook.Add("RenderScreenspaceEffects","RenderScreenspaceEffects.SCP035_BlurryVision" , function()
     local ply = LocalPlayer()
@@ -295,5 +306,7 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
         panel:AddItem(SCP035_RadiusEffect)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_TimeTotalEffect") )
         panel:AddItem(SCP035_TimeTotalEffect)
+        --? Client side setting, every players can modify it.
+        panel:CheckBox(scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_EnabledBlackLiquid"), "SCP035_EnabledBlackLiquid")
     end)
 end)

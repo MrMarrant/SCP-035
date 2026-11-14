@@ -62,3 +62,4 @@ SCP_035_LANG["zh-CN"].SCP035_EnabledStareAtMask = "定义当玩家在面具附�
 SCP_035_LANG["zh-CN"].SCP035_Enabled035Vision = "定义玩家是否会拥有自定义035视角"
 SCP_035_LANG["zh-CN"].SCP035_Enabled035Music = "定义玩家是否会拥有自定义035音乐"
 SCP_035_LANG["zh-CN"].SCP035_NPCCanWearMask = "定义附近的人形NPC是否会被面具吸引并戴上它"
+SCP_035_LANG["zh-CN"].SCP035_EnabledBlackLiquid = "定义面具是否会流出黑色液体"
