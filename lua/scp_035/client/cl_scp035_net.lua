@@ -66,10 +66,20 @@ net.Receive(SCP_035_CONFIG.SetEffectsMask, function ( )
 
     if (!IsValid(ply)) then return end
 
+    scp_035.RemoveEffectProximity(ply) --? Avoid to stack a new effect over a previous one that can't be removed anymore.
+    ply.SCP035_AffectByMask = true
     scp_035.DisplayMovingText(ply)
     scp_035.ProximityEffect(ply)
     scp_035.LoopingSound(ply, "scp_035/static_noise.mp3", 0.01)
     scp_035.IncreaseVolume(ply, 0.7, SCP_035_CONFIG.ClientTimeTotalEffect)
+end)
+
+net.Receive(SCP_035_CONFIG.RemoveEffectProximity, function ( )
+    local ply = LocalPlayer()
+
+    if (!IsValid(ply)) then return end
+
+    scp_035.RemoveEffectProximity(ply)
 end)
 
 -- It Set the table on client side of the player who receive the net message.
