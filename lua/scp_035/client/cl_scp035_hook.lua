@@ -227,6 +227,18 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
             draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_NPCCanWearMask"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
         end
 
+        local SCP035_EnabledTentacle = vgui.Create("DCheckBoxLabel")
+        SCP035_EnabledTentacle:SetPos( 5, 5 )
+        SCP035_EnabledTentacle:SetText("")
+        SCP035_EnabledTentacle:SizeToContents()
+        SCP035_EnabledTentacle:SetValue( SCP_035_CONFIG.ClientEnabledTentacle )
+        SCP035_EnabledTentacle.OnChange = function(CheckBox, val)
+            scp_035.SetConvarBool("EnabledTentacle", val, ply)
+        end
+        SCP035_EnabledTentacle.Paint = function(CheckBox, w, h)
+            draw.DrawText( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_EnabledTentacle"), "DermaDefaultBold", w*0.05, h * 0.2, Color(0, 89, 255), TEXT_ALIGN_LEFT )
+        end
+
         local SCP035_RangeImmobilize = vgui.Create("DNumSlider")
         SCP035_RangeImmobilize:SetPos( 5, 5 )
         SCP035_RangeImmobilize:SetSize( 100, 20 )
@@ -296,6 +308,7 @@ hook.Add("PopulateToolMenu", "PopulateToolMenu.SCP035_MenuConfig", function()
         panel:AddItem(SCP035_Enabled035Vision)
         panel:AddItem(SCP035_Enabled035Music)
         panel:AddItem(SCP035_NPCCanWearMask)
+        panel:AddItem(SCP035_EnabledTentacle)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_RangeImmobilize") )
         panel:AddItem(SCP035_RangeImmobilize)
         panel:Help( scp_035.TranslateLanguage(SCP_035_LANG, "SCP035_DurationImmobilize") )

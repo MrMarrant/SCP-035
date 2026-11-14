@@ -24,6 +24,7 @@ SCP_035_CONFIG.EnabledStareAtMask = CreateConVar( "SCP035_EnabledStareAtMask", 1
 SCP_035_CONFIG.Enabled035Vision = CreateConVar( "SCP035_Enabled035Vision", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will have the custom 035 vision", 0, 1 )
 SCP_035_CONFIG.Enabled035Music = CreateConVar( "SCP035_Enabled035Music", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if players will have the custom 035 music", 0, 1 )
 SCP_035_CONFIG.NPCCanWearMask = CreateConVar( "SCP035_NPCCanWearMask", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if humanoid NPCs nearby will be attracted by the mask and wear it", 0, 1 )
+SCP_035_CONFIG.EnabledTentacle = CreateConVar( "SCP035_EnabledTentacle", 1, {FCVAR_PROTECTED, FCVAR_ARCHIVE}, "Define if tentacles can come out of the black stains", 0, 1 )
 
 SCP_035_CONFIG.NPCsWearingMask = {}
 SCP_035_CONFIG.LiquidStains = {}

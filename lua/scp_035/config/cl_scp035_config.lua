@@ -29,6 +29,7 @@ SCP_035_CONFIG.ClientEnabledStareAtMask = true
 SCP_035_CONFIG.ClientEnabled035Vision = true
 SCP_035_CONFIG.ClientEnabled035Music = true
 SCP_035_CONFIG.ClientNPCCanWearMask = true
+SCP_035_CONFIG.ClientEnabledTentacle = true
 
 --? Black liquid flowing from the mask (only visual), can be disabled with the convar 'SCP035_EnabledBlackLiquid'.
 SCP_035_CONFIG.EnabledBlackLiquid = CreateClientConVar( "SCP035_EnabledBlackLiquid", 1, true, false, "Define if black liquid will flow from the mask", 0, 1 )

@@ -61,4 +61,5 @@ SCP_035_LANG.ru.SCP035_EnabledStareAtMask = "Определить, будут л
 SCP_035_LANG.ru.SCP035_Enabled035Vision = "Определить, будет ли у игроков кастомное зрение 035"
 SCP_035_LANG.ru.SCP035_Enabled035Music = "Определить, будет ли у игроков кастомная музыка 035"
 SCP_035_LANG.ru.SCP035_NPCCanWearMask = "Определить, будут ли ближайшие человекоподобные NPC притягиваться маской и надевать её"
+SCP_035_LANG.ru.SCP035_EnabledTentacle = "Определить, могут ли щупальца появляться из чёрных пятен"
 SCP_035_LANG.ru.SCP035_EnabledBlackLiquid = "Определить, будет ли из маски течь чёрная жидкость"

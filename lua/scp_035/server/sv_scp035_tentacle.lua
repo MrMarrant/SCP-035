@@ -143,7 +143,12 @@ end
 */
 local function CanSpawnTentacle(stain, tentacleCount)
     if (tentacleCount >= SCP_035_CONFIG.TentacleMaxCount) then return false end
-    return !stain.isTentacleKilled and !IsValid(stain.tentacle) --? Only one tentacle at a time per stain.
+    if (stain.isTentacleKilled or IsValid(stain.tentacle)) then return false end --? Only one tentacle at a time per stain.
+
+    for key, value in ipairs(ents.FindInSphere(stain.pos, SCP_035_CONFIG.TentacleMinDistanceSCP035)) do
+        if (value:GetClass() == "scp_035_real" or scp_035.IsSCP035(value)) then return false end
+    end
+    return true
 end
 
 /*
@@ -159,7 +164,7 @@ local function UpdateStains()
 
         if (curTime - stain.time >= SCP_035_CONFIG.LiquidStainLifeTime) then
             table.remove(stains, i)
-        else
+        elseif (SCP_035_CONFIG.EnabledTentacle:GetBool()) then
             local nearby = {}
             for key, value in ipairs(ents.FindInSphere(stain.pos, SCP_035_CONFIG.TentacleRange)) do
                 if (scp_035.IsTentacleTarget(value)) then

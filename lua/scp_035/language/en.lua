@@ -62,4 +62,5 @@ SCP_035_LANG.en.SCP035_EnabledStareAtMask = "Define if players will stare the ma
 SCP_035_LANG.en.SCP035_Enabled035Vision = "Define if players will have the custom 035 vision"
 SCP_035_LANG.en.SCP035_Enabled035Music = "Define if players will have the custom 035 music"
 SCP_035_LANG.en.SCP035_NPCCanWearMask = "Define if humanoid NPCs nearby will be attracted by the mask and wear it"
+SCP_035_LANG.en.SCP035_EnabledTentacle = "Define if tentacles can come out of the black stains"
 SCP_035_LANG.en.SCP035_EnabledBlackLiquid = " Define if black liquid will flow from the mask"
