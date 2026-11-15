@@ -29,9 +29,11 @@ SCP_035_CONFIG.PlayersWearingMask = {}
 --? Black stains & tentacles
 SCP_035_CONFIG.LiquidStainDelay = 30 -- A stain every 30s under each mask.
 SCP_035_CONFIG.LiquidStainLifeTime = 1200 -- Each stain is removed 20 minutes after its creation.
-SCP_035_CONFIG.LiquidStainMinSize = 120 -- The size of a stain is random between the min and the max.
-SCP_035_CONFIG.LiquidStainMaxSize = 180
+SCP_035_CONFIG.LiquidStainMinSize = 80 -- The size of a stain is random between the min and the max.
+SCP_035_CONFIG.LiquidStainMaxSize = 110
 SCP_035_CONFIG.LiquidStainMaxCount = 10 -- When a new stain appear and the limit is reached, the oldest one is removed.
+SCP_035_CONFIG.LiquidStainSpreadRadius = 200 -- When the place under the mask is already taken, the stain spread around it, up to this distance.
+SCP_035_CONFIG.LiquidStainSpreadAttempts = 8 -- Number of random positions tried around the mask, from the closest to the farthest.
 SCP_035_CONFIG.TentacleChance = 0.3 --Chance that a tentacle appear when an entity come close to a stain. (0.2 = 20%)
 SCP_035_CONFIG.TentacleMinDistance = 100 -- A stain can't appear if another one is closer than this distance.
 SCP_035_CONFIG.TentacleMinDistanceSCP035 = 50 -- A tentacle can't appear if SCP-035 (the mask or a wearer) is closer than this distance.

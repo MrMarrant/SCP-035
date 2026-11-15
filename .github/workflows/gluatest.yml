@@ -1,0 +1,27 @@
+name: GLuaTest
+
+on:
+  pull_request:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - ".github/workflows/gluatest.yml"
+  push:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - ".github/workflows/gluatest.yml"
+  workflow_dispatch:
+
+jobs:
+  gluatest:
+    name: GLuaTest
+    # Pinned to a main commit: tag 0.35.2 runs on ubuntu-latest (Ubuntu 26), whose Docker
+    # prevents srcds from binding a socket. Fixed upstream in PR #116, not released yet.
+    uses: CFC-Servers/GLuaTest/.github/workflows/run_tests.yml@52208ad34f171d5ddf501291d6758c22c96bc60b
+    with:
+      # Tests live outside lua/ so they are not shipped with the addon,
+      # they are copied into garrysmod/lua/tests/ of the test server only.
+      custom-overrides: $GITHUB_WORKSPACE/project/tests/gluatest/
+      gluatest-ref: "52208ad34f171d5ddf501291d6758c22c96bc60b"
+      timeout: "10"

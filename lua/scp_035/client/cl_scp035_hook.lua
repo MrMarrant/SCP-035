@@ -165,13 +165,11 @@ hook.Add( "PostCleanupMap" , "PostCleanupMap.SCP035_ClearLiquidStains" , scp_035
 
 hook.Add("RenderScreenspaceEffects","RenderScreenspaceEffects.SCP035_BlurryVision" , function()
     local ply = LocalPlayer()
-    local curTime = FrameTime()
 
-    if ply.SCP035_AffectBySecondary then 
+    if ply.SCP035_AffectBySecondary then
         local AddAlpha = 0.4
         local DrawAlpha = 0.5
         local Delay = 0.05
-        local ColorDrain = 0
         DrawMotionBlur( AddAlpha, DrawAlpha, Delay )
     end
 end)

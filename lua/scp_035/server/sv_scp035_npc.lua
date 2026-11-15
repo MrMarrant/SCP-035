@@ -35,6 +35,21 @@ function scp_035.IsHumanoidNPC(ent)
 end
 
 /*
+* Make a NPC run to a position, VJ Base NPCs use their own schedule system.
+* @NPC npc
+* @Vector pos
+*/
+function scp_035.NPCRunTo(npc, pos)
+    npc:SetLastPosition(pos)
+    if (npc.IsVJBaseSNPC) then
+        if (!npc.CurrentSchedule or npc.CurrentScheduleName != "SCHEDULE_GOTO_POSITION") then npc:SCHEDULE_GOTO_POSITION("TASK_RUN_PATH") end
+        return
+    end
+
+    if (!npc:IsCurrentSchedule(SCHED_FORCED_GO_RUN)) then npc:SetSchedule(SCHED_FORCED_GO_RUN) end
+end
+
+/*
 * Called by the mask entity, attract the closest humanoid NPC and make him wear the mask when he reach it.
 * @Entity ent The Mask SCP035
 */
@@ -63,8 +78,7 @@ function scp_035.AttractNPC(ent)
         return
     end
 
-    closestNPC:SetLastPosition(maskPos)
-    if (!closestNPC:IsCurrentSchedule(SCHED_FORCED_GO_RUN)) then closestNPC:SetSchedule(SCHED_FORCED_GO_RUN) end
+    scp_035.NPCRunTo(closestNPC, maskPos)
 end
 
 /*
@@ -74,14 +88,22 @@ end
 function scp_035.NPCPutTheMask(npc)
     npc.SCP035_IsTransforming = true
     npc:StopMoving()
-    npc:SetCondition(COND.NPC_FREEZE)
+    if (npc.IsVJBaseSNPC) then
+        npc:SetState(VJ_STATE_FREEZE)
+    else
+        npc:SetCondition(COND.NPC_FREEZE)
+    end
     npc:EmitSound("scp_035/transform_mask.mp3")
     scp_035.SetTableClient(npc, "PlayersWearingMask", true)
 
     timer.Create("NPCTransform_SCP035_"..npc:EntIndex(), transformDuration, 1, function()
         if (!IsValid(npc)) then return end
 
-        npc:SetCondition(COND.NPC_UNFREEZE)
+        if (npc.IsVJBaseSNPC) then
+            npc:SetState()
+        else
+            npc:SetCondition(COND.NPC_UNFREEZE)
+        end
         scp_035.NPCSetWear(npc)
     end)
 end
@@ -100,6 +122,7 @@ function scp_035.NPCSetWear(npc)
 
     if (npc:GetClass() == "npc_citizen") then npc:Fire("RemoveFromPlayerSquad") end
     npc:SetKeyValue("squadname", "")
+    if (npc.IsVJBaseSNPC) then scp_035.VJSetWear(npc) end
     for key, value in ipairs(ents.GetAll()) do
         scp_035.NPCHate(npc, value)
     end
@@ -122,6 +145,22 @@ function scp_035.NPCHate(npc, target)
     if (!target:IsNPC() and !target:IsPlayer() and !target:IsNextBot()) then return end
 
     npc:AddEntityRelationship(target, D_HT, 99)
+    --? VJ Base recompute the relationships constantly, the override is kept in its memory.
+    if (npc.IsVJBaseSNPC) then npc:SetRelationshipMemory(target, VJ.MEM_OVERRIDE_DISPOSITION, D_HT) end
+end
+
+/*
+* VJ Base NPCs ignore the source relationships, they use their own classes system.
+* The wearer get a class of its own, so every VJ Base NPCs consider him as an enemy and he does the same.
+* @NPC npc The wearer of SCP-035.
+*/
+function scp_035.VJSetWear(npc)
+    npc.VJ_NPC_Class = {"CLASS_SCP035"}
+    npc.PlayerFriendly = false
+    npc.AlliedWithPlayerAllies = false
+    npc.Behavior = VJ_BEHAVIOR_AGGRESSIVE
+    npc.Weapon_UnarmedBehavior = false --? Don't flee when unarmed, he will search a weapon instead.
+    if (npc.IsFollowing) then npc:ResetFollowBehavior() end
 end
 
 /*
@@ -185,8 +224,7 @@ function scp_035.NPCSearchWeapon(npc)
         return
     end
 
-    npc:SetLastPosition(closestWeapon:GetPos())
-    if (!npc:IsCurrentSchedule(SCHED_FORCED_GO_RUN)) then npc:SetSchedule(SCHED_FORCED_GO_RUN) end
+    scp_035.NPCRunTo(npc, closestWeapon:GetPos())
 end
 
 /*
