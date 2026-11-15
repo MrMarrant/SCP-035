@@ -1,0 +1,25 @@
+name: GLuaTest
+
+on:
+  pull_request:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - ".github/workflows/gluatest.yml"
+  push:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - ".github/workflows/gluatest.yml"
+  workflow_dispatch:
+
+jobs:
+  gluatest:
+    name: GLuaTest
+    uses: CFC-Servers/GLuaTest/.github/workflows/run_tests.yml@0.35.2
+    with:
+      # Tests live outside lua/ so they are not shipped with the addon,
+      # they are copied into garrysmod/lua/tests/ of the test server only.
+      custom-overrides: $GITHUB_WORKSPACE/project/tests/gluatest/
+      gluatest-ref: "0.35.2"
+      timeout: "10"

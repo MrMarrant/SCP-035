@@ -1,0 +1,42 @@
+name: GLua Lint
+
+on:
+  pull_request:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - "glualint.json"
+      - ".github/workflows/glualint.yml"
+  push:
+    branches: [master, develop]
+    paths:
+      - "**.lua"
+      - "glualint.json"
+      - ".github/workflows/glualint.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GLUALINT_VERSION: "1.30.0"
+
+jobs:
+  glualint:
+    name: glualint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install glualint
+        run: |
+          curl -fsSL -o glualint.zip \
+            "https://github.com/FPtje/GLuaFixer/releases/download/${GLUALINT_VERSION}/glualint-${GLUALINT_VERSION}-x86_64-linux.zip"
+          unzip -q glualint.zip -d "$RUNNER_TEMP/glualint"
+          chmod +x "$RUNNER_TEMP/glualint/glualint"
+          echo "$RUNNER_TEMP/glualint" >> "$GITHUB_PATH"
+          rm glualint.zip
+
+      - name: Lint Lua files
+        run: glualint --output-format github lint lua
