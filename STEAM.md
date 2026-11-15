@@ -82,6 +82,7 @@ Once the transformation is over, the NPC is controlled by SCP-035:
 [*] He leaves his squad and becomes hostile to every players, NPCs and NextBots, including the ones that appear later.
 [*] He uses the abilities of the mask : he freezes his enemy when it is close enough.
 [*] If he has no weapon, he looks for the closest weapon on the ground and picks it up.
+[*] Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=131759821]VJ Base[/url] NPCs: they also become enemies of every VJ Base factions.
 [/list]
 
 [h2]Configuration[/h2]
