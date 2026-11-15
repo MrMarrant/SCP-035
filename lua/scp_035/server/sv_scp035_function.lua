@@ -41,8 +41,8 @@ end
 * @Vector dir Optional, direction of the cone (default: the player aim vector).
 */
 function scp_035.PrimaryAttack(attacker, startPos, dir)
-    local startPos = startPos or attacker:GetShootPos()
-    local dir = dir or attacker:GetAimVector()
+    startPos = startPos or attacker:GetShootPos()
+    dir = dir or attacker:GetAimVector()
     local angle = math.cos( math.rad( 22 ) )
 
     local foundEnts = ents.FindInCone( startPos, dir, SCP_035_CONFIG.RangeImmobilize:GetInt(), angle )
@@ -95,7 +95,7 @@ end
 * @Entity owner The wearer of SCP-035 (Player or NPC).
 */
 function scp_035.Laugh(owner)
-    local FilterTable, NonFilterTable = scp_035.GetInSpherePlayers(owner, SCP_035_CONFIG.RadiusLaugh:GetInt())
+    local _, NonFilterTable = scp_035.GetInSpherePlayers(owner, SCP_035_CONFIG.RadiusLaugh:GetInt())
     for key, value in ipairs(NonFilterTable) do
         if (value == owner) then continue end
 
@@ -118,7 +118,7 @@ end
 * @number pitch
 */
 function scp_035.PlaySoundToClient(ply, path, pitch)
-    local pitch = pitch or 100
+    pitch = pitch or 100
 
     net.Start(SCP_035_CONFIG.SoundToPlayClientSide)
         net.WriteString(path)

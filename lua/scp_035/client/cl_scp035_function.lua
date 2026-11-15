@@ -130,9 +130,9 @@ function scp_035.PlayFakeGIF(frames, format, fps, alpha)
     format = format or ".png"
     local path = frames.path
     local frameCount = frames.count
-    local frames = {}
+    local materials = {}
     for i = 1, frameCount do
-        frames[i] = Material(path .. i .. format, "smooth")
+        materials[i] = Material(path .. i .. format, "smooth")
     end
 
     local startTime = CurTime()
@@ -144,7 +144,7 @@ function scp_035.PlayFakeGIF(frames, format, fps, alpha)
         local frame = math.floor(elapsed * fps) % frameCount + 1
 
         surface.SetDrawColor(255, 255, 255, ply.SCP035_Alpha[id])
-        surface.SetMaterial(frames[frame])
+        surface.SetMaterial(materials[frame])
         surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
     end)
 
@@ -176,10 +176,8 @@ function scp_035.ProximityEffect(ply)
 end
 
 function scp_035.LookAtMe(ply, ent)
-    if(ply:IsPlayer()) then
-        if (!scp_035.IsSCP035(ply) and ply:Alive()) then
-            ply:SetEyeAngles((ent:GetPos() - ply:GetShootPos()):Angle())
-        end
+    if (ply:IsPlayer() and !scp_035.IsSCP035(ply) and ply:Alive()) then
+        ply:SetEyeAngles((ent:GetPos() - ply:GetShootPos()):Angle())
     end
 end
 

@@ -52,7 +52,7 @@ SWEP.ReloadCooldown = 10
 function SWEP:Initialize()
 	self:SetWeaponHoldType( self.HoldType )
 	self:SetHoldType( self.HoldType )
-	self:SetPlaybackRate( GetConVarNumber( "sv_defaultdeployspeed" ) )
+	self:SetPlaybackRate( GetConVar( "sv_defaultdeployspeed" ):GetFloat() )
 	self:SetNextAction()
 
 	timer.Simple(engine.TickInterval(), function()
@@ -62,7 +62,6 @@ function SWEP:Initialize()
 end
 
 function SWEP:OnDrop()
-	local ply = self:GetOwner()
 	self:Remove()
 end
 
