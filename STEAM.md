@@ -60,7 +60,7 @@ You're committing suicide, literally 💀
 [img]https://i.imgur.com/qS7ogif.gif[/img]
 
 A black liquid constantly flows from the mask, whether it is on the ground or worn by a player or a NPC.
-Every 30 seconds, a black stain appears on the ground under the mask. A stain lasts 20 minutes, there can be only 10 stains at the same time on the map (the oldest one disappears first).
+Every 30 seconds, a black stain appears on the ground under the mask, or spreads around it if there is already one under the mask. A stain lasts 20 minutes, there can be only 10 stains at the same time on the map (the oldest one disappears first).
 
 When a living being (player, NPC or NextBot) comes close to a stain, there is a chance that a tentacle comes out of it:
 [list]
