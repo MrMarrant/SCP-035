@@ -76,7 +76,11 @@ end
 * @Player attacker The wearer of SCP-035.
 */
 function scp_035.AffectNPCBySecondary(victim, attacker)
-    if (victim:IsNPC()) then
+    if (victim.IsVJBaseSNPC) then
+        victim:StopMoving()
+        victim:SCHEDULE_IDLE_STAND()
+        victim:SetTurnTarget(attacker, 2) --? VJ Base NPCs reset their yaw every think, they must keep facing the wearer.
+    elseif (victim:IsNPC()) then
         local yaw = (attacker:GetPos() - victim:GetPos()):Angle().y
         victim:StopMoving()
         if (!victim:IsCurrentSchedule(SCHED_IDLE_STAND)) then victim:SetSchedule(SCHED_IDLE_STAND) end
