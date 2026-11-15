@@ -40,24 +40,70 @@ function scp_035.IsTentacleTarget(ent)
 end
 
 /*
-* Create a black stain on the ground under the mask, and send it to every players.
-* @Entity ent The Mask or the wearer.
-* @Vector pos Position of the mask.
+* Trace the ground under a position.
+* @Entity ent The Mask or the wearer, ignored by the trace.
+* @Vector pos
 */
-function scp_035.CreateLiquidStain(ent, pos)
-    local tr = util.TraceLine({
+local function TraceGround(ent, pos)
+    return util.TraceLine({
         start = pos,
         endpos = pos - Vector(0, 0, 200),
         filter = ent,
         mask = MASK_SOLID_BRUSHONLY --? Only on the map, a stain on a moving prop would float in the air.
     })
+end
+
+/*
+* Check if a stain can appear at this position, only one stain in the radius TentacleMinDistance.
+* @Vector stainPos
+*/
+local function IsStainPlaceFree(stainPos)
+    for key, value in ipairs(SCP_035_CONFIG.LiquidStains) do
+        if (value.pos:DistToSqr(stainPos) < SCP_035_CONFIG.TentacleMinDistance ^ 2) then return false end
+    end
+    return true
+end
+
+/*
+* Find a free place on the ground around the mask, the closest positions are tried first.
+* @Entity ent The Mask or the wearer.
+* @Vector pos Position of the mask.
+* @return TraceResult The ground trace of the free place, nil if none was found.
+*/
+local function FindSpreadStainPlace(ent, pos)
+    local attempts = SCP_035_CONFIG.LiquidStainSpreadAttempts
+    for i = 1, attempts do
+        local dist = Lerp(i / attempts, SCP_035_CONFIG.TentacleMinDistance, SCP_035_CONFIG.LiquidStainSpreadRadius)
+        local yaw = math.Rand(0, 2 * math.pi)
+        local dir = Vector(math.cos(yaw), math.sin(yaw), 0)
+
+        --? The liquid can't spread through the walls.
+        local trWall = util.TraceLine({
+            start = pos,
+            endpos = pos + dir * dist,
+            filter = ent,
+            mask = MASK_SOLID_BRUSHONLY
+        })
+        local tr = TraceGround(ent, trWall.HitPos - dir * (trWall.Hit and 10 or 0))
+        if (tr.Hit and IsStainPlaceFree(tr.HitPos)) then return tr end
+    end
+end
+
+/*
+* Create a black stain on the ground under the mask, or around it if the place is already taken, and send it to every players.
+* @Entity ent The Mask or the wearer.
+* @Vector pos Position of the mask.
+*/
+function scp_035.CreateLiquidStain(ent, pos)
+    local tr = TraceGround(ent, pos)
     if (!tr.Hit) then return end
+    if (!IsStainPlaceFree(tr.HitPos)) then
+        tr = FindSpreadStainPlace(ent, pos)
+        if (!tr) then return end
+    end
 
     local stainPos = tr.HitPos + tr.HitNormal * 0.5 --? Slightly above the ground to avoid z-fighting.
     local stains = SCP_035_CONFIG.LiquidStains
-    for key, value in ipairs(stains) do
-        if (value.pos:DistToSqr(stainPos) < SCP_035_CONFIG.TentacleMinDistance ^ 2) then return end --? Only one stain in this radius.
-    end
     --? The stains are sorted from the oldest to the newest, the client do the same in scp_035.AddLiquidStain.
     while (#stains >= SCP_035_CONFIG.LiquidStainMaxCount) do
         table.remove(stains, 1)
