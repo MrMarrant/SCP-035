@@ -107,8 +107,11 @@ function scp_035.DrawMask( ply )
         offsetang:RotateAroundAxis(RightAng, 6)
         offsetang:RotateAroundAxis(UpAng, 0)
         offsetang:RotateAroundAxis(ForwardAng, 0)
+        modelMask:SetPos(offsetvec) --? The lighting is computed from the real position, it must not stay inside a solid brush.
+        modelMask:SetAngles(offsetang)
         modelMask:SetRenderOrigin(offsetvec)
         modelMask:SetRenderAngles(offsetang)
+        modelMask:SetupBones()
         scp_035.EmitBlackLiquid(ply, offsetvec, offsetang)
     else --? And if he has not
         local boneid = ply:LookupBone( "ValveBiped.Bip01_Head1" ) --? Work only on models that have this bone, if not, the mask will not show up.
@@ -143,8 +146,9 @@ hook.Add( "PostPlayerDraw" , "PostPlayerDraw.SCP035_DrawMask" , function( ply )
 end)
 
 --? There is no PostNPCDraw hook, so the NPCs wearers are drawn here.
-hook.Add( "PostDrawOpaqueRenderables" , "PostDrawOpaqueRenderables.SCP035_DrawMaskNPC" , function( bDrawingDepth, bDrawingSkybox )
-    if (bDrawingDepth or bDrawingSkybox) then return end
+--! bDrawingSkybox is always true on maps without 3D skybox, only isDraw3DSkybox is reliable.
+hook.Add( "PostDrawOpaqueRenderables" , "PostDrawOpaqueRenderables.SCP035_DrawMaskNPC" , function( bDrawingDepth, bDrawingSkybox, isDraw3DSkybox )
+    if (bDrawingDepth or isDraw3DSkybox) then return end
 
     for key, value in pairs(SCP_035_CONFIG.PlayersWearingMask) do
         local ent = Entity(value)
